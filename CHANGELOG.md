@@ -1,3 +1,7 @@
+## 1.3.0 (2018-07-16)
+
+- Make changes to be dart 2.0 compatible
+
 ## 1.2.2 (2016-10-20)
 
 Features:
