@@ -20,7 +20,8 @@ var metadataExample = '''
 setApiKeyFromArgs(List<String> args) {
   if (args.length < 1) {
     log.severe('Error. Most tests can not execute without a Stripe API key.');
-    log.severe('Provide your stripe API key as the first command line argument!');
+    log.severe(
+        'Provide your stripe API key as the first command line argument!');
     exit(1);
   }
   StripeService.apiKey = args.first;

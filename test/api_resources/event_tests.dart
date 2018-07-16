@@ -189,10 +189,11 @@ main(List<String> args) {
 
   group('Event offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var event = new Event.fromMap(map);
       expect(event.id, map['id']);
-      expect(event.created, new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+      expect(event.created,
+          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(event.livemode, map['livemode']);
       expect(event.type, map['type']);
       expect(event.data.object, map['data']['object']);

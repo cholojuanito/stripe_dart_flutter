@@ -23,9 +23,10 @@ main(List<String> args) {
 
   group('Shipping offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var shipping = new Shipping.fromMap(map);
-      expect(shipping.address.toMap(), new Address.fromMap(map['address']).toMap());
+      expect(shipping.address.toMap(),
+          new Address.fromMap(map['address']).toMap());
       expect(shipping.name, map['name']);
       expect(shipping.carrier, map['carrier']);
       expect(shipping.phone, map['phone']);

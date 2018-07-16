@@ -31,11 +31,12 @@ main(List<String> args) {
 
   group('Refund offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var refund = new Refund.fromMap(map);
       expect(refund.id, map['id']);
       expect(refund.amount, map['amount']);
-      expect(refund.created, new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+      expect(refund.created,
+          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(refund.currency, map['currency']);
       expect(refund.balanceTransaction, map['balance_transaction']);
     });
@@ -116,12 +117,14 @@ main(List<String> args) {
       refund = await Refund.retrieve(charge.id, refund.id, data: {
         'expand': ['balance_transaction']
       });
-      expect(refund.balanceTransactionExpand.amount, closeTo(-refundAmount, 10));
+      expect(
+          refund.balanceTransactionExpand.amount, closeTo(-refundAmount, 10));
       expect(refund.balanceTransactionExpand.currency, chargeCurrency);
       expect(refund.balanceTransactionExpand.type, 'refund');
       expect(refund.balanceTransactionExpand.source, refund.id);
       // testing the ChargeUpdate
-      refund = await (new RefundUpdate()..metadata = refundMetadata2).update(charge.id, refund.id);
+      refund = await (new RefundUpdate()..metadata = refundMetadata2)
+          .update(charge.id, refund.id);
       expect(refund.metadata, refundMetadata2);
     });
 
@@ -154,10 +157,12 @@ main(List<String> args) {
       var charges = await Refund.list(charge.id, limit: 10);
       expect(charges.data.length, 10);
       expect(charges.hasMore, isTrue);
-      charges = await Refund.list(charge.id, limit: 10, startingAfter: charges.data.last.id);
+      charges = await Refund.list(charge.id,
+          limit: 10, startingAfter: charges.data.last.id);
       expect(charges.data.length, 10);
       expect(charges.hasMore, isFalse);
-      charges = await Refund.list(charge.id, limit: 10, endingBefore: charges.data.first.id);
+      charges = await Refund.list(charge.id,
+          limit: 10, endingBefore: charges.data.first.id);
       expect(charges.data.length, 10);
       expect(charges.hasMore, isFalse);
     });

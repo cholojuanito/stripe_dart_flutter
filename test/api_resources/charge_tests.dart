@@ -52,35 +52,41 @@ main(List<String> args) {
 
   group('Charge offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var charge = new Charge.fromMap(map);
       expect(charge.id, map['id']);
       expect(charge.livemode, map['livemode']);
       expect(charge.amount, map['amount']);
       expect(charge.captured, map['captured']);
-      expect(charge.created, new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+      expect(charge.created,
+          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(charge.currency, map['currency']);
       expect(charge.paid, map['paid']);
       expect(charge.refunded, map['refunded']);
-      expect(charge.refunds.toMap(), new RefundCollection.fromMap(map['refunds']).toMap());
+      expect(charge.refunds.toMap(),
+          new RefundCollection.fromMap(map['refunds']).toMap());
       expect(charge.source.toMap(), new Card.fromMap(map['source']).toMap());
       expect(charge.status, map['status']);
       expect(charge.amountRefunded, map['amountRefunded']);
-      expect(
-          charge.balanceTransactionExpand.toMap(), new BalanceTransaction.fromMap(map['balance_transaction']).toMap());
-      expect(charge.customerExpand.toMap(), new Customer.fromMap(map['customer']).toMap());
+      expect(charge.balanceTransactionExpand.toMap(),
+          new BalanceTransaction.fromMap(map['balance_transaction']).toMap());
+      expect(charge.customerExpand.toMap(),
+          new Customer.fromMap(map['customer']).toMap());
       expect(charge.description, map['description']);
-      expect(charge.dispute.toMap(), new Dispute.fromMap(map['dispute']).toMap());
+      expect(
+          charge.dispute.toMap(), new Dispute.fromMap(map['dispute']).toMap());
       expect(charge.failureCode, map['failureCode']);
       expect(charge.failureMessage, map['failureMessage']);
-      expect(charge.invoiceExpand.toMap(), new Invoice.fromMap(map['invoice']).toMap());
+      expect(charge.invoiceExpand.toMap(),
+          new Invoice.fromMap(map['invoice']).toMap());
       expect(charge.metadata, map['metadata']);
       expect(charge.receiptEmail, map['receipt_email']);
       expect(charge.receiptNumber, map['receipt_number']);
       expect(charge.applicationFee, map['application_fee']);
       expect(charge.destination, map['destination']);
       expect(charge.fraudDetails, map['fraud_details']);
-      expect(charge.shipping.toMap(), new Shipping.fromMap(map['shipping']).toMap());
+      expect(charge.shipping.toMap(),
+          new Shipping.fromMap(map['shipping']).toMap());
       expect(charge.statement_descriptor, map['statement_descriptor']);
     });
   });
@@ -203,7 +209,10 @@ main(List<String> args) {
     });
 
     test('List parameters', () async {
-      var cardNumber = '4242424242424242', cardExpMonth = 12, cardExpYear = 2020, cvc = 123;
+      var cardNumber = '4242424242424242',
+          cardExpMonth = 12,
+          cardExpYear = 2020,
+          cvc = 123;
 
       var customer = await new CustomerCreation().create();
       await (new CardCreation()
@@ -227,10 +236,16 @@ main(List<String> args) {
       var charges = await Charge.list(customer: customer.id, limit: 10);
       expect(charges.data.length, 10);
       expect(charges.hasMore, isTrue);
-      charges = await Charge.list(customer: customer.id, limit: 10, startingAfter: charges.data.last.id);
+      charges = await Charge.list(
+          customer: customer.id,
+          limit: 10,
+          startingAfter: charges.data.last.id);
       expect(charges.data.length, 10);
       expect(charges.hasMore, isFalse);
-      charges = await Charge.list(customer: customer.id, limit: 10, endingBefore: charges.data.first.id);
+      charges = await Charge.list(
+          customer: customer.id,
+          limit: 10,
+          endingBefore: charges.data.first.id);
       expect(charges.data.length, 10);
       expect(charges.hasMore, isFalse);
     });

@@ -35,7 +35,8 @@ class LegalEntity extends Resource {
 
   List<AdditionalOwner> get additionalOwners {
     var list = [];
-    if (!_dataMap.containsKey('additional_owners') || !(_dataMap['additional_owners'] is List)) return null;
+    if (!_dataMap.containsKey('additional_owners') ||
+        !(_dataMap['additional_owners'] is List)) return null;
     for (Map value in _dataMap['additional_owners']) {
       list.add(new AdditionalOwner.fromMap(value));
     }

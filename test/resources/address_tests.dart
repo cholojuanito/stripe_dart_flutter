@@ -22,7 +22,7 @@ main(List<String> args) {
 
   group('Address offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var address = new Address.fromMap(map);
       expect(address.line1, map['line1']);
       expect(address.line2, map['line2']);

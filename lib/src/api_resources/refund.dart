@@ -39,19 +39,25 @@ class Refund extends ApiResource {
   Refund.fromMap(Map dataMap) : super.fromMap(dataMap);
 
   /// [Retrieve a refund](https://stripe.com/docs/api#retrieve_refund)
-  static Future<Refund> retrieve(String chargeId, String refundId, {final Map data}) async {
-    var dataMap = await StripeService.retrieve([Charge._path, chargeId, Refund._path, refundId], data: data);
+  static Future<Refund> retrieve(String chargeId, String refundId,
+      {final Map data}) async {
+    var dataMap = await StripeService.retrieve(
+        [Charge._path, chargeId, Refund._path, refundId],
+        data: data);
     return new Refund.fromMap(dataMap);
   }
 
   /// [List all refunds](https://stripe.com/docs/api#list_refunds)
-  static Future<RefundCollection> list(String chargeId, {int limit, String startingAfter, String endingBefore}) async {
+  static Future<RefundCollection> list(String chargeId,
+      {int limit, String startingAfter, String endingBefore}) async {
     var data = {};
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (limit != null) data['limit'] = limit;
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([Charge._path, chargeId, Refund._path], data: data);
+    var dataMap = await StripeService.list(
+        [Charge._path, chargeId, Refund._path],
+        data: data);
     return new RefundCollection.fromMap(dataMap);
   }
 }
@@ -68,7 +74,8 @@ class RefundCreation extends ResourceRequest {
   set metadata(Map metadata) => _setMap('metadata', metadata);
 
   Future<Refund> create(String chargeId) async {
-    var dataMap = await StripeService.create([Charge._path, chargeId, Refund._path], _getMap());
+    var dataMap = await StripeService.create(
+        [Charge._path, chargeId, Refund._path], _getMap());
     return new Refund.fromMap(dataMap);
   }
 }
@@ -78,7 +85,8 @@ class RefundUpdate extends ResourceRequest {
   set metadata(Map metadata) => _setMap('metadata', metadata);
 
   Future<Refund> update(String chargeId, String refundId) async {
-    var dataMap = await StripeService.update([Charge._path, chargeId, Refund._path, refundId], _getMap());
+    var dataMap = await StripeService.update(
+        [Charge._path, chargeId, Refund._path, refundId], _getMap());
     return new Refund.fromMap(dataMap);
   }
 }

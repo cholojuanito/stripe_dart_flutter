@@ -31,12 +31,13 @@ main(List<String> args) {
 
   group('Coupon offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
 
       var coupon = new Coupon.fromMap(map);
 
       expect(coupon.id, map['id']);
-      expect(coupon.created, new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+      expect(coupon.created,
+          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(coupon.percentOff, map['percent_off']);
       expect(coupon.amountOff, map['amount_off']);
       expect(coupon.currency, map['currency']);
@@ -64,7 +65,7 @@ main(List<String> args) {
             ..duration = couponDuration
             ..percentOff = couponPercentOff)
           .create();
-      expect(coupon.id, new isInstanceOf<String>());
+      expect(coupon.id, const TypeMatcher<String>());
       expect(coupon.duration, couponDuration);
       expect(coupon.percentOff, couponPercentOff);
     });
@@ -78,7 +79,10 @@ main(List<String> args) {
           couponDurationInMoths = 12,
           couponMaxRedemptions = 3,
           couponMetadata = {'foo': 'bar'},
-          couponRedeemBy = new DateTime.now().add(new Duration(days: 1)).millisecondsSinceEpoch ~/ 1000;
+          couponRedeemBy = new DateTime.now()
+                  .add(new Duration(days: 1))
+                  .millisecondsSinceEpoch ~/
+              1000;
 
       var coupon = await (new CouponCreation()
             ..id = couponId
@@ -118,7 +122,7 @@ main(List<String> args) {
             ..duration = couponDuration
             ..percentOff = couponPercentOff)
           .create();
-      expect(coupon.id, new isInstanceOf<String>());
+      expect(coupon.id, const TypeMatcher<String>());
       expect(coupon.duration, couponDuration);
       expect(coupon.percentOff, couponPercentOff);
       var response = await Coupon.delete(coupon.id);
@@ -139,10 +143,12 @@ main(List<String> args) {
       var coupons = await Coupon.list(limit: 10);
       expect(coupons.data.length, 10);
       expect(coupons.hasMore, isTrue);
-      coupons = await Coupon.list(limit: 10, startingAfter: coupons.data.last.id);
+      coupons =
+          await Coupon.list(limit: 10, startingAfter: coupons.data.last.id);
       expect(coupons.data.length, 10);
       expect(coupons.hasMore, isFalse);
-      coupons = await Coupon.list(limit: 10, endingBefore: coupons.data.first.id);
+      coupons =
+          await Coupon.list(limit: 10, endingBefore: coupons.data.first.id);
       expect(coupons.data.length, 10);
       expect(coupons.hasMore, isFalse);
     });

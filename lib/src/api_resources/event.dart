@@ -36,7 +36,11 @@ class Event extends ApiResource {
 
   /// [List all events](https://stripe.com/docs/api/curl#list_events)
   /// TODO: implement missing argument: `created`
-  static Future<EventCollection> list({int limit, String startingAfter, String endingBefore, String type}) async {
+  static Future<EventCollection> list(
+      {int limit,
+      String startingAfter,
+      String endingBefore,
+      String type}) async {
     var data = {};
     if (limit != null) data['limit'] = limit;
     if (startingAfter != null) data['starting_after'] = startingAfter;

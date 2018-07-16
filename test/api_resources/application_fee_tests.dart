@@ -31,10 +31,11 @@ main(List<String> args) {
 
   group('Account offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var applicationFee = new ApplicationFee.fromMap(map);
       expect(applicationFee.id, map['id']);
-      expect(applicationFee.created, new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+      expect(applicationFee.created,
+          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(applicationFee.livemode, map['livemode']);
       expect(applicationFee.amount, map['amount']);
       expect(applicationFee.currency, map['currency']);

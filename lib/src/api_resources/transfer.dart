@@ -110,13 +110,15 @@ class Transfer extends ApiResource {
 
   /// [Retrieve a transfer](https://stripe.com/docs/api#retrieve_transfer)
   static Future<Transfer> retrieve(String transferId, {final Map data}) async {
-    var dataMap = await StripeService.retrieve([Transfer._path, transferId], data: data);
+    var dataMap =
+        await StripeService.retrieve([Transfer._path, transferId], data: data);
     return new Transfer.fromMap(dataMap);
   }
 
   /// [Canceling a Transfer](https://stripe.com/docs/api/curl#cancel_transfer)
   static Future<Transfer> cancel(String transferId) async {
-    var dataMap = await StripeService.post([Transfer._path, transferId, 'cancel']);
+    var dataMap =
+        await StripeService.post([Transfer._path, transferId, 'cancel']);
     return new Transfer.fromMap(dataMap);
   }
 
@@ -160,11 +162,13 @@ class TransferCreation extends ResourceRequest {
   @required
   set destination(String destination) => _setMap('destination', destination);
 
-  set sourceTransaction(String sourceTransaction) => _setMap('source_transaction', sourceTransaction);
+  set sourceTransaction(String sourceTransaction) =>
+      _setMap('source_transaction', sourceTransaction);
 
   set description(String description) => _setMap('description', description);
 
-  set statementDescriptor(String statementDescriptor) => _setMap('statement_descriptor', statementDescriptor);
+  set statementDescriptor(String statementDescriptor) =>
+      _setMap('statement_descriptor', statementDescriptor);
 
   set metadata(Map metadata) => _setMap('metadata', metadata);
 
@@ -181,7 +185,8 @@ class TransferUpdate extends ResourceRequest {
   set metadata(Map metadata) => _setMap('metadata', metadata);
 
   Future<Transfer> update(String transferId) async {
-    var dataMap = await StripeService.create([Transfer._path, transferId], _getMap());
+    var dataMap =
+        await StripeService.create([Transfer._path, transferId], _getMap());
     return new Transfer.fromMap(dataMap);
   }
 }

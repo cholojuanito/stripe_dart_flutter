@@ -59,7 +59,9 @@ class ApplicationFee extends ApiResource {
   List<Refund> get refunds {
     List value = _dataMap['refunds'];
     assert(value != null);
-    return value.map((refund) => new Refund.fromMap(refund)).toList(growable: false);
+    return value
+        .map((refund) => new Refund.fromMap(refund))
+        .toList(growable: false);
   }
 
   int get amountRefunded => _dataMap['amount_refunded'];
@@ -68,23 +70,30 @@ class ApplicationFee extends ApiResource {
 
   /// [Retrieving an Application Fee](https://stripe.com/docs/api/curl#retrieve_application_fee)
   static Future<ApplicationFee> retrieve(String applicationFeeId) async {
-    var dataMap = await StripeService.get([ApplicationFee._path, applicationFeeId]);
+    var dataMap =
+        await StripeService.get([ApplicationFee._path, applicationFeeId]);
     return new ApplicationFee.fromMap(dataMap);
   }
 
   /// [Refunding an Application Fee](https://stripe.com/docs/api/curl#refund_application_fee)
-  static Future<ApplicationFee> refund(String applicationFeeId, {int amount}) async {
+  static Future<ApplicationFee> refund(String applicationFeeId,
+      {int amount}) async {
     var data = {};
     if (amount != null) data['amount'] = amount;
     if (data == {}) data = null;
-    var dataMap = await StripeService.post([ApplicationFee._path, applicationFeeId, 'refund'], data: data);
+    var dataMap = await StripeService.post(
+        [ApplicationFee._path, applicationFeeId, 'refund'],
+        data: data);
     return new ApplicationFee.fromMap(dataMap);
   }
 
   /// [List all Application Fees](https://stripe.com/docs/api/curl#list_application_fees)
   /// TODO: implement missing argument: `created`
   static Future<ApplicationFeeCollection> list(
-      {String charge, int limit, String startingAfter, String endingBefore}) async {
+      {String charge,
+      int limit,
+      String startingAfter,
+      String endingBefore}) async {
     var data = {};
     if (charge != null) data['charge'] = charge;
     if (limit != null) data['limit'] = limit;

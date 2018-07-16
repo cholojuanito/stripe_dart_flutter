@@ -51,7 +51,8 @@ abstract class ResourceRequest {
 
   _setMap(String key, dynamic value) {
     // TODO write a better exception
-    if (_map.containsKey(key)) throw new BadRequestException('You can not set the same key twice.');
+    if (_map.containsKey(key))
+      throw new BadRequestException('You can not set the same key twice.');
     _map[key] = value;
   }
 
@@ -64,11 +65,13 @@ abstract class ResourceRequest {
         method.metadata.forEach((InstanceMirror instanceMirror) {
           if (instanceMirror.reflectee.runtimeType == Required) {
             var symbolName = MirrorSystem.getName(method.simpleName);
-            var setterCamelCase = symbolName.substring(0, symbolName.length - 1);
+            var setterCamelCase =
+                symbolName.substring(0, symbolName.length - 1);
             var setter = _underscore(setterCamelCase);
             String className = MirrorSystem.getName(classMirror.simpleName);
             if (_map[setter] == null)
-              throw new MissingArgumentException('You have to set ${setter} for a proper ${className} request');
+              throw new MissingArgumentException(
+                  'You have to set ${setter} for a proper ${className} request');
           }
         });
       }
@@ -80,7 +83,8 @@ abstract class ResourceRequest {
   }
 
   String _underscore(String camelized) {
-    return camelized.replaceAllMapped(new RegExp(r'([A-Z])'), (Match match) => '_${match.group(1).toLowerCase()}');
+    return camelized.replaceAllMapped(new RegExp(r'([A-Z])'),
+        (Match match) => '_${match.group(1).toLowerCase()}');
   }
 
   String toString() {

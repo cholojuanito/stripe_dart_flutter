@@ -47,11 +47,12 @@ main(List<String> args) {
 
   group('Token offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var token = new Token.fromMap(map);
       expect(token.id, map['id']);
       expect(token.livemode, map['livemode']);
-      expect(token.created, new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+      expect(token.created,
+          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(token.used, map['used']);
       expect(token.type, map['type']);
       var card = token.card;
@@ -80,7 +81,10 @@ main(List<String> args) {
 
     test('Create CardToken', () async {
       // Card fields
-      var cardNumber = '4242424242424242', cardExpMonth = 12, cardExpYear = 2020, cvc = 123;
+      var cardNumber = '4242424242424242',
+          cardExpMonth = 12,
+          cardExpYear = 2020,
+          cvc = 123;
       await new CustomerCreation().create();
       var token = await (new CardTokenCreation()
             ..card = (new CardCreation()
@@ -89,7 +93,7 @@ main(List<String> args) {
               ..expYear = cardExpYear
               ..cvc = cvc))
           .create();
-      expect(token.id, new isInstanceOf<String>());
+      expect(token.id, const TypeMatcher<String>());
       expect(token.card.last4, cardNumber.substring(cardNumber.length - 4));
       expect(token.card.expMonth, cardExpMonth);
       expect(token.card.expYear, cardExpYear);
@@ -98,7 +102,7 @@ main(List<String> args) {
       expect(token.type, 'card');
       // testing retrieve
       token = await Token.retrieve(token.id);
-      expect(token.id, new isInstanceOf<String>());
+      expect(token.id, const TypeMatcher<String>());
       expect(token.card.last4, cardNumber.substring(cardNumber.length - 4));
       expect(token.card.expMonth, cardExpMonth);
       expect(token.card.expYear, cardExpYear);
@@ -108,11 +112,13 @@ main(List<String> args) {
     });
 
     test('Create BankAccountToken', () async {
-      var bankAccountMap = JSON.decode(bankAccountExample);
+      var bankAccountMap = jsonDecode(bankAccountExample);
       var bankAccount = new BankAccount.fromMap(bankAccountMap);
 
-      var token = await (new BankAccountTokenCreation()..bankAccount = bankAccount).create();
-      expect(token.id, new isInstanceOf<String>());
+      var token = await (new BankAccountTokenCreation()
+            ..bankAccount = bankAccount)
+          .create();
+      expect(token.id, const TypeMatcher<String>());
       expect(token.used, isFalse);
       expect(token.type, 'bank_account');
       expect(token.bankAccount.country, bankAccount.country);
@@ -121,7 +127,7 @@ main(List<String> args) {
 
       // testing retrieve
       token = await Token.retrieve(token.id);
-      expect(token.id, new isInstanceOf<String>());
+      expect(token.id, const TypeMatcher<String>());
       expect(token.livemode, isFalse);
       expect(token.type, 'bank_account');
       expect(token.bankAccount.country, bankAccount.country);

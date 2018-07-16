@@ -37,22 +37,29 @@ main(List<String> args) {
 
   group('BalanceTransaction offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var balanceTransaction = new BalanceTransaction.fromMap(map);
       expect(balanceTransaction.id, map['id']);
       expect(balanceTransaction.amount, map['amount']);
       expect(balanceTransaction.currency, map['currency']);
       expect(balanceTransaction.net, map['net']);
       expect(balanceTransaction.type, map['type']);
-      expect(balanceTransaction.created, new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
-      expect(balanceTransaction.availableOn, new DateTime.fromMillisecondsSinceEpoch(map['available_on'] * 1000));
+      expect(balanceTransaction.created,
+          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+      expect(balanceTransaction.availableOn,
+          new DateTime.fromMillisecondsSinceEpoch(map['available_on'] * 1000));
       expect(balanceTransaction.status, map['status']);
       expect(balanceTransaction.fee, map['fee']);
-      expect(balanceTransaction.feeDetails.first.amount, map['fee_details'].first['amount']);
-      expect(balanceTransaction.feeDetails.first.currency, map['fee_details'].first['currency']);
-      expect(balanceTransaction.feeDetails.first.type, map['fee_details'].first['type']);
-      expect(balanceTransaction.feeDetails.first.description, map['fee_details'].first['description']);
-      expect(balanceTransaction.feeDetails.first.application, map['fee_details'].first['application']);
+      expect(balanceTransaction.feeDetails.first.amount,
+          map['fee_details'].first['amount']);
+      expect(balanceTransaction.feeDetails.first.currency,
+          map['fee_details'].first['currency']);
+      expect(balanceTransaction.feeDetails.first.type,
+          map['fee_details'].first['type']);
+      expect(balanceTransaction.feeDetails.first.description,
+          map['fee_details'].first['description']);
+      expect(balanceTransaction.feeDetails.first.application,
+          map['fee_details'].first['application']);
       expect(balanceTransaction.source, map['source']);
       expect(balanceTransaction.description, map['description']);
     });

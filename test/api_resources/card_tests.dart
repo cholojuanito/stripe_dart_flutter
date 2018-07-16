@@ -44,7 +44,7 @@ main(List<String> args) {
 
   group('Card offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var card = new Card.fromMap(map);
       expect(card.id, map['id']);
       expect(card.last4, map['last4']);
@@ -74,14 +74,14 @@ main(List<String> args) {
       var number = '4242424242424242', expMonth = 12, expYear = 2020, cvc = 123;
 
       var customer = await new CustomerCreation().create();
-      expect(customer.id, new isInstanceOf<String>());
+      expect(customer.id, const TypeMatcher<String>());
       var card = await (new CardCreation()
             ..number = number
             ..expMonth = expMonth
             ..expYear = expYear
             ..cvc = cvc)
           .create(customer.id);
-      expect(card.id, new isInstanceOf<String>());
+      expect(card.id, const TypeMatcher<String>());
       expect(card.last4, number.substring(number.length - 4));
       expect(card.expMonth, expMonth);
       expect(card.expYear, expYear);
@@ -112,7 +112,7 @@ main(List<String> args) {
           cardName2 = 'Agatha Bath';
 
       var customer = await new CustomerCreation().create();
-      expect(customer.id, new isInstanceOf<String>());
+      expect(customer.id, const TypeMatcher<String>());
       var card = await (new CardCreation()
             ..number = cardNumber
             ..expMonth = cardExpMonth1
@@ -126,7 +126,7 @@ main(List<String> args) {
             ..addressState = cardAddressState1
             ..addressCountry = cardAddressCountry1)
           .create(customer.id);
-      expect(card.id, new isInstanceOf<String>());
+      expect(card.id, const TypeMatcher<String>());
       expect(card.last4, cardNumber.substring(cardNumber.length - 4));
       expect(card.expMonth, cardExpMonth1);
       expect(card.expYear, cardExpYear1);
@@ -175,7 +175,7 @@ main(List<String> args) {
       var number = '4242424242424242', expMonth = 12, expYear = 2020, cvc = 123;
 
       var customer = await new CustomerCreation().create();
-      expect(customer.id, new isInstanceOf<String>());
+      expect(customer.id, const TypeMatcher<String>());
       var card = await (new CardCreation()
             ..number = number
             ..expMonth = expMonth
@@ -201,10 +201,12 @@ main(List<String> args) {
       var cards = await Card.list(customer.id, limit: 10);
       expect(cards.data.length, 10);
       expect(cards.hasMore, isTrue);
-      cards = await Card.list(customer.id, limit: 10, startingAfter: cards.data.last.id);
+      cards = await Card.list(customer.id,
+          limit: 10, startingAfter: cards.data.last.id);
       expect(cards.data.length, 10);
       expect(cards.hasMore, isFalse);
-      cards = await Card.list(customer.id, limit: 10, endingBefore: cards.data.first.id);
+      cards = await Card.list(customer.id,
+          limit: 10, endingBefore: cards.data.first.id);
       expect(cards.data.length, 10);
       expect(cards.hasMore, isFalse);
     });

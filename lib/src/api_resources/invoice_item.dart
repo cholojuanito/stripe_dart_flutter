@@ -51,15 +51,21 @@ class InvoiceItem extends ApiResource {
   InvoiceItem.fromMap(Map dataMap) : super.fromMap(dataMap);
 
   /// [Retrieving an Invoice Item](https://stripe.com/docs/api/curl#retrieve_invoiceitem)
-  static Future<InvoiceItem> retrieve(String invoiceItemId, {final Map data}) async {
-    var dataMap = await StripeService.retrieve([InvoiceItem._path, invoiceItemId], data: data);
+  static Future<InvoiceItem> retrieve(String invoiceItemId,
+      {final Map data}) async {
+    var dataMap = await StripeService.retrieve(
+        [InvoiceItem._path, invoiceItemId],
+        data: data);
     return new InvoiceItem.fromMap(dataMap);
   }
 
   /// [List all Invoice Items](https://stripe.com/docs/api/curl#list_invoiceitems)
   /// TODO: implement missing argument: `created`
   static Future<InvoiceItemCollection> list(
-      {String customer, int limit, String startingAfter, String endingBefore}) async {
+      {String customer,
+      int limit,
+      String startingAfter,
+      String endingBefore}) async {
     var data = {};
     if (customer != null) data['customer'] = customer;
     if (limit != null) data['limit'] = limit;
@@ -71,7 +77,8 @@ class InvoiceItem extends ApiResource {
   }
 
   /// [Deleting an Invoice Item](https://stripe.com/docs/api/curl#delete_invoiceitem)
-  static Future<Map> delete(String invoiceItemId) => StripeService.delete([InvoiceItem._path, invoiceItemId]);
+  static Future<Map> delete(String invoiceItemId) =>
+      StripeService.delete([InvoiceItem._path, invoiceItemId]);
 }
 
 class InvoiceItemCollection extends ResourceCollection {
@@ -93,7 +100,8 @@ class InvoiceItemCreation extends ResourceRequest {
 
   set invoice(String invoice) => _setMap('invoice', invoice);
 
-  set subscription(String subscription) => _setMap('subscription', subscription);
+  set subscription(String subscription) =>
+      _setMap('subscription', subscription);
 
   set description(String description) => _setMap('description', description);
 
@@ -114,7 +122,8 @@ class InvoiceItemUpdate extends ResourceRequest {
   set metadata(Map metadata) => _setMap('metadata', metadata);
 
   Future<InvoiceItem> update(String invoiceItemId) async {
-    var dataMap = await StripeService.update([InvoiceItem._path, invoiceItemId], _getMap());
+    var dataMap = await StripeService.update(
+        [InvoiceItem._path, invoiceItemId], _getMap());
     return new InvoiceItem.fromMap(dataMap);
   }
 }

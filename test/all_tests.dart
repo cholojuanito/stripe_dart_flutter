@@ -9,7 +9,8 @@ import 'service_tests.dart' as service_tests;
 import 'api_resources/account_tests.dart' as account_tests;
 import 'api_resources/application_fee_tests.dart' as application_fee_tests;
 import 'api_resources/balance_tests.dart' as balance_tests;
-import 'api_resources/balance_transaction_tests.dart' as balance_transaction_tests;
+import 'api_resources/balance_transaction_tests.dart'
+    as balance_transaction_tests;
 import 'api_resources/card_tests.dart' as card_tests;
 import 'api_resources/charge_tests.dart' as charge_tests;
 import 'api_resources/coupon_tests.dart' as coupon_tests;
@@ -37,7 +38,6 @@ import 'resources/shipping_tests.dart' as shipping_tests;
 import 'resources/tos_acceptance_tests.dart' as tos_acceptance_tests;
 import 'resources/transfer_schedule_tests.dart' as transfer_schedule_tests;
 import 'resources/verification_tests.dart' as verification_tests;
-
 
 main(List<String> args) {
   Logger.root.level = Level.INFO;

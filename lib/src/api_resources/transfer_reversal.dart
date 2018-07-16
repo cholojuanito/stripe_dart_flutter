@@ -43,9 +43,11 @@ class TransferReversal extends ApiResource {
   TransferReversal.fromMap(Map dataMap) : super.fromMap(dataMap);
 
   /// [Retrieve a reversal](https://stripe.com/docs/api#retrieve_transfer_reversal)
-  static Future<Transfer> retrieve(String transferId, String reversalId, {final Map data}) async {
-    var dataMap =
-        await StripeService.retrieve([Transfer._path, transferId, TransferReversal._path, reversalId], data: data);
+  static Future<Transfer> retrieve(String transferId, String reversalId,
+      {final Map data}) async {
+    var dataMap = await StripeService.retrieve(
+        [Transfer._path, transferId, TransferReversal._path, reversalId],
+        data: data);
     return new Transfer.fromMap(dataMap);
   }
 
@@ -57,13 +59,16 @@ class TransferReversal extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([Transfer._path, transferId, TransferReversal._path], data: data);
+    var dataMap = await StripeService.list(
+        [Transfer._path, transferId, TransferReversal._path],
+        data: data);
     return new TransferReversalCollection.fromMap(dataMap);
   }
 }
 
 class TransferReversalCollection extends ResourceCollection {
-  TransferReversal _getInstanceFromMap(map) => new TransferReversal.fromMap(map);
+  TransferReversal _getInstanceFromMap(map) =>
+      new TransferReversal.fromMap(map);
 
   TransferReversalCollection.fromMap(Map map) : super.fromMap(map);
 }
@@ -72,14 +77,16 @@ class TransferReversalCollection extends ResourceCollection {
 class TransferReversalCreation extends ResourceRequest {
   set amount(int amount) => _setMap('amount', amount);
 
-  set refundApplicationFee(bool refundApplicationFee) => _setMap('refund_application_fee', refundApplicationFee);
+  set refundApplicationFee(bool refundApplicationFee) =>
+      _setMap('refund_application_fee', refundApplicationFee);
 
   set metadata(Map metadata) => _setMap('metadata', metadata);
 
   set description(String description) => _setMap('description', description);
 
   Future<TransferReversal> create(String transferId) async {
-    var dataMap = await StripeService.create([Transfer._path, transferId, TransferReversal._path], _getMap());
+    var dataMap = await StripeService.create(
+        [Transfer._path, transferId, TransferReversal._path], _getMap());
     return new TransferReversal.fromMap(dataMap);
   }
 }
@@ -91,8 +98,9 @@ class TransferReversalUpdate extends ResourceRequest {
   set description(String description) => _setMap('description', description);
 
   Future<TransferReversal> update(String transferId, String reversalId) async {
-    var dataMap =
-        await StripeService.create([Transfer._path, transferId, TransferReversal._path, reversalId], _getMap());
+    var dataMap = await StripeService.create(
+        [Transfer._path, transferId, TransferReversal._path, reversalId],
+        _getMap());
     return new TransferReversal.fromMap(dataMap);
   }
 }

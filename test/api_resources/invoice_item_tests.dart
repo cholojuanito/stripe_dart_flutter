@@ -29,10 +29,11 @@ main(List<String> args) {
 
   group('InvoiceItem offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var invoiceItem = new InvoiceItem.fromMap(map);
       expect(invoiceItem.id, map['id']);
-      expect(invoiceItem.date, new DateTime.fromMillisecondsSinceEpoch(map['date'] * 1000));
+      expect(invoiceItem.date,
+          new DateTime.fromMillisecondsSinceEpoch(map['date'] * 1000));
       expect(invoiceItem.amount, map['amount']);
       expect(invoiceItem.livemode, map['livemode']);
       expect(invoiceItem.proration, map['proration']);
@@ -80,7 +81,10 @@ main(List<String> args) {
 
     test('Create full', () async {
       // Card fields
-      var cardNumber = '4242424242424242', cardExpMonth = 12, cardExpYear = 2020, cvc = 123;
+      var cardNumber = '4242424242424242',
+          cardExpMonth = 12,
+          cardExpYear = 2020,
+          cvc = 123;
 
       var cardCreation = new CardCreation()
         ..number = cardNumber
@@ -116,7 +120,8 @@ main(List<String> args) {
           .create();
       var customer = await new CustomerCreation().create();
       await cardCreation.create(customer.id);
-      var subscription = await (new SubscriptionCreation()..plan = plan.id).create(customer.id);
+      var subscription = await (new SubscriptionCreation()..plan = plan.id)
+          .create(customer.id);
       var invoiceItem = await (new InvoiceItemCreation()
             ..customer = customer.id
             ..amount = invoiceItemAmount1
@@ -186,10 +191,12 @@ main(List<String> args) {
       var invoiceItems = await InvoiceItem.list(limit: 10);
       expect(invoiceItems.data.length, 10);
       expect(invoiceItems.hasMore, isTrue);
-      invoiceItems = await InvoiceItem.list(limit: 10, startingAfter: invoiceItems.data.last.id);
+      invoiceItems = await InvoiceItem.list(
+          limit: 10, startingAfter: invoiceItems.data.last.id);
       expect(invoiceItems.data.length, 10);
       expect(invoiceItems.hasMore, isFalse);
-      invoiceItems = await InvoiceItem.list(limit: 10, endingBefore: invoiceItems.data.first.id);
+      invoiceItems = await InvoiceItem.list(
+          limit: 10, endingBefore: invoiceItems.data.first.id);
       expect(invoiceItems.data.length, 10);
       expect(invoiceItems.hasMore, isFalse);
     });
