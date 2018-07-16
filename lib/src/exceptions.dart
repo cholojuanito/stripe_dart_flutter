@@ -43,7 +43,8 @@ class CardErrorException extends StripeApiException {
   /// can use this to display a message near the correct form field, for example.
   final String param;
 
-  CardErrorException(String errorMessage, this.code, this.param) : super(errorMessage);
+  CardErrorException(String errorMessage, this.code, this.param)
+      : super(errorMessage);
 
   String toString() => 'Card error: ${errorMessage}.';
 }

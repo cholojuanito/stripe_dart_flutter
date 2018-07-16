@@ -2,7 +2,7 @@ library transfer_reversal_tests;
 
 import 'dart:convert';
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../../lib/stripe.dart';
 import '../utils.dart' as utils;
@@ -35,11 +35,12 @@ main(List<String> args) {
 
   group('TransferReversal offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var reversal = new TransferReversal.fromMap(map);
       expect(reversal.id, map['id']);
       expect(reversal.amount, map['amount']);
-      expect(reversal.created, new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+      expect(reversal.created,
+          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(reversal.currency, map['currency']);
       expect(reversal.balanceTransactionExpand.toMap(),
           new BalanceTransaction.fromMap(map['balance_transaction']).toMap());

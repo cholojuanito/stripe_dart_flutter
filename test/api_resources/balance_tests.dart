@@ -2,7 +2,7 @@ library balance_tests;
 
 import 'dart:convert';
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../../lib/stripe.dart';
 import '../utils.dart' as utils;
@@ -30,7 +30,7 @@ main(List<String> args) {
 
   group('Balance offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var balance = new Balance.fromMap(map);
       expect(balance.pending.first.amount, map['pending'][0]['amount']);
       expect(balance.pending.first.currency, map['pending'][0]['currency']);

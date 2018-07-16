@@ -2,7 +2,7 @@ library plan_tests;
 
 import 'dart:convert';
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../../lib/stripe.dart';
 import '../utils.dart' as utils;
@@ -29,9 +29,10 @@ main(List<String> args) {
 
   group('Plan offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var plan = new Plan.fromMap(map);
-      expect(plan.created, new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+      expect(plan.created,
+          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(plan.id, map['id']);
       expect(plan.livemode, map['livemode']);
       expect(plan.interval, map['interval']);
@@ -52,7 +53,11 @@ main(List<String> args) {
 
     test('Create minimal', () async {
       // plan fields
-      var planId = 'test id', planAmount = 10, planCurrency = 'usd', planInterval = 'month', planName = 'test name';
+      var planId = 'test id',
+          planAmount = 10,
+          planCurrency = 'usd',
+          planInterval = 'month',
+          planName = 'test name';
 
       var plan = await (new PlanCreation()
             ..id = planId
@@ -127,7 +132,11 @@ main(List<String> args) {
 
     test('Delete', () async {
       // plan fields
-      var planId = 'test id', planAmount = 10, planCurrency = 'usd', planInterval = 'month', planName = 'test name';
+      var planId = 'test id',
+          planAmount = 10,
+          planCurrency = 'usd',
+          planInterval = 'month',
+          planName = 'test name';
 
       var plan = await (new PlanCreation()
             ..id = planId
@@ -148,7 +157,11 @@ main(List<String> args) {
 
     test('List parameters', () async {
       // plan fields
-      var planId = 'test id', planAmount = 10, planCurrency = 'usd', planInterval = 'month', planName = 'test name';
+      var planId = 'test id',
+          planAmount = 10,
+          planCurrency = 'usd',
+          planInterval = 'month',
+          planName = 'test name';
 
       for (var i = 0; i < 20; i++) {
         await (new PlanCreation()

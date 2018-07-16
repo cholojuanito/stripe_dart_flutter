@@ -2,7 +2,7 @@ library account_tests;
 
 import 'dart:convert';
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../../lib/stripe.dart';
 import '../utils.dart' as utils;
@@ -49,7 +49,7 @@ main(List<String> args) {
 
   group('Account offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var account = new Account.fromMap(map);
       expect(account.id, map['id']);
       expect(account.country, map['country']);
@@ -66,13 +66,18 @@ main(List<String> args) {
       expect(account.metadata, map['metadata']);
       expect(account.supportPhone, map['support_phone']);
       expect(account.managed, map['managed']);
-      expect(account.bankAccounts.toMap(), new BankAccount.fromMap(map['bank_accounts']).toMap());
+      expect(account.bankAccounts.toMap(),
+          new BankAccount.fromMap(map['bank_accounts']).toMap());
       expect(account.debitNegativeBalances, map['debit_negative_balances']);
-      expect(account.legalEntity.toMap(), new LegalEntity.fromMap(map['legal_entity']).toMap());
+      expect(account.legalEntity.toMap(),
+          new LegalEntity.fromMap(map['legal_entity']).toMap());
       expect(account.productDescription, map['product_description']);
-      expect(account.tosAcceptance.toMap(), new TosAcceptance.fromMap(map['tos_acceptance']).toMap());
-      expect(account.transferSchedule.toMap(), new TransferSchedule.fromMap(map['transfer_schedule']).toMap());
-      expect(account.verification.toMap(), new Verification.fromMap(map['verification']).toMap());
+      expect(account.tosAcceptance.toMap(),
+          new TosAcceptance.fromMap(map['tos_acceptance']).toMap());
+      expect(account.transferSchedule.toMap(),
+          new TransferSchedule.fromMap(map['transfer_schedule']).toMap());
+      expect(account.verification.toMap(),
+          new Verification.fromMap(map['verification']).toMap());
     });
   });
 

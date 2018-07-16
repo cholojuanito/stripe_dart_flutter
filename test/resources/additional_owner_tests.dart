@@ -2,7 +2,7 @@ library additional_owner_tests;
 
 import 'dart:convert';
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../../lib/stripe.dart';
 import '../utils.dart' as utils;
@@ -25,11 +25,14 @@ main(List<String> args) {
 
   group('AdditionalOwner offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var additionalOwner = new AdditionalOwner.fromMap(map);
-      expect(additionalOwner.address.toMap(), new Address.fromMap(map['address']).toMap());
-      expect(additionalOwner.dateOfBirth.toMap(), new Date.fromMap(map['dob']).toMap());
-      expect(additionalOwner.verification.toMap(), new Verification.fromMap(map['verification']).toMap());
+      expect(additionalOwner.address.toMap(),
+          new Address.fromMap(map['address']).toMap());
+      expect(additionalOwner.dateOfBirth.toMap(),
+          new Date.fromMap(map['dob']).toMap());
+      expect(additionalOwner.verification.toMap(),
+          new Verification.fromMap(map['verification']).toMap());
       expect(additionalOwner.firstName, map['first_name']);
       expect(additionalOwner.lastName, map['last_name']);
     });

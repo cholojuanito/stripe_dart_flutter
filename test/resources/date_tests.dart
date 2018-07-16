@@ -2,7 +2,7 @@ library date_tests;
 
 import 'dart:convert';
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../../lib/stripe.dart';
 import '../utils.dart' as utils;
@@ -19,7 +19,7 @@ main(List<String> args) {
 
   group('Date offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var date = new Date.fromMap(map);
       expect(date.day, map['day']);
       expect(date.month, map['month']);

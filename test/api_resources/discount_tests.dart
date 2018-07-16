@@ -2,7 +2,7 @@ library discount_tests;
 
 import 'dart:convert';
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../../lib/stripe.dart';
 import '../utils.dart' as utils;
@@ -38,14 +38,18 @@ main(List<String> args) {
 
   group('Discount offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var discount = new Discount.fromMap(map);
-      expect(discount.start, new DateTime.fromMillisecondsSinceEpoch(map['start'] * 1000));
+      expect(discount.start,
+          new DateTime.fromMillisecondsSinceEpoch(map['start'] * 1000));
       expect(discount.customer, map['customer']);
       expect(discount.subscription, map['subscription']);
       expect(discount.end, map['end']);
       expect(discount.coupon.id, map['coupon']['id']);
-      expect(discount.coupon.created, new DateTime.fromMillisecondsSinceEpoch(map['coupon']['created'] * 1000));
+      expect(
+          discount.coupon.created,
+          new DateTime.fromMillisecondsSinceEpoch(
+              map['coupon']['created'] * 1000));
       expect(discount.coupon.percentOff, map['coupon']['percent_off']);
       expect(discount.coupon.amountOff, map['coupon']['amount_off']);
       expect(discount.coupon.currency, map['coupon']['currency']);
@@ -54,7 +58,8 @@ main(List<String> args) {
       expect(discount.coupon.redeemBy, map['coupon']['redeem_by']);
       expect(discount.coupon.maxRedemptions, map['coupon']['max_redemptions']);
       expect(discount.coupon.timesRedeemed, map['coupon']['times_redeemed']);
-      expect(discount.coupon.durationInMonths, map['coupon']['duration_in_months']);
+      expect(discount.coupon.durationInMonths,
+          map['coupon']['duration_in_months']);
       expect(discount.coupon.valid, map['coupon']['valid']);
       expect(discount.coupon.metadata, map['coupon']['metadata']);
     });
@@ -67,14 +72,17 @@ main(List<String> args) {
 
     test('Delete from Customer', () async {
       // Coupon fields
-      var couponId = 'test coupon id', couponDuration = 'forever', couponPercentOff = 15;
+      var couponId = 'test coupon id',
+          couponDuration = 'forever',
+          couponPercentOff = 15;
 
       var coupon = await (new CouponCreation()
             ..id = couponId
             ..duration = couponDuration
             ..percentOff = couponPercentOff)
           .create();
-      var customer = await (new CustomerCreation()..coupon = coupon.id).create();
+      var customer =
+          await (new CustomerCreation()..coupon = coupon.id).create();
       expect(customer.discount.coupon.percentOff, couponPercentOff);
       var discount = customer.discount;
       var response = await Discount.deleteForCustomer(customer.id);
@@ -85,7 +93,10 @@ main(List<String> args) {
     });
 
     test('Delete from Subscription', () async {
-      var cardNumber = '5555555555554444', cardExpMonth = 3, cardExpYear = 2020, cvc = 123;
+      var cardNumber = '5555555555554444',
+          cardExpMonth = 3,
+          cardExpYear = 2020,
+          cvc = 123;
 
       var cardCreation = new CardCreation()
         ..number = cardNumber // only the last 4 digits can be tested
@@ -125,7 +136,8 @@ main(List<String> args) {
           .create(customer.id);
       expect(subscription.discount.coupon.percentOff, couponPercentOff);
       var discount = subscription.discount;
-      var response = await Discount.deleteForSubscription(customer.id, subscription.id);
+      var response =
+          await Discount.deleteForSubscription(customer.id, subscription.id);
       expect(response['deleted'], isTrue);
       expect(response['id'], discount.id);
       subscription = await Subscription.retrieve(customer.id, subscription.id);

@@ -2,7 +2,7 @@ library dispute_tests;
 
 import 'dart:convert';
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../../lib/stripe.dart';
 import '../utils.dart' as utils;
@@ -27,17 +27,21 @@ main(List<String> args) {
 
   group('Dispute offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var dispute = new Dispute.fromMap(map);
       expect(dispute.charge, map['charge']);
       expect(dispute.amount, map['amount']);
-      expect(dispute.created, new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+      expect(dispute.created,
+          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(dispute.status, map['status']);
       expect(dispute.livemode, map['livemode']);
       expect(dispute.currency, map['currency']);
       expect(dispute.reason, map['reason']);
       expect(dispute.balanceTransaction, map['balance_transaction']);
-      expect(dispute.evidenceDueBy, new DateTime.fromMillisecondsSinceEpoch(map['evidence_due_by'] * 1000));
+      expect(
+          dispute.evidenceDueBy,
+          new DateTime.fromMillisecondsSinceEpoch(
+              map['evidence_due_by'] * 1000));
       expect(dispute.evidence, map['evidence']);
     });
   });

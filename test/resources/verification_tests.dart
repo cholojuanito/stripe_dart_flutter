@@ -2,7 +2,7 @@ library verification_tests;
 
 import 'dart:convert';
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../../lib/stripe.dart';
 import '../utils.dart' as utils;
@@ -20,11 +20,12 @@ main(List<String> args) {
 
   group('Verification offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var verification = new Verification.fromMap(map);
       expect(verification.status, map['status']);
       expect(verification.details, map['details']);
-      expect(verification.documentExpand.toMap(), new FileUpload.fromMap(map['document']).toMap());
+      expect(verification.documentExpand.toMap(),
+          new FileUpload.fromMap(map['document']).toMap());
     });
   });
 }

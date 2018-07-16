@@ -51,7 +51,8 @@ class Dispute extends ApiResource {
   Dispute.fromMap(Map dataMap) : super.fromMap(dataMap);
 
   /// [Closing a dispute](https://stripe.com/docs/api/curl#close_dispute)
-  static Future close(String chargeId) => StripeService.post([Charge._path, chargeId, Dispute._path, 'close']);
+  static Future close(String chargeId) =>
+      StripeService.post([Charge._path, chargeId, Dispute._path, 'close']);
 }
 
 /// [Updating a dispute](https://stripe.com/docs/api/curl#update_dispute)
@@ -59,7 +60,8 @@ class DisputeUpdate extends ResourceRequest {
   set evidence(String evidence) => _setMap('evidence', evidence);
 
   Future<Customer> update(String chargeId) async {
-    var dataMap = await StripeService.update([Charge._path, chargeId, Dispute._path], _getMap());
+    var dataMap = await StripeService.update(
+        [Charge._path, chargeId, Dispute._path], _getMap());
     return new Customer.fromMap(dataMap);
   }
 }

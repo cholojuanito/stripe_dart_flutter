@@ -37,7 +37,8 @@ class Plan extends ApiResource {
   }
 
   /// [List all Plans](https://stripe.com/docs/api/curl#list_plans)
-  static Future<PlanCollection> list({int limit, String startingAfter, String endingBefore}) async {
+  static Future<PlanCollection> list(
+      {int limit, String startingAfter, String endingBefore}) async {
     var data = {};
     if (limit != null) data['limit'] = limit;
     if (startingAfter != null) data['starting_after'] = startingAfter;
@@ -48,7 +49,8 @@ class Plan extends ApiResource {
   }
 
   /// [Deleting a plan](https://stripe.com/docs/api/curl#delete_plan)
-  static Future<Map> delete(String id) => StripeService.delete([Plan._path, id]);
+  static Future<Map> delete(String id) =>
+      StripeService.delete([Plan._path, id]);
 }
 
 class PlanCollection extends ResourceCollection {
@@ -71,16 +73,19 @@ class PlanCreation extends ResourceRequest {
   @required
   set interval(String interval) => _setMap('interval', interval);
 
-  set intervalCount(int intervalCount) => _setMap('interval_count', intervalCount);
+  set intervalCount(int intervalCount) =>
+      _setMap('interval_count', intervalCount);
 
   @required
   set name(String name) => _setMap('name', name);
 
-  set trialPeriodDays(int trialPeriodDays) => _setMap('trial_period_days', trialPeriodDays);
+  set trialPeriodDays(int trialPeriodDays) =>
+      _setMap('trial_period_days', trialPeriodDays);
 
   set metadata(Map metadata) => _setMap('metadata', metadata);
 
-  set statementDescriptor(String statementDescriptor) => _setMap('statement_descriptor', statementDescriptor);
+  set statementDescriptor(String statementDescriptor) =>
+      _setMap('statement_descriptor', statementDescriptor);
 
   Future<Plan> create() async {
     var dataMap = await StripeService.create([Plan._path], _getMap());
@@ -94,7 +99,8 @@ class PlanUpdate extends ResourceRequest {
 
   set metadata(Map metadata) => _setMap('metadata', metadata);
 
-  set statementDescriptor(String statementDescriptor) => _setMap('statement_descriptor', statementDescriptor);
+  set statementDescriptor(String statementDescriptor) =>
+      _setMap('statement_descriptor', statementDescriptor);
 
   Future<Plan> update(String planId) async {
     var dataMap = await StripeService.update([Plan._path, planId], _getMap());

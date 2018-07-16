@@ -1,6 +1,6 @@
 library api_resource_tests;
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../lib/stripe.dart';
 
@@ -20,7 +20,8 @@ main() {
       expect(new TestResource.fromMap(map).object, 'test');
       map = {'object': 'incorrect'};
       expect(() => new TestResource.fromMap(map), throwsException);
-      expect(() => new TestResource2.fromMap(map), throwsA(new isInstanceOf<AssertionError>()));
+      expect(() => new TestResource2.fromMap(map),
+          throwsA(const TypeMatcher<AssertionError>()));
     });
 
     test('should fail the dataMap is null', () {

@@ -22,13 +22,18 @@ class FileUpload extends ApiResource {
 
   /// [Retrieve a file upload](https://stripe.com/docs/api/curl#retrieve_file_upload)
   static Future<FileUpload> retrieve(String fileUploadId) async {
-    var dataMap = await StripeService.retrieve([FileUpload._path, fileUploadId]);
+    var dataMap =
+        await StripeService.retrieve([FileUpload._path, fileUploadId]);
     return new FileUpload.fromMap(dataMap);
   }
 
   /// [List all file uploads](https://stripe.com/docs/api/curl#list_file_uploads)
   static Future<FileUploadCollection> list(
-      {var created, String purpose, int limit, String startingAfter, String endingBefore}) async {
+      {var created,
+      String purpose,
+      int limit,
+      String startingAfter,
+      String endingBefore}) async {
     var data = {};
     if (created != null) data['created'] = created;
     if (endingBefore != null) data['ending_before'] = endingBefore;

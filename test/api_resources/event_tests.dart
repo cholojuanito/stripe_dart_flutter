@@ -2,7 +2,7 @@ library event_tests;
 
 import 'dart:convert';
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../../lib/stripe.dart';
 import '../utils.dart' as utils;
@@ -189,10 +189,11 @@ main(List<String> args) {
 
   group('Event offline', () {
     test('fromMap() properly popullates all values', () {
-      var map = JSON.decode(example);
+      var map = jsonDecode(example);
       var event = new Event.fromMap(map);
       expect(event.id, map['id']);
-      expect(event.created, new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+      expect(event.created,
+          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(event.livemode, map['livemode']);
       expect(event.type, map['type']);
       expect(event.data.object, map['data']['object']);

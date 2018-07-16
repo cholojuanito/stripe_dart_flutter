@@ -41,7 +41,8 @@ class Coupon extends ApiResource {
   }
 
   /// [List all Coupons](https://stripe.com/docs/api/curl#list_coupons)
-  static Future<CouponCollection> list({int limit, String startingAfter, String endingBefore}) async {
+  static Future<CouponCollection> list(
+      {int limit, String startingAfter, String endingBefore}) async {
     var data = {};
     if (limit != null) data['limit'] = limit;
     if (startingAfter != null) data['starting_after'] = startingAfter;
@@ -52,7 +53,8 @@ class Coupon extends ApiResource {
   }
 
   /// [Deleting a coupon](https://stripe.com/docs/api/curl#delete_coupon)
-  static Future<Map> delete(String id) => StripeService.delete([Coupon._path, id]);
+  static Future<Map> delete(String id) =>
+      StripeService.delete([Coupon._path, id]);
 }
 
 class CouponCollection extends ResourceCollection {
@@ -72,9 +74,11 @@ class CouponCreation extends ResourceRequest {
 
   set currency(String currency) => _setMap('currency', currency);
 
-  set durationInMonths(int durationInMonths) => _setMap('duration_in_months', durationInMonths);
+  set durationInMonths(int durationInMonths) =>
+      _setMap('duration_in_months', durationInMonths);
 
-  set maxRedemptions(int maxRedemptions) => _setMap('max_redemptions', maxRedemptions);
+  set maxRedemptions(int maxRedemptions) =>
+      _setMap('max_redemptions', maxRedemptions);
 
   set metadata(Map metadata) => _setMap('metadata', metadata);
 

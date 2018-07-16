@@ -11,13 +11,13 @@ class Balance extends Resource {
   List<Fund> get available {
     List funds = _dataMap['available'];
     assert(funds != null);
-    return funds.map((Map fund) => new Fund.fromMap(fund)).toList(growable: false);
+    return funds.map((fund) => new Fund.fromMap(fund)).toList(growable: false);
   }
 
   List<Fund> get pending {
     List funds = _dataMap['pending'];
     assert(funds != null);
-    return funds.map((Map fund) => new Fund.fromMap(fund)).toList(growable: false);
+    return funds.map((fund) => new Fund.fromMap(fund)).toList(growable: false);
   }
 
   Balance.fromMap(Map dataMap) : super.fromMap(dataMap);
@@ -49,7 +49,9 @@ class BalanceTransaction extends ApiResource {
   List<FeeDetails> get feeDetails {
     List feeDetails = _dataMap['fee_details'];
     assert(feeDetails != null);
-    return feeDetails.map((Map feeDetails) => new FeeDetails.fromMap(feeDetails)).toList(growable: false);
+    return feeDetails
+        .map((feeDetails) => new FeeDetails.fromMap(feeDetails))
+        .toList(growable: false);
   }
 
   int get net => _dataMap['net'];
@@ -76,19 +78,23 @@ class BalanceTransaction extends ApiResource {
 
   /// [Retrieving a Balance Transaction](https://stripe.com/docs/api/curl#retrieve_balance_transaction)
   static Future<BalanceTransaction> retrieve(String transactionId) async {
-    var dataMap = await StripeService.get([Balance._path, BalanceTransaction._path, transactionId]);
+    var dataMap = await StripeService.get(
+        [Balance._path, BalanceTransaction._path, transactionId]);
     return new BalanceTransaction.fromMap(dataMap);
   }
 
   /// [Listing balance history](https://stripe.com/docs/api/curl#balance_history)
   /// TODO: implement missing arguments: `available_on` and `created`
-  static Future<BalanceTransactionCollection> list({int limit, String startingAfter, String endingBefore}) async {
+  static Future<BalanceTransactionCollection> list(
+      {int limit, String startingAfter, String endingBefore}) async {
     var data = {};
     if (limit != null) data['limit'] = limit;
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([Balance._path, BalanceTransaction._path], data: data);
+    var dataMap = await StripeService.list(
+        [Balance._path, BalanceTransaction._path],
+        data: data);
     return new BalanceTransactionCollection.fromMap(dataMap);
   }
 }

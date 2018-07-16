@@ -55,7 +55,8 @@ class CardTokenCreation extends ResourceRequest {
 
 /// [Creating a Bank Account Token](https://stripe.com/docs/api/curl#create_bank_account_token)
 class BankAccountTokenCreation extends ResourceRequest {
-  set bankAccount(BankAccount bankAccount) => _setMap('bank_account', bankAccount.toMap());
+  set bankAccount(BankAccount bankAccount) =>
+      _setMap('bank_account', bankAccount.toMap());
 
   Future<Token> create() async {
     var dataMap = await StripeService.create([Token._path], _getMap());

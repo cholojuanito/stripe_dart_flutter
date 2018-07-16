@@ -20,7 +20,8 @@ abstract class StripeService {
   static Future<Map> create(final List<String> pathParts, final Map data,
       {String hostOverride, String idempotencyKey}) {
     var hostToUse = (hostOverride == null) ? host : hostOverride;
-    return _request('POST', pathParts, data: data, hostOverride: hostToUse, idempotencyKey: idempotencyKey);
+    return _request('POST', pathParts,
+        data: data, hostOverride: hostToUse, idempotencyKey: idempotencyKey);
   }
 
   /// Makes a delete request to the Stripe API
@@ -29,17 +30,20 @@ abstract class StripeService {
 
   /// Makes a get request to the Stripe API for a single resource item
   /// [data] is used for expanding resources
-  static Future<Map> retrieve(final List<String> pathParts, {final Map data, String hostOverride}) {
+  static Future<Map> retrieve(final List<String> pathParts,
+      {final Map data, String hostOverride}) {
     var hostToUse = (hostOverride == null) ? host : hostOverride;
     return _request('GET', pathParts, data: data, hostOverride: hostToUse);
   }
 
   /// Makes a get request to the Stripe API to update an existing resource
-  static Future<Map> update(final List<String> pathParts, final Map data) => _request('POST', pathParts, data: data);
+  static Future<Map> update(final List<String> pathParts, final Map data) =>
+      _request('POST', pathParts, data: data);
 
   /// Makes a request to the Stripe API for all items of a resource
   /// [data] is used for pagination
-  static Future<Map> list(final List<String> pathParts, {final Map data, String hostOverride}) {
+  static Future<Map> list(final List<String> pathParts,
+      {final Map data, String hostOverride}) {
     var hostToUse = (hostOverride == null) ? host : hostOverride;
     return _request('GET', pathParts, data: data, hostOverride: hostToUse);
   }
@@ -61,9 +65,15 @@ abstract class StripeService {
     Uri uri;
     var hostToUse = (hostOverride == null) ? host : hostOverride;
     if (method == 'GET' && data != null) {
-      uri = new Uri(scheme: 'https', host: hostToUse, path: path, query: encodeMap(data), userInfo: '${apiKey}:');
+      uri = new Uri(
+          scheme: 'https',
+          host: hostToUse,
+          path: path,
+          query: encodeMap(data),
+          userInfo: '${apiKey}:');
     } else {
-      uri = new Uri(scheme: 'https', host: hostToUse, path: path, userInfo: '${apiKey}:');
+      uri = new Uri(
+          scheme: 'https', host: hostToUse, path: path, userInfo: '${apiKey}:');
     }
     log.finest('Sending ${method} request to API ${uri}');
     int responseStatusCode;
@@ -76,20 +86,21 @@ abstract class StripeService {
     if (method == 'POST' && data != null) {
       // Now convert the params to a list of UTF8 encoded bytes of a uri encoded
       // string and add them to the request
-      var encodedData = UTF8.encode(encodeMap(data));
+      var encodedData = utf8.encode(encodeMap(data));
       request.headers.add('Content-Type', 'application/x-www-form-urlencoded');
       request.headers.add('Content-Length', encodedData.length);
       request.add(encodedData);
     }
     HttpClientResponse response = await request.close();
     responseStatusCode = response.statusCode;
-    var bodyData = await response.transform(UTF8.decoder).toList();
+    var bodyData = await response.transform(utf8.decoder).toList();
     var body = bodyData.join('');
     Map map;
     try {
-      map = JSON.decode(body);
+      map = jsonDecode(body);
     } on Error {
-      throw new InvalidRequestErrorException('The JSON returned was unparsable (${body}).');
+      throw new InvalidRequestErrorException(
+          'The JSON returned was unparsable (${body}).');
     }
     if (responseStatusCode != 200) {
       if (map['error'] == null) {
@@ -105,7 +116,8 @@ abstract class StripeService {
           throw new ApiErrorException(error['message']);
           break;
         case 'card_error':
-          throw new CardErrorException(error['message'], error['code'], error['param']);
+          throw new CardErrorException(
+              error['message'], error['code'], error['param']);
           break;
         default:
           throw new InvalidRequestErrorException(
@@ -123,14 +135,17 @@ abstract class StripeService {
         var hasProps = false;
         for (String kk in data[k].keys) {
           hasProps = true;
-          output.add(Uri.encodeComponent('${k}[${kk}]') + '=' + Uri.encodeComponent(data[k][kk].toString()));
+          output.add(Uri.encodeComponent('${k}[${kk}]') +
+              '=' +
+              Uri.encodeComponent(data[k][kk].toString()));
         }
         if (!hasProps) {
           output.add(Uri.encodeComponent(k) + '=');
         }
       } else if (data[k] is List) {
         for (String v in data[k]) {
-          output.add(Uri.encodeComponent('${k}[]') + '=' + Uri.encodeComponent(v));
+          output.add(
+              Uri.encodeComponent('${k}[]') + '=' + Uri.encodeComponent(v));
         }
       } else if (data[k] is int) {
         output.add(Uri.encodeComponent(k) + '=' + data[k].toString());

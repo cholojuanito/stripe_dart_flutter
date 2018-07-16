@@ -116,25 +116,35 @@ class Charge extends ApiResource {
 
   /// [Retrieve a charge](https://stripe.com/docs/api#retrieve_charge)
   static Future<Charge> retrieve(String chargeId, {final Map data}) async {
-    var dataMap = await StripeService.retrieve([Charge._path, chargeId], data: data);
+    var dataMap =
+        await StripeService.retrieve([Charge._path, chargeId], data: data);
     return new Charge.fromMap(dataMap);
   }
 
   /// [Capture a charge](https://stripe.com/docs/api#capture_charge)
   static Future<Charge> capture(String chargeId,
-      {int amount, String applicationFee, String receiptEmail, String statementDescriptor}) async {
+      {int amount,
+      String applicationFee,
+      String receiptEmail,
+      String statementDescriptor}) async {
     var data = {};
     if (amount != null) data['amount'] = amount;
     if (applicationFee != null) data['application_fee'] = applicationFee;
     if (receiptEmail != null) data['receipt_email'] = receiptEmail;
-    if (statementDescriptor != null) data['statement_descriptor'] = statementDescriptor;
-    var dataMap = await StripeService.post([Charge._path, chargeId, 'capture'], data: data);
+    if (statementDescriptor != null)
+      data['statement_descriptor'] = statementDescriptor;
+    var dataMap = await StripeService.post([Charge._path, chargeId, 'capture'],
+        data: data);
     return new Charge.fromMap(dataMap);
   }
 
   /// [List all Charges](https://stripe.com/docs/api#list_charges)
   static Future<ChargeCollection> list(
-      {var created, String customer, int limit, String startingAfter, String endingBefore}) async {
+      {var created,
+      String customer,
+      int limit,
+      String startingAfter,
+      String endingBefore}) async {
     var data = {};
     if (created != null) data['created'] = created;
     if (customer != null) data['customer'] = customer;
@@ -172,18 +182,22 @@ class ChargeCreation extends ResourceRequest {
 
   set capture(bool capture) => _setMap('capture', capture.toString());
 
-  set statementDescriptor(String statementDescriptor) => _setMap('statement_descriptor', statementDescriptor);
+  set statementDescriptor(String statementDescriptor) =>
+      _setMap('statement_descriptor', statementDescriptor);
 
-  set receiptEmail(String receiptEmail) => _setMap('receipt_email', receiptEmail);
+  set receiptEmail(String receiptEmail) =>
+      _setMap('receipt_email', receiptEmail);
 
   set destination(int destination) => _setMap('destination', destination);
 
-  set applicationFee(int applicationFee) => _setMap('application_fee', applicationFee);
+  set applicationFee(int applicationFee) =>
+      _setMap('application_fee', applicationFee);
 
   set shipping(int shipping) => _setMap('shipping', shipping);
 
   Future<Charge> create({String idempotencyKey}) async {
-    var dataMap = await StripeService.create([Charge._path], _getMap(), idempotencyKey: idempotencyKey);
+    var dataMap = await StripeService.create([Charge._path], _getMap(),
+        idempotencyKey: idempotencyKey);
     return new Charge.fromMap(dataMap);
   }
 }
@@ -199,7 +213,8 @@ class ChargeUpdate extends ResourceRequest {
   set fraudDetails(Map fraudDetails) => _setMap('fraud_details', fraudDetails);
 
   Future<Charge> update(String chargeId) async {
-    var dataMap = await StripeService.update([Charge._path, chargeId], _getMap());
+    var dataMap =
+        await StripeService.update([Charge._path, chargeId], _getMap());
     return new Charge.fromMap(dataMap);
   }
 }

@@ -95,7 +95,8 @@ class Account extends ApiResource {
   }
 
   /// [List all connected accounts](https://stripe.com/docs/api/curl#list_accounts)
-  static Future<AccountCollection> list({int limit, String startingAfter, String endingBefore}) async {
+  static Future<AccountCollection> list(
+      {int limit, String startingAfter, String endingBefore}) async {
     var data = {};
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (limit != null) data['limit'] = limit;
@@ -114,66 +115,88 @@ class AccountCreation extends ResourceRequest {
 
   set email(String email) => _setMap('email', email);
 
-  set businessName(String businessName) => _setMap('business_name', businessName);
+  set businessName(String businessName) =>
+      _setMap('business_name', businessName);
 
   set businessUrl(String businessUrl) => _setMap('business_url', businessUrl);
 
-  set supportPhone(String supportPhone) => _setMap('support_phone', supportPhone);
+  set supportPhone(String supportPhone) =>
+      _setMap('support_phone', supportPhone);
 
-  set bankAccount(BankAccount bankAccount) => _setMap('bank_account', bankAccount);
+  set bankAccount(BankAccount bankAccount) =>
+      _setMap('bank_account', bankAccount);
 
-  set debitNegativeBalances(bool debitNegativeBalances) => _setMap('debit_negative_balances', debitNegativeBalances);
+  set debitNegativeBalances(bool debitNegativeBalances) =>
+      _setMap('debit_negative_balances', debitNegativeBalances);
 
-  set defaultCurrency(String defaultCurrency) => _setMap('default_currency', defaultCurrency);
+  set defaultCurrency(String defaultCurrency) =>
+      _setMap('default_currency', defaultCurrency);
 
-  set legalEntity(LegalEntity legalEntity) => _setMap('legal_entity', legalEntity);
+  set legalEntity(LegalEntity legalEntity) =>
+      _setMap('legal_entity', legalEntity);
 
-  set productDescription(String productDescription) => _setMap('product_description', productDescription);
+  set productDescription(String productDescription) =>
+      _setMap('product_description', productDescription);
 
-  set statementDescriptor(String statementDescriptor) => _setMap('statement_descriptor', statementDescriptor);
+  set statementDescriptor(String statementDescriptor) =>
+      _setMap('statement_descriptor', statementDescriptor);
 
-  set tosAcceptance(TosAcceptance tosAcceptance) => _setMap('tos_acceptance', tosAcceptance);
+  set tosAcceptance(TosAcceptance tosAcceptance) =>
+      _setMap('tos_acceptance', tosAcceptance);
 
-  set transferSchedule(TransferSchedule transferSchedule) => _setMap('transfer_schedule', transferSchedule);
+  set transferSchedule(TransferSchedule transferSchedule) =>
+      _setMap('transfer_schedule', transferSchedule);
 
   set metadata(Map metadata) => _setMap('metadata', metadata);
 
   Future<Account> create() async {
-    var dataMap = await StripeService.create([Account._pathMultiple], _getMap());
+    var dataMap =
+        await StripeService.create([Account._pathMultiple], _getMap());
     return new Account.fromMap(dataMap);
   }
 }
 
 /// [Update an account](https://stripe.com/docs/api/curl#update_account)
 class AccountUpdate extends ResourceRequest {
-  set businessName(String businessName) => _setMap('business_name', businessName);
+  set businessName(String businessName) =>
+      _setMap('business_name', businessName);
 
   set businessUrl(String businessUrl) => _setMap('business_url', businessUrl);
 
-  set supportPhone(String supportPhone) => _setMap('support_phone', supportPhone);
+  set supportPhone(String supportPhone) =>
+      _setMap('support_phone', supportPhone);
 
-  set bankAccount(BankAccount bankAccount) => _setMap('bank_account', bankAccount.toMap());
+  set bankAccount(BankAccount bankAccount) =>
+      _setMap('bank_account', bankAccount.toMap());
 
-  set debitNegativeBalances(bool debitNegativeBalances) => _setMap('debit_negative_balances', debitNegativeBalances);
+  set debitNegativeBalances(bool debitNegativeBalances) =>
+      _setMap('debit_negative_balances', debitNegativeBalances);
 
-  set defaultCurrency(String defaultCurrency) => _setMap('default_currency', defaultCurrency);
+  set defaultCurrency(String defaultCurrency) =>
+      _setMap('default_currency', defaultCurrency);
 
   set email(String email) => _setMap('email', email);
 
-  set legalEntity(LegalEntity legalEntity) => _setMap('legal_entity', legalEntity);
+  set legalEntity(LegalEntity legalEntity) =>
+      _setMap('legal_entity', legalEntity);
 
-  set productDescription(String productDescription) => _setMap('product_description', productDescription);
+  set productDescription(String productDescription) =>
+      _setMap('product_description', productDescription);
 
-  set statementDescriptor(String statementDescriptor) => _setMap('statement_descriptor', statementDescriptor);
+  set statementDescriptor(String statementDescriptor) =>
+      _setMap('statement_descriptor', statementDescriptor);
 
-  set tosAcceptance(TosAcceptance tosAcceptance) => _setMap('tos_acceptance', tosAcceptance);
+  set tosAcceptance(TosAcceptance tosAcceptance) =>
+      _setMap('tos_acceptance', tosAcceptance);
 
-  set transferSchedule(TransferSchedule transferSchedule) => _setMap('transfer_schedule', transferSchedule);
+  set transferSchedule(TransferSchedule transferSchedule) =>
+      _setMap('transfer_schedule', transferSchedule);
 
   set metadata(Map metadata) => _setMap('metadata', metadata);
 
   Future<Account> update(String accountId) async {
-    var dataMap = await StripeService.update([Account._pathMultiple, accountId], _getMap());
+    var dataMap = await StripeService.update(
+        [Account._pathMultiple, accountId], _getMap());
     return new Account.fromMap(dataMap);
   }
 }
