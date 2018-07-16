@@ -11,13 +11,13 @@ class Balance extends Resource {
   List<Fund> get available {
     List funds = _dataMap['available'];
     assert(funds != null);
-    return funds.map((Map fund) => new Fund.fromMap(fund)).toList(growable: false);
+    return funds.map((fund) => new Fund.fromMap(fund)).toList(growable: false);
   }
 
   List<Fund> get pending {
     List funds = _dataMap['pending'];
     assert(funds != null);
-    return funds.map((Map fund) => new Fund.fromMap(fund)).toList(growable: false);
+    return funds.map((fund) => new Fund.fromMap(fund)).toList(growable: false);
   }
 
   Balance.fromMap(Map dataMap) : super.fromMap(dataMap);
@@ -49,7 +49,7 @@ class BalanceTransaction extends ApiResource {
   List<FeeDetails> get feeDetails {
     List feeDetails = _dataMap['fee_details'];
     assert(feeDetails != null);
-    return feeDetails.map((Map feeDetails) => new FeeDetails.fromMap(feeDetails)).toList(growable: false);
+    return feeDetails.map((feeDetails) => new FeeDetails.fromMap(feeDetails)).toList(growable: false);
   }
 
   int get net => _dataMap['net'];

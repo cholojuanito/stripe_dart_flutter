@@ -2,7 +2,7 @@ library legal_entity_tests;
 
 import 'dart:convert';
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../../lib/stripe.dart';
 import '../utils.dart' as utils;

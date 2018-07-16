@@ -1,6 +1,6 @@
 library resource_tests;
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../lib/stripe.dart' as stripe;
 

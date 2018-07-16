@@ -59,7 +59,7 @@ class ApplicationFee extends ApiResource {
   List<Refund> get refunds {
     List value = _dataMap['refunds'];
     assert(value != null);
-    return value.map((Map refund) => new Refund.fromMap(refund)).toList(growable: false);
+    return value.map((refund) => new Refund.fromMap(refund)).toList(growable: false);
   }
 
   int get amountRefunded => _dataMap['amount_refunded'];
