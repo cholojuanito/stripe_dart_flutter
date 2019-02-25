@@ -1,3 +1,7 @@
+## 1.3.1 (2019-02-25)
+
+- Upgrade dependencies
+
 ## 1.3.0 (2018-07-16)
 
 - Make changes to be dart 2.0 compatible
