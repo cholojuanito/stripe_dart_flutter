@@ -26,7 +26,7 @@ class ApplicationFee extends ApiResource {
     if (value == null)
       return null;
     else
-      return new Account.fromMap(value);
+      return  Account.fromMap(value);
   }
 
   int get amount => resourceMap['amount'];
@@ -42,7 +42,7 @@ class ApplicationFee extends ApiResource {
     if (value == null)
       return null;
     else
-      return new BalanceTransaction.fromMap(value);
+      return  BalanceTransaction.fromMap(value);
   }
 
   String get charge {
@@ -54,7 +54,7 @@ class ApplicationFee extends ApiResource {
     if (value == null)
       return null;
     else
-      return new Charge.fromMap(value);
+      return  Charge.fromMap(value);
   }
 
   DateTime get created => getDateTimeFromMap('created');
@@ -67,7 +67,7 @@ class ApplicationFee extends ApiResource {
     List value = resourceMap['refunds'];
     assert(value != null);
     return value
-        .map((refund) => new Refund.fromMap(refund))
+        .map((refund) =>  Refund.fromMap(refund))
         .toList(growable: false);
   }
 
@@ -79,7 +79,7 @@ class ApplicationFee extends ApiResource {
   static Future<ApplicationFee> retrieve(String applicationFeeId) async {
     var dataMap =
         await StripeService.get([ApplicationFee.path, applicationFeeId]);
-    return new ApplicationFee.fromMap(dataMap);
+    return  ApplicationFee.fromMap(dataMap);
   }
 
   /// [Refunding an Application Fee](https://stripe.com/docs/api/curl#refund_application_fee)
@@ -91,7 +91,7 @@ class ApplicationFee extends ApiResource {
     var dataMap = await StripeService.post(
         [ApplicationFee.path, applicationFeeId, 'refund'],
         data: data);
-    return new ApplicationFee.fromMap(dataMap);
+    return  ApplicationFee.fromMap(dataMap);
   }
 
   /// [List all Application Fees](https://stripe.com/docs/api/curl#list_application_fees)
@@ -108,12 +108,12 @@ class ApplicationFee extends ApiResource {
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
     var dataMap = await StripeService.list([ApplicationFee.path], data: data);
-    return new ApplicationFeeCollection.fromMap(dataMap);
+    return  ApplicationFeeCollection.fromMap(dataMap);
   }
 }
 
 class ApplicationFeeCollection extends ResourceCollection {
-  ApplicationFee getInstanceFromMap(map) => new ApplicationFee.fromMap(map);
+  ApplicationFee getInstanceFromMap(map) =>  ApplicationFee.fromMap(map);
 
   ApplicationFeeCollection.fromMap(Map map) : super.fromMap(map);
 }

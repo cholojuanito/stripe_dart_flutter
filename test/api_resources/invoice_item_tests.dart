@@ -30,10 +30,10 @@ main(List<String> args) {
   group('InvoiceItem offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var invoiceItem = new InvoiceItem.fromMap(map);
+      var invoiceItem =  InvoiceItem.fromMap(map);
       expect(invoiceItem.id, map['id']);
       expect(invoiceItem.date,
-          new DateTime.fromMillisecondsSinceEpoch(map['date'] * 1000));
+           DateTime.fromMillisecondsSinceEpoch(map['date'] * 1000));
       expect(invoiceItem.amount, map['amount']);
       expect(invoiceItem.livemode, map['livemode']);
       expect(invoiceItem.proration, map['proration']);
@@ -62,14 +62,14 @@ main(List<String> args) {
           chargeAmount = 100,
           chargeCurrency = 'usd';
 
-      var customer = await new CustomerCreation().create();
-      await (new CardCreation()
+      var customer = await  CustomerCreation().create();
+      await ( CardCreation()
             ..number = cardNumber
             ..expMonth = cardExpMonth
             ..expYear = cardExpYear
             ..cvc = cvc)
           .create(customer.id);
-      var invoiceItem = await (new InvoiceItemCreation()
+      var invoiceItem = await ( InvoiceItemCreation()
             ..customer = customer.id
             ..amount = chargeAmount
             ..currency = chargeCurrency)
@@ -86,7 +86,7 @@ main(List<String> args) {
           cardExpYear = 2020,
           cvc = 123;
 
-      var cardCreation = new CardCreation()
+      var cardCreation =  CardCreation()
         ..number = cardNumber
         ..expMonth = cardExpMonth
         ..expYear = cardExpYear
@@ -111,18 +111,18 @@ main(List<String> args) {
           invoiceItemDescription2 = 'test description2',
           invoiceItemMetadata2 = {'foo': 'bar2'};
 
-      var plan = await (new PlanCreation()
+      var plan = await ( PlanCreation()
             ..id = planId
             ..amount = planAmount
             ..currency = planCurrency
             ..interval = planInterval
             ..name = planName)
           .create();
-      var customer = await new CustomerCreation().create();
+      var customer = await  CustomerCreation().create();
       await cardCreation.create(customer.id);
-      var subscription = await (new SubscriptionCreation()..plan = plan.id)
+      var subscription = await ( SubscriptionCreation()..plan = plan.id)
           .create(customer.id);
-      var invoiceItem = await (new InvoiceItemCreation()
+      var invoiceItem = await ( InvoiceItemCreation()
             ..customer = customer.id
             ..amount = invoiceItemAmount1
             ..currency = invoiceItemCurrency
@@ -146,7 +146,7 @@ main(List<String> args) {
       expect(invoiceItem.description, invoiceItemDescription1);
       expect(invoiceItem.metadata, invoiceItemMetadata1);
       // testing InvoiceitemUpdate
-      invoiceItem = await (new InvoiceItemUpdate()
+      invoiceItem = await ( InvoiceItemUpdate()
             ..amount = invoiceItemAmount2
             ..description = invoiceItemDescription2
             ..metadata = invoiceItemMetadata2)
@@ -171,9 +171,9 @@ main(List<String> args) {
           chargeAmount = 100,
           chargeCurrency = 'usd';
 
-      var customer = await new CustomerCreation().create();
+      var customer = await  CustomerCreation().create();
 
-      await (new CardCreation()
+      await ( CardCreation()
             ..number = cardNumber
             ..expMonth = cardExpMonth
             ..expYear = cardExpYear
@@ -181,7 +181,7 @@ main(List<String> args) {
           .create(customer.id);
 
       for (var i = 0; i < 20; i++) {
-        await (new InvoiceItemCreation()
+        await ( InvoiceItemCreation()
               ..customer = customer.id
               ..amount = chargeAmount
               ..currency = chargeCurrency)

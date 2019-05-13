@@ -52,7 +52,7 @@ class Account extends ApiResource {
   BankAccountCollection get bankAccounts {
     Map value = resourceMap['bank_accounts'];
     assert(value != null);
-    return new BankAccountCollection.fromMap(value);
+    return  BankAccountCollection.fromMap(value);
   }
 
   bool get debitNegativeBalances => resourceMap['debit_negative_balances'];
@@ -62,7 +62,7 @@ class Account extends ApiResource {
     if (value == null)
       return null;
     else
-      return new LegalEntity.fromMap(value);
+      return  LegalEntity.fromMap(value);
   }
 
   String get productDescription => resourceMap['product_description'];
@@ -72,7 +72,7 @@ class Account extends ApiResource {
     if (value == null)
       return null;
     else
-      return new TosAcceptance.fromMap(value);
+      return  TosAcceptance.fromMap(value);
   }
 
   TransferSchedule get transferSchedule {
@@ -80,7 +80,7 @@ class Account extends ApiResource {
     if (value == null)
       return null;
     else
-      return new TransferSchedule.fromMap(value);
+      return  TransferSchedule.fromMap(value);
   }
 
   Verification get verification {
@@ -88,7 +88,7 @@ class Account extends ApiResource {
     if (value == null)
       return null;
     else
-      return new Verification.fromMap(value);
+      return  Verification.fromMap(value);
   }
 
   Map get keys => resourceMap['keys'];
@@ -100,7 +100,7 @@ class Account extends ApiResource {
     var parameters = [Account.pathSingle];
     if (accountId != null) parameters.add(accountId);
     var dataMap = await StripeService.retrieve(parameters);
-    return new Account.fromMap(dataMap);
+    return  Account.fromMap(dataMap);
   }
 
   /// [List all connected accounts](https://stripe.com/docs/api/curl#list_accounts)
@@ -112,7 +112,7 @@ class Account extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (data == {}) data = null;
     var dataMap = await StripeService.list([Account.pathMultiple], data: data);
-    return new AccountCollection.fromMap(dataMap);
+    return  AccountCollection.fromMap(dataMap);
   }
 }
 
@@ -160,7 +160,7 @@ class AccountCreation extends ResourceRequest {
 
   Future<Account> create() async {
     var dataMap = await StripeService.create([Account.pathMultiple], getMap());
-    return new Account.fromMap(dataMap);
+    return  Account.fromMap(dataMap);
   }
 }
 
@@ -205,12 +205,12 @@ class AccountUpdate extends ResourceRequest {
   Future<Account> update(String accountId) async {
     var dataMap =
         await StripeService.update([Account.pathMultiple, accountId], getMap());
-    return new Account.fromMap(dataMap);
+    return  Account.fromMap(dataMap);
   }
 }
 
 class AccountCollection extends ResourceCollection {
-  Account getInstanceFromMap(map) => new Account.fromMap(map);
+  Account getInstanceFromMap(map) =>  Account.fromMap(map);
 
   AccountCollection.fromMap(Map map) : super.fromMap(map);
 }

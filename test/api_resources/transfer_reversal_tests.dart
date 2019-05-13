@@ -36,14 +36,14 @@ main(List<String> args) {
   group('TransferReversal offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var reversal = new TransferReversal.fromMap(map);
+      var reversal =  TransferReversal.fromMap(map);
       expect(reversal.id, map['id']);
       expect(reversal.amount, map['amount']);
       expect(reversal.created,
-          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+           DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(reversal.currency, map['currency']);
       expect(reversal.balanceTransactionExpand.toMap(),
-          new BalanceTransaction.fromMap(map['balance_transaction']).toMap());
+           BalanceTransaction.fromMap(map['balance_transaction']).toMap());
       expect(reversal.transfer, map['transfer']);
     });
   });

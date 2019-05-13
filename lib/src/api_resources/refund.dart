@@ -29,7 +29,7 @@ class Refund extends ApiResource {
     if (value == null)
       return null;
     else
-      return new BalanceTransaction.fromMap(value);
+      return  BalanceTransaction.fromMap(value);
   }
 
   String get charge => resourceMap['charge'];
@@ -50,7 +50,7 @@ class Refund extends ApiResource {
     var dataMap = await StripeService.retrieve(
         [Charge.path, chargeId, Refund.path, refundId],
         data: data);
-    return new Refund.fromMap(dataMap);
+    return  Refund.fromMap(dataMap);
   }
 
   /// [List all refunds](https://stripe.com/docs/api#list_refunds)
@@ -63,7 +63,7 @@ class Refund extends ApiResource {
     if (data == {}) data = null;
     var dataMap = await StripeService.list([Charge.path, chargeId, Refund.path],
         data: data);
-    return new RefundCollection.fromMap(dataMap);
+    return  RefundCollection.fromMap(dataMap);
   }
 }
 
@@ -81,7 +81,7 @@ class RefundCreation extends ResourceRequest {
   Future<Refund> create(String chargeId) async {
     var dataMap = await StripeService.create(
         [Charge.path, chargeId, Refund.path], getMap());
-    return new Refund.fromMap(dataMap);
+    return  Refund.fromMap(dataMap);
   }
 }
 
@@ -92,12 +92,12 @@ class RefundUpdate extends ResourceRequest {
   Future<Refund> update(String chargeId, String refundId) async {
     var dataMap = await StripeService.update(
         [Charge.path, chargeId, Refund.path, refundId], getMap());
-    return new Refund.fromMap(dataMap);
+    return  Refund.fromMap(dataMap);
   }
 }
 
 class RefundCollection extends ResourceCollection {
-  Refund getInstanceFromMap(map) => new Refund.fromMap(map);
+  Refund getInstanceFromMap(map) =>  Refund.fromMap(map);
 
   RefundCollection.fromMap(Map map) : super.fromMap(map);
 }

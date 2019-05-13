@@ -22,7 +22,7 @@ abstract class Resource {
     if ((cachedValue = _cachedDataMap[key]) != null) return cachedValue;
     if (resourceMap[key] == null) return null;
     int value = resourceMap[key];
-    cachedValue = new DateTime.fromMillisecondsSinceEpoch(value * 1000);
+    cachedValue = DateTime.fromMillisecondsSinceEpoch(value * 1000);
     _cachedDataMap[key] = cachedValue;
     return cachedValue;
   }
@@ -50,7 +50,7 @@ abstract class ResourceRequest {
   Map<String, dynamic> _map = {};
 
   setMap(String key, dynamic value) {
-    if (_map.containsKey(key)) throw new KeyAlreadyExistsException(key);
+    if (_map.containsKey(key)) throw KeyAlreadyExistsException(key);
     _map[key] = value;
   }
 
@@ -63,7 +63,7 @@ abstract class ResourceRequest {
   }
 
   String _underscore(String camelized) {
-    return camelized.replaceAllMapped(new RegExp(r'([A-Z])'),
+    return camelized.replaceAllMapped(RegExp(r'([A-Z])'),
         (Match match) => '_${match.group(1).toLowerCase()}');
   }
 

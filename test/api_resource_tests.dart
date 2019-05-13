@@ -17,16 +17,16 @@ main() {
   group('Resource', () {
     test('should fail if the `object` key is not correct or null', () {
       var map = {'object': 'test'};
-      expect(new TestResource.fromMap(map).object, 'test');
+      expect( TestResource.fromMap(map).object, 'test');
       map = {'object': 'incorrect'};
-      expect(() => new TestResource.fromMap(map), throwsException);
-      expect(() => new TestResource2.fromMap(map),
+      expect(() =>  TestResource.fromMap(map), throwsException);
+      expect(() =>  TestResource2.fromMap(map),
           throwsA(const TypeMatcher<AssertionError>()));
     });
 
     test('should fail the dataMap is null', () {
       var map = null;
-      expect(() => new TestResource.fromMap(map), throwsException);
+      expect(() =>  TestResource.fromMap(map), throwsException);
     });
   });
 }

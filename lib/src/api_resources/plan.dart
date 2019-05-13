@@ -36,7 +36,7 @@ class Plan extends ApiResource {
   /// [Retrieving a Plan](https://stripe.com/docs/api/curl#retrieve_plan)
   static Future<Plan> retrieve(String id) async {
     var dataMap = await StripeService.retrieve([Plan.path, id]);
-    return new Plan.fromMap(dataMap);
+    return  Plan.fromMap(dataMap);
   }
 
   /// [List all Plans](https://stripe.com/docs/api/curl#list_plans)
@@ -48,7 +48,7 @@ class Plan extends ApiResource {
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
     var dataMap = await StripeService.list([Plan.path], data: data);
-    return new PlanCollection.fromMap(dataMap);
+    return  PlanCollection.fromMap(dataMap);
   }
 
   /// [Deleting a plan](https://stripe.com/docs/api/curl#delete_plan)
@@ -56,7 +56,7 @@ class Plan extends ApiResource {
 }
 
 class PlanCollection extends ResourceCollection {
-  Plan getInstanceFromMap(map) => new Plan.fromMap(map);
+  Plan getInstanceFromMap(map) =>  Plan.fromMap(map);
 
   PlanCollection.fromMap(Map map) : super.fromMap(map);
 }
@@ -91,7 +91,7 @@ class PlanCreation extends ResourceRequest {
 
   Future<Plan> create() async {
     var dataMap = await StripeService.create([Plan.path], getMap());
-    return new Plan.fromMap(dataMap);
+    return  Plan.fromMap(dataMap);
   }
 }
 
@@ -106,6 +106,6 @@ class PlanUpdate extends ResourceRequest {
 
   Future<Plan> update(String planId) async {
     var dataMap = await StripeService.update([Plan.path, planId], getMap());
-    return new Plan.fromMap(dataMap);
+    return  Plan.fromMap(dataMap);
   }
 }

@@ -31,15 +31,15 @@ main(List<String> args) {
   group('LegalEntity offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var legalEntity = new LegalEntity.fromMap(map);
+      var legalEntity =  LegalEntity.fromMap(map);
       expect(legalEntity.address.toMap(),
-          new Address.fromMap(map['address']).toMap());
+           Address.fromMap(map['address']).toMap());
       expect(legalEntity.dateOfBirth.toMap(),
-          new Date.fromMap(map['dob']).toMap());
+           Date.fromMap(map['dob']).toMap());
       expect(legalEntity.personalAddress.toMap(),
-          new Address.fromMap(map['personal_address']).toMap());
+           Address.fromMap(map['personal_address']).toMap());
       expect(legalEntity.additionalOwners.first.toMap(),
-          new Address.fromMap(map['additional_owners'].first).toMap());
+           Address.fromMap(map['additional_owners'].first).toMap());
       expect(legalEntity.businessName, map['business_name']);
       expect(legalEntity.firstName, map['first_name']);
       expect(legalEntity.lastName, map['last_name']);

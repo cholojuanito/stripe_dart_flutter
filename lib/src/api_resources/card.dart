@@ -53,7 +53,7 @@ class Card extends ApiResource {
     if (value == null)
       return null;
     else
-      return new Customer.fromMap(value);
+      return  Customer.fromMap(value);
   }
 
   String get cvcCheck => resourceMap['cvc_check'];
@@ -68,7 +68,7 @@ class Card extends ApiResource {
     var dataMap = await StripeService.retrieve(
         [Customer.path, customerId, Card.path, cardId],
         data: data);
-    return new Card.fromMap(dataMap);
+    return  Card.fromMap(dataMap);
   }
 
   /// [Listing cards](https://stripe.com/docs/api/curl#list_cards)
@@ -82,7 +82,7 @@ class Card extends ApiResource {
     var dataMap = await StripeService.list(
         [Customer.path, customerId, Card.path],
         data: data);
-    return new CardCollection.fromMap(dataMap);
+    return  CardCollection.fromMap(dataMap);
   }
 
   /// [Deleting cards](https://stripe.com/docs/api/curl#delete_card)
@@ -91,12 +91,12 @@ class Card extends ApiResource {
 }
 
 class CardCollection extends ResourceCollection {
-  Card getInstanceFromMap(map) => new Card.fromMap(map);
+  Card getInstanceFromMap(map) =>  Card.fromMap(map);
 
   CardCollection.fromMap(Map map) : super.fromMap(map);
 }
 
-/// [Creating a new card](https://stripe.com/docs/api/curl#create_card)
+/// [Creating a  card](https://stripe.com/docs/api/curl#create_card)
 class CardCreation extends ResourceRequest implements SourceCreation {
   CardCreation() {
     setMap('object', 'card');
@@ -135,11 +135,11 @@ class CardCreation extends ResourceRequest implements SourceCreation {
   Future<Card> create(String customerId) async {
     var dataMap = await StripeService.create(
         [Customer.path, customerId, Card.path], {'card': getMap()});
-    return new Card.fromMap(dataMap);
+    return  Card.fromMap(dataMap);
   }
 }
 
-/// [Creating a new card](https://stripe.com/docs/api/curl#create_card)
+/// [Creating a  card](https://stripe.com/docs/api/curl#create_card)
 class CardCreationWithToken extends ResourceRequest implements SourceCreation {
   //@required
   set token(String token) {
@@ -153,7 +153,7 @@ class CardCreationWithToken extends ResourceRequest implements SourceCreation {
   Future<Card> create(String customerId) async {
     var dataMap = await StripeService.create(
         [Customer.path, customerId, Card.path], {'source': getMap()});
-    return new Card.fromMap(dataMap);
+    return  Card.fromMap(dataMap);
   }
 }
 
@@ -184,6 +184,6 @@ class CardUpdate extends ResourceRequest {
   Future<Card> update(String customerId, String cardId) async {
     var dataMap = await StripeService.update(
         [Customer.path, customerId, Card.path, cardId], getMap());
-    return new Card.fromMap(dataMap);
+    return  Card.fromMap(dataMap);
   }
 }

@@ -32,7 +32,7 @@ class Customer extends ApiResource {
     if (value == null)
       return null;
     else
-      return new Card.fromMap(value);
+      return  Card.fromMap(value);
   }
 
   bool get delinquent => resourceMap['delinquent'];
@@ -44,7 +44,7 @@ class Customer extends ApiResource {
     if (value == null)
       return null;
     else
-      return new Discount.fromMap(value);
+      return  Discount.fromMap(value);
   }
 
   String get email => resourceMap['email'];
@@ -56,7 +56,7 @@ class Customer extends ApiResource {
     if (value == null)
       return null;
     else
-      return new CardCollection.fromMap(value);
+      return  CardCollection.fromMap(value);
   }
 
   SubscriptionCollection get subscriptions {
@@ -64,7 +64,7 @@ class Customer extends ApiResource {
     if (value == null)
       return null;
     else
-      return new SubscriptionCollection.fromMap(value);
+      return  SubscriptionCollection.fromMap(value);
   }
 
   Customer.fromMap(Map dataMap) : super.fromMap(dataMap);
@@ -73,7 +73,7 @@ class Customer extends ApiResource {
   static Future<Customer> retrieve(String customerId, {final Map data}) async {
     var dataMap =
         await StripeService.retrieve([Customer.path, customerId], data: data);
-    return new Customer.fromMap(dataMap);
+    return  Customer.fromMap(dataMap);
   }
 
   /// [List all Customers](https://stripe.com/docs/api#list_customers)
@@ -89,7 +89,7 @@ class Customer extends ApiResource {
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
     var dataMap = await StripeService.list([Customer.path], data: data);
-    return new CustomerCollection.fromMap(dataMap);
+    return  CustomerCollection.fromMap(dataMap);
   }
 
   /// [Delete a customer](https://stripe.com/docs/api#delete_customer)
@@ -98,7 +98,7 @@ class Customer extends ApiResource {
 }
 
 class CustomerCollection extends ResourceCollection {
-  Customer getInstanceFromMap(map) => new Customer.fromMap(map);
+  Customer getInstanceFromMap(map) =>  Customer.fromMap(map);
 
   CustomerCollection.fromMap(Map map) : super.fromMap(map);
 }
@@ -127,7 +127,7 @@ class CustomerCreation extends ResourceRequest {
   Future<Customer> create({String idempotencyKey}) async {
     var dataMap = await StripeService.create([Customer.path], getMap(),
         idempotencyKey: idempotencyKey);
-    return new Customer.fromMap(dataMap);
+    return  Customer.fromMap(dataMap);
   }
 }
 
@@ -153,6 +153,6 @@ class CustomerUpdate extends ResourceRequest {
   Future<Customer> update(String customerId) async {
     var dataMap =
         await StripeService.update([Customer.path, customerId], getMap());
-    return new Customer.fromMap(dataMap);
+    return  Customer.fromMap(dataMap);
   }
 }

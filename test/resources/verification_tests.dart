@@ -21,11 +21,11 @@ main(List<String> args) {
   group('Verification offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var verification = new Verification.fromMap(map);
+      var verification =  Verification.fromMap(map);
       expect(verification.status, map['status']);
       expect(verification.details, map['details']);
       expect(verification.documentExpand.toMap(),
-          new FileUpload.fromMap(map['document']).toMap());
+           FileUpload.fromMap(map['document']).toMap());
     });
   });
 }

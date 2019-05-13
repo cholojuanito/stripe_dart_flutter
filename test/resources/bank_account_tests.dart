@@ -15,7 +15,7 @@ var example = '''
       "currency": "usd",
       "default_for_currency": false,
       "last4": "6789",
-      "status": "new",
+      "status": "",
       "bank_name": "STRIPE TEST BANK",
       "fingerprint": "w3wTQ7xfYhoIBIcK",
       "routing_number": "110000000",
@@ -37,7 +37,7 @@ main(List<String> args) {
   group('BankAccount offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var bankAccount = new BankAccount.fromMap(map);
+      var bankAccount =  BankAccount.fromMap(map);
       expect(bankAccount.id, map['id']);
       expect(bankAccount.object, map['object']);
       expect(bankAccount.country, map['country']);

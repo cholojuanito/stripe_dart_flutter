@@ -16,10 +16,10 @@ import "package:stripe/stripe.dart";
 
 main() async {
 
-  var cardCreation = new CardCreation()
+  var cardCreation =  CardCreation()
       ..number = '123123123';
 
-  var customerCreation = new CustomerCreation()
+  var customerCreation =  CustomerCreation()
       ..description = 'Customer for test@example.com'
       ..card = card;
       

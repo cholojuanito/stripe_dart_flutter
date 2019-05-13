@@ -28,7 +28,7 @@ class Token extends ApiResource {
     if (value == null)
       return null;
     else
-      return new BankAccount.fromMap(value);
+      return  BankAccount.fromMap(value);
   }
 
   Card get card {
@@ -36,7 +36,7 @@ class Token extends ApiResource {
     if (value == null)
       return null;
     else
-      return new Card.fromMap(value);
+      return  Card.fromMap(value);
   }
 
   Token.fromMap(Map dataMap) : super.fromMap(dataMap);
@@ -44,7 +44,7 @@ class Token extends ApiResource {
   /// [Retrieving a Token](https://stripe.com/docs/api/curl#retrieve_token)
   static Future<Token> retrieve(String tokenId) async {
     var dataMap = await StripeService.retrieve([Token.path, tokenId]);
-    return new Token.fromMap(dataMap);
+    return  Token.fromMap(dataMap);
   }
 }
 
@@ -56,7 +56,7 @@ class CardTokenCreation extends ResourceRequest {
 
   Future<Token> create() async {
     var dataMap = await StripeService.create([Token.path], getMap());
-    return new Token.fromMap(dataMap);
+    return  Token.fromMap(dataMap);
   }
 }
 
@@ -67,6 +67,6 @@ class BankAccountTokenCreation extends ResourceRequest {
 
   Future<Token> create() async {
     var dataMap = await StripeService.create([Token.path], getMap());
-    return new Token.fromMap(dataMap);
+    return  Token.fromMap(dataMap);
   }
 }

@@ -11,9 +11,9 @@ abstract class ApiResource extends Resource {
   ApiResource.fromMap(dataMap) : super.fromMap(dataMap) {
     assert(object != null);
     if (resourceMap == null)
-      throw new InvalidDataReceivedException('The dataMap must not be null');
+      throw InvalidDataReceivedException('The dataMap must not be null');
     if (resourceMap['object'] != object)
-      throw new InvalidDataReceivedException(
+      throw InvalidDataReceivedException(
           'The data received was not for object ${object}');
   }
 }

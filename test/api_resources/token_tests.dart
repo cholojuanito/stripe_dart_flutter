@@ -48,11 +48,11 @@ main(List<String> args) {
   group('Token offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var token = new Token.fromMap(map);
+      var token =  Token.fromMap(map);
       expect(token.id, map['id']);
       expect(token.livemode, map['livemode']);
       expect(token.created,
-          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+           DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(token.used, map['used']);
       expect(token.type, map['type']);
       var card = token.card;
@@ -85,9 +85,9 @@ main(List<String> args) {
           cardExpMonth = 12,
           cardExpYear = 2020,
           cvc = 123;
-      await new CustomerCreation().create();
-      var token = await (new CardTokenCreation()
-            ..card = (new CardCreation()
+      await  CustomerCreation().create();
+      var token = await ( CardTokenCreation()
+            ..card = ( CardCreation()
               ..number = cardNumber
               ..expMonth = cardExpMonth
               ..expYear = cardExpYear
@@ -113,9 +113,9 @@ main(List<String> args) {
 
     test('Create BankAccountToken', () async {
       var bankAccountMap = jsonDecode(bankAccountExample);
-      var bankAccount = new BankAccount.fromMap(bankAccountMap);
+      var bankAccount =  BankAccount.fromMap(bankAccountMap);
 
-      var token = await (new BankAccountTokenCreation()
+      var token = await ( BankAccountTokenCreation()
             ..bankAccount = bankAccount)
           .create();
       expect(token.id, const TypeMatcher<String>());

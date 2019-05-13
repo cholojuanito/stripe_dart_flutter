@@ -9,7 +9,7 @@ class AdditionalOwner extends Resource {
     if (value == null)
       return null;
     else
-      return new Address.fromMap(value);
+      return  Address.fromMap(value);
   }
 
   Date get dateOfBirth {
@@ -17,7 +17,7 @@ class AdditionalOwner extends Resource {
     if (value == null)
       return null;
     else
-      return new Date.fromMap(value);
+      return  Date.fromMap(value);
   }
 
   Verification get verification {
@@ -25,7 +25,7 @@ class AdditionalOwner extends Resource {
     if (value == null)
       return null;
     else
-      return new Verification.fromMap(value);
+      return  Verification.fromMap(value);
   }
 
   String get firstName => resourceMap['first_name'];
