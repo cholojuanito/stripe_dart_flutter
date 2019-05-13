@@ -47,21 +47,19 @@ abstract class Resource {
 abstract class ResourceRequest {
   /// Holds all values that have been set/changed.
   /// You should not access this map directly, but use [setMap] and [getMap].
-  Map<String, dynamic> resourceReqMap = {};
+  Map<String, dynamic> _map = {};
 
   setMap(String key, dynamic value) {
-    // TODO write a better exception
-    if (resourceReqMap.containsKey(key))
-      throw new BadRequestException('You can not set the same key twice.');
-    resourceReqMap[key] = value;
+    if (_map.containsKey(key)) throw new KeyAlreadyExistsException(key);
+    _map[key] = value;
   }
 
-  /// Returns the [resourceReqMap] and checks that all [required] fields are set.
+  /// Returns the [_map] and checks that all [required] fields are set.
   getMap() {
-    resourceReqMap.forEach((k, v) {
-      if (v is ResourceRequest) resourceReqMap[k] = v.getMap();
+    _map.forEach((k, v) {
+      if (v is ResourceRequest) _map[k] = v.getMap();
     });
-    return resourceReqMap;
+    return _map;
   }
 
   String _underscore(String camelized) {
@@ -70,6 +68,6 @@ abstract class ResourceRequest {
   }
 
   String toString() {
-    return resourceReqMap.toString();
+    return _map.toString();
   }
 }

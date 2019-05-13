@@ -61,3 +61,9 @@ class BadRequestException extends StripeApiException {
 
   String toString() => 'Bad request: ${errorMessage}.';
 }
+
+class KeyAlreadyExistsException extends StripeApiException {
+  KeyAlreadyExistsException(String key) : super(key);
+
+  String toString() => 'The \'${errorMessage}\' key already exists in this map';
+}
