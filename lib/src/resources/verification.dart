@@ -19,7 +19,7 @@ class Verification extends Resource {
     if (value == null)
       return null;
     else
-      return  FileUpload.fromMap(value);
+      return FileUpload.fromMap(value);
   }
 
   Verification.fromMap(Map dataMap) : super.fromMap(dataMap);

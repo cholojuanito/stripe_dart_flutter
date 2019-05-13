@@ -37,7 +37,7 @@ main(List<String> args) {
   group('BankAccount offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var bankAccount =  BankAccount.fromMap(map);
+      var bankAccount = BankAccount.fromMap(map);
       expect(bankAccount.id, map['id']);
       expect(bankAccount.object, map['object']);
       expect(bankAccount.country, map['country']);

@@ -10,7 +10,7 @@ class LegalEntity extends Resource {
     if (value == null)
       return null;
     else
-      return  Address.fromMap(value);
+      return Address.fromMap(value);
   }
 
   Date get dateOfBirth {
@@ -18,7 +18,7 @@ class LegalEntity extends Resource {
     if (value == null)
       return null;
     else
-      return  Date.fromMap(value);
+      return Date.fromMap(value);
   }
 
   Address get personalAddress {
@@ -26,7 +26,7 @@ class LegalEntity extends Resource {
     if (value == null)
       return null;
     else
-      return  Address.fromMap(value);
+      return Address.fromMap(value);
   }
 
   Verification get verification {
@@ -34,7 +34,7 @@ class LegalEntity extends Resource {
     if (value == null)
       return null;
     else
-      return  Verification.fromMap(value);
+      return Verification.fromMap(value);
   }
 
   List<AdditionalOwner> get additionalOwners {
@@ -42,7 +42,7 @@ class LegalEntity extends Resource {
     if (!resourceMap.containsKey('additional_owners') ||
         !(resourceMap['additional_owners'] is List)) return null;
     for (Map value in resourceMap['additional_owners']) {
-      list.add( AdditionalOwner.fromMap(value));
+      list.add(AdditionalOwner.fromMap(value));
     }
     return list;
   }

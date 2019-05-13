@@ -18,7 +18,7 @@ class Discount extends Resource {
     if (value == null)
       return null;
     else
-      return  Coupon.fromMap(value);
+      return Coupon.fromMap(value);
   }
 
   String get customer => resourceMap['customer'];

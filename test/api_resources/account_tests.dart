@@ -50,7 +50,7 @@ main(List<String> args) {
   group('Account offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var account =  Account.fromMap(map);
+      var account = Account.fromMap(map);
       expect(account.id, map['id']);
       expect(account.country, map['country']);
       expect(account.currenciesSupported, map['currencies_supported']);
@@ -67,17 +67,17 @@ main(List<String> args) {
       expect(account.supportPhone, map['support_phone']);
       expect(account.managed, map['managed']);
       expect(account.bankAccounts.toMap(),
-           BankAccount.fromMap(map['bank_accounts']).toMap());
+          BankAccount.fromMap(map['bank_accounts']).toMap());
       expect(account.debitNegativeBalances, map['debit_negative_balances']);
       expect(account.legalEntity.toMap(),
-           LegalEntity.fromMap(map['legal_entity']).toMap());
+          LegalEntity.fromMap(map['legal_entity']).toMap());
       expect(account.productDescription, map['product_description']);
       expect(account.tosAcceptance.toMap(),
-           TosAcceptance.fromMap(map['tos_acceptance']).toMap());
+          TosAcceptance.fromMap(map['tos_acceptance']).toMap());
       expect(account.transferSchedule.toMap(),
-           TransferSchedule.fromMap(map['transfer_schedule']).toMap());
+          TransferSchedule.fromMap(map['transfer_schedule']).toMap());
       expect(account.verification.toMap(),
-           Verification.fromMap(map['verification']).toMap());
+          Verification.fromMap(map['verification']).toMap());
     });
   });
 

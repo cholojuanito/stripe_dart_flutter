@@ -10,7 +10,7 @@ abstract class ResourceCollection<T> extends ApiResource {
     if ((data = resourceMap['data']) == null)
       return null;
     else {
-      var list =  List<T>();
+      var list = List<T>();
       for (var map in data) {
         list.add(getInstanceFromMap(map));
       }

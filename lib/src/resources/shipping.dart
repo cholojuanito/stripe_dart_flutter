@@ -7,7 +7,7 @@ class Shipping extends Resource {
     if (value == null)
       return null;
     else
-      return  Address.fromMap(value);
+      return Address.fromMap(value);
   }
 
   String get name => resourceMap['name'];

@@ -27,7 +27,7 @@ class Subscription extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Customer.fromMap(value);
+      return Customer.fromMap(value);
   }
 
   Plan get plan {
@@ -35,7 +35,7 @@ class Subscription extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Plan.fromMap(value);
+      return Plan.fromMap(value);
   }
 
   int get quantity => resourceMap['quantity'];
@@ -57,7 +57,7 @@ class Subscription extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Discount.fromMap(value);
+      return Discount.fromMap(value);
   }
 
   DateTime get endedAt => getDateTimeFromMap('ended_at');
@@ -76,7 +76,7 @@ class Subscription extends ApiResource {
     var dataMap = await StripeService.retrieve(
         [Customer.path, customerId, Subscription.path, subscriptionId],
         data: data);
-    return  Subscription.fromMap(dataMap);
+    return Subscription.fromMap(dataMap);
   }
 
   /// [Canceling a Customer's Subscription](https://stripe.com/docs/api/curl#cancel_subscription)
@@ -88,7 +88,7 @@ class Subscription extends ApiResource {
     var dataMap = await StripeService.delete(
         [Customer.path, customerId, Subscription.path, subscriptionId],
         data: data);
-    return  Subscription.fromMap(dataMap);
+    return Subscription.fromMap(dataMap);
   }
 
   /// [Listing subscriptions](https://stripe.com/docs/api/curl#list_subscriptions)
@@ -102,12 +102,12 @@ class Subscription extends ApiResource {
     var dataMap = await StripeService.list(
         [Customer.path, customerId, Subscription.path],
         data: data);
-    return  SubscriptionCollection.fromMap(dataMap);
+    return SubscriptionCollection.fromMap(dataMap);
   }
 }
 
 class SubscriptionCollection extends ResourceCollection {
-  Subscription getInstanceFromMap(map) =>  Subscription.fromMap(map);
+  Subscription getInstanceFromMap(map) => Subscription.fromMap(map);
 
   SubscriptionCollection.fromMap(Map map) : super.fromMap(map);
 }
@@ -133,7 +133,7 @@ class SubscriptionCreation extends ResourceRequest {
   Future<Subscription> create(String customerId) async {
     var dataMap = await StripeService.create(
         [Customer.path, customerId, Subscription.path], getMap());
-    return  Subscription.fromMap(dataMap);
+    return Subscription.fromMap(dataMap);
   }
 }
 
@@ -160,6 +160,6 @@ class SubscriptionUpdate extends ResourceRequest {
     var dataMap = await StripeService.create(
         [Customer.path, customerId, Subscription.path, subscriptionId],
         getMap());
-    return  Subscription.fromMap(dataMap);
+    return Subscription.fromMap(dataMap);
   }
 }

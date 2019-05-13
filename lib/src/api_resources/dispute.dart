@@ -25,7 +25,7 @@ class Dispute extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Charge.fromMap(value);
+      return Charge.fromMap(value);
   }
 
   DateTime get created => getDateTimeFromMap('created');
@@ -45,7 +45,7 @@ class Dispute extends ApiResource {
     if (value == null)
       return null;
     else
-      return  BalanceTransaction.fromMap(value);
+      return BalanceTransaction.fromMap(value);
   }
 
   String get evidence => resourceMap['evidence'];
@@ -68,6 +68,6 @@ class DisputeUpdate extends ResourceRequest {
   Future<Customer> update(String chargeId) async {
     var dataMap = await StripeService.update(
         [Charge.path, chargeId, Dispute.path], getMap());
-    return  Customer.fromMap(dataMap);
+    return Customer.fromMap(dataMap);
   }
 }

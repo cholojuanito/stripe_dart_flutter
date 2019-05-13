@@ -19,7 +19,7 @@ class Event extends ApiResource {
     if (value == null)
       return null;
     else
-      return  EventData.fromMap(value);
+      return EventData.fromMap(value);
   }
 
   int get pendingWebhooks => resourceMap['pending_webhooks'];
@@ -33,7 +33,7 @@ class Event extends ApiResource {
   /// [Retrieve an event](https://stripe.com/docs/api/curl#retrieve_event)
   static Future<Event> retrieve(String eventId) async {
     var dataMap = await StripeService.retrieve([Event.path, eventId]);
-    return  Event.fromMap(dataMap);
+    return Event.fromMap(dataMap);
   }
 
   /// [List all events](https://stripe.com/docs/api/curl#list_events)
@@ -50,12 +50,12 @@ class Event extends ApiResource {
     if (type != null) data['type'] = type;
     if (data == {}) data = null;
     var dataMap = await StripeService.list([Event.path], data: data);
-    return  EventCollection.fromMap(dataMap);
+    return EventCollection.fromMap(dataMap);
   }
 }
 
 class EventCollection extends ResourceCollection {
-  Event getInstanceFromMap(map) =>  Event.fromMap(map);
+  Event getInstanceFromMap(map) => Event.fromMap(map);
 
   EventCollection.fromMap(Map map) : super.fromMap(map);
 }

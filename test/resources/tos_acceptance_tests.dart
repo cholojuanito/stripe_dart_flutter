@@ -20,9 +20,9 @@ main(List<String> args) {
   group('TosAcceptance offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var tosAcceptance =  TosAcceptance.fromMap(map);
+      var tosAcceptance = TosAcceptance.fromMap(map);
       expect(tosAcceptance.date,
-           DateTime.fromMillisecondsSinceEpoch(map['date'] * 1000));
+          DateTime.fromMillisecondsSinceEpoch(map['date'] * 1000));
       expect(tosAcceptance.ip, map['ip']);
       expect(tosAcceptance.userAgent, map['user_agent']);
     });

@@ -29,7 +29,7 @@ class InvoiceItem extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Customer.fromMap(value);
+      return Customer.fromMap(value);
   }
 
   DateTime get date => getDateTimeFromMap('date');
@@ -47,7 +47,7 @@ class InvoiceItem extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Invoice.fromMap(value);
+      return Invoice.fromMap(value);
   }
 
   Map<String, String> get metadata => resourceMap['metadata'];
@@ -62,7 +62,7 @@ class InvoiceItem extends ApiResource {
     var dataMap = await StripeService.retrieve(
         [InvoiceItem.path, invoiceItemId],
         data: data);
-    return  InvoiceItem.fromMap(dataMap);
+    return InvoiceItem.fromMap(dataMap);
   }
 
   /// [List all Invoice Items](https://stripe.com/docs/api/curl#list_invoiceitems)
@@ -79,7 +79,7 @@ class InvoiceItem extends ApiResource {
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
     var dataMap = await StripeService.list([InvoiceItem.path], data: data);
-    return  InvoiceItemCollection.fromMap(dataMap);
+    return InvoiceItemCollection.fromMap(dataMap);
   }
 
   /// [Deleting an Invoice Item](https://stripe.com/docs/api/curl#delete_invoiceitem)
@@ -88,7 +88,7 @@ class InvoiceItem extends ApiResource {
 }
 
 class InvoiceItemCollection extends ResourceCollection {
-  InvoiceItem getInstanceFromMap(map) =>  InvoiceItem.fromMap(map);
+  InvoiceItem getInstanceFromMap(map) => InvoiceItem.fromMap(map);
 
   InvoiceItemCollection.fromMap(Map map) : super.fromMap(map);
 }
@@ -114,7 +114,7 @@ class InvoiceItemCreation extends ResourceRequest {
 
   Future<InvoiceItem> create() async {
     var dataMap = await StripeService.create([InvoiceItem.path], getMap());
-    return  InvoiceItem.fromMap(dataMap);
+    return InvoiceItem.fromMap(dataMap);
   }
 }
 
@@ -129,6 +129,6 @@ class InvoiceItemUpdate extends ResourceRequest {
   Future<InvoiceItem> update(String invoiceItemId) async {
     var dataMap =
         await StripeService.update([InvoiceItem.path, invoiceItemId], getMap());
-    return  InvoiceItem.fromMap(dataMap);
+    return InvoiceItem.fromMap(dataMap);
   }
 }

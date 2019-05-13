@@ -34,7 +34,7 @@ class Transfer extends ApiResource {
     if (value == null)
       return null;
     else
-      return  TransferReversalCollection.fromMap(value);
+      return TransferReversalCollection.fromMap(value);
   }
 
   bool get reversed => resourceMap['reversed'];
@@ -54,7 +54,7 @@ class Transfer extends ApiResource {
     if (value == null)
       return null;
     else
-      return  BalanceTransaction.fromMap(value);
+      return BalanceTransaction.fromMap(value);
   }
 
   String get description => resourceMap['description'];
@@ -77,11 +77,11 @@ class Transfer extends ApiResource {
     String object = value['object'];
     switch (object) {
       case 'card':
-        return  Card.fromMap(value);
+        return Card.fromMap(value);
       case 'account':
-        return  Account.fromMap(value);
+        return Account.fromMap(value);
       case 'bank_account':
-        return  BankAccount.fromMap(value);
+        return BankAccount.fromMap(value);
       default:
         return null;
     }
@@ -96,7 +96,7 @@ class Transfer extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Charge.fromMap(value);
+      return Charge.fromMap(value);
   }
 
   String get sourceTransaction {
@@ -109,7 +109,7 @@ class Transfer extends ApiResource {
     String object = value['object'];
     switch (object) {
       case 'charge':
-        return  Charge.fromMap(value);
+        return Charge.fromMap(value);
       default:
         return null;
     }
@@ -123,14 +123,14 @@ class Transfer extends ApiResource {
   static Future<Transfer> retrieve(String transferId, {final Map data}) async {
     var dataMap =
         await StripeService.retrieve([Transfer.path, transferId], data: data);
-    return  Transfer.fromMap(dataMap);
+    return Transfer.fromMap(dataMap);
   }
 
   /// [Canceling a Transfer](https://stripe.com/docs/api/curl#cancel_transfer)
   static Future<Transfer> cancel(String transferId) async {
     var dataMap =
         await StripeService.post([Transfer.path, transferId, 'cancel']);
-    return  Transfer.fromMap(dataMap);
+    return Transfer.fromMap(dataMap);
   }
 
   /// [List all transfers](https://stripe.com/docs/api#list_transfers)
@@ -152,12 +152,12 @@ class Transfer extends ApiResource {
     if (status != null) data['status'] = status;
     if (data == {}) data = null;
     var dataMap = await StripeService.list([Transfer.path], data: data);
-    return  TransferCollection.fromMap(dataMap);
+    return TransferCollection.fromMap(dataMap);
   }
 }
 
 class TransferCollection extends ResourceCollection {
-  Transfer getInstanceFromMap(map) =>  Transfer.fromMap(map);
+  Transfer getInstanceFromMap(map) => Transfer.fromMap(map);
 
   TransferCollection.fromMap(Map map) : super.fromMap(map);
 }
@@ -185,7 +185,7 @@ class TransferCreation extends ResourceRequest {
 
   Future<Transfer> create() async {
     var dataMap = await StripeService.create([Transfer.path], getMap());
-    return  Transfer.fromMap(dataMap);
+    return Transfer.fromMap(dataMap);
   }
 }
 
@@ -198,6 +198,6 @@ class TransferUpdate extends ResourceRequest {
   Future<Transfer> update(String transferId) async {
     var dataMap =
         await StripeService.create([Transfer.path, transferId], getMap());
-    return  Transfer.fromMap(dataMap);
+    return Transfer.fromMap(dataMap);
   }
 }

@@ -6,7 +6,7 @@ import 'dart:io';
 import '../lib/stripe.dart';
 import 'package:logging/logging.dart';
 
-var log =  Logger('Test Utils');
+var log = Logger('Test Utils');
 
 var metadataExample = '''
     {

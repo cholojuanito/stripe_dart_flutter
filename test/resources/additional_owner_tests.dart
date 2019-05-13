@@ -26,13 +26,13 @@ main(List<String> args) {
   group('AdditionalOwner offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var additionalOwner =  AdditionalOwner.fromMap(map);
+      var additionalOwner = AdditionalOwner.fromMap(map);
       expect(additionalOwner.address.toMap(),
-           Address.fromMap(map['address']).toMap());
+          Address.fromMap(map['address']).toMap());
       expect(additionalOwner.dateOfBirth.toMap(),
-           Date.fromMap(map['dob']).toMap());
+          Date.fromMap(map['dob']).toMap());
       expect(additionalOwner.verification.toMap(),
-           Verification.fromMap(map['verification']).toMap());
+          Verification.fromMap(map['verification']).toMap());
       expect(additionalOwner.firstName, map['first_name']);
       expect(additionalOwner.lastName, map['last_name']);
     });

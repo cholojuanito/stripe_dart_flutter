@@ -40,7 +40,7 @@ class Coupon extends ApiResource {
   /// [Retrieving a Coupon](https://stripe.com/docs/api/curl#retrieve_coupon)
   static Future<Coupon> retrieve(String id) async {
     var dataMap = await StripeService.retrieve([Coupon.path, id]);
-    return  Coupon.fromMap(dataMap);
+    return Coupon.fromMap(dataMap);
   }
 
   /// [List all Coupons](https://stripe.com/docs/api/curl#list_coupons)
@@ -52,7 +52,7 @@ class Coupon extends ApiResource {
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
     var dataMap = await StripeService.list([Coupon.path], data: data);
-    return  CouponCollection.fromMap(dataMap);
+    return CouponCollection.fromMap(dataMap);
   }
 
   /// [Deleting a coupon](https://stripe.com/docs/api/curl#delete_coupon)
@@ -61,7 +61,7 @@ class Coupon extends ApiResource {
 }
 
 class CouponCollection extends ResourceCollection {
-  Coupon getInstanceFromMap(map) =>  Coupon.fromMap(map);
+  Coupon getInstanceFromMap(map) => Coupon.fromMap(map);
 
   CouponCollection.fromMap(Map map) : super.fromMap(map);
 }
@@ -91,6 +91,6 @@ class CouponCreation extends ResourceRequest {
 
   Future<Coupon> create() async {
     var dataMap = await StripeService.create([Coupon.path], getMap());
-    return  Coupon.fromMap(dataMap);
+    return Coupon.fromMap(dataMap);
   }
 }

@@ -29,7 +29,7 @@ class TransferReversal extends ApiResource {
     if (value == null)
       return null;
     else
-      return  BalanceTransaction.fromMap(value);
+      return BalanceTransaction.fromMap(value);
   }
 
   Map get metadata => resourceMap['metadata'];
@@ -43,7 +43,7 @@ class TransferReversal extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Transfer.fromMap(value);
+      return Transfer.fromMap(value);
   }
 
   TransferReversal.fromMap(Map dataMap) : super.fromMap(dataMap);
@@ -54,7 +54,7 @@ class TransferReversal extends ApiResource {
     var dataMap = await StripeService.retrieve(
         [Transfer.path, transferId, TransferReversal.path, reversalId],
         data: data);
-    return  Transfer.fromMap(dataMap);
+    return Transfer.fromMap(dataMap);
   }
 
   /// [List all reversals](https://stripe.com/docs/api#list_transfer_reversals)
@@ -68,12 +68,12 @@ class TransferReversal extends ApiResource {
     var dataMap = await StripeService.list(
         [Transfer.path, transferId, TransferReversal.path],
         data: data);
-    return  TransferReversalCollection.fromMap(dataMap);
+    return TransferReversalCollection.fromMap(dataMap);
   }
 }
 
 class TransferReversalCollection extends ResourceCollection {
-  TransferReversal getInstanceFromMap(map) =>  TransferReversal.fromMap(map);
+  TransferReversal getInstanceFromMap(map) => TransferReversal.fromMap(map);
 
   TransferReversalCollection.fromMap(Map map) : super.fromMap(map);
 }
@@ -92,7 +92,7 @@ class TransferReversalCreation extends ResourceRequest {
   Future<TransferReversal> create(String transferId) async {
     var dataMap = await StripeService.create(
         [Transfer.path, transferId, TransferReversal.path], getMap());
-    return  TransferReversal.fromMap(dataMap);
+    return TransferReversal.fromMap(dataMap);
   }
 }
 
@@ -106,6 +106,6 @@ class TransferReversalUpdate extends ResourceRequest {
     var dataMap = await StripeService.create(
         [Transfer.path, transferId, TransferReversal.path, reversalId],
         getMap());
-    return  TransferReversal.fromMap(dataMap);
+    return TransferReversal.fromMap(dataMap);
   }
 }

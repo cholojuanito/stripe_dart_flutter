@@ -26,7 +26,7 @@ class FileUpload extends ApiResource {
   /// [Retrieve a file upload](https://stripe.com/docs/api/curl#retrieve_file_upload)
   static Future<FileUpload> retrieve(String fileUploadId) async {
     var dataMap = await StripeService.retrieve([FileUpload.path, fileUploadId]);
-    return  FileUpload.fromMap(dataMap);
+    return FileUpload.fromMap(dataMap);
   }
 
   /// [List all file uploads](https://stripe.com/docs/api/curl#list_file_uploads)
@@ -44,7 +44,7 @@ class FileUpload extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (data == {}) data = null;
     var dataMap = await StripeService.list([FileUpload.path], data: data);
-    return  FileUploadCollection.fromMap(dataMap);
+    return FileUploadCollection.fromMap(dataMap);
   }
 }
 
@@ -54,7 +54,7 @@ class UploadFileCreation extends ResourceRequest {
 }
 
 class FileUploadCollection extends ResourceCollection {
-  FileUpload getInstanceFromMap(map) =>  FileUpload.fromMap(map);
+  FileUpload getInstanceFromMap(map) => FileUpload.fromMap(map);
 
   FileUploadCollection.fromMap(Map map) : super.fromMap(map);
 }

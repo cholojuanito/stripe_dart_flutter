@@ -53,40 +53,39 @@ main(List<String> args) {
   group('Charge offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var charge =  Charge.fromMap(map);
+      var charge = Charge.fromMap(map);
       expect(charge.id, map['id']);
       expect(charge.livemode, map['livemode']);
       expect(charge.amount, map['amount']);
       expect(charge.captured, map['captured']);
       expect(charge.created,
-           DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+          DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(charge.currency, map['currency']);
       expect(charge.paid, map['paid']);
       expect(charge.refunded, map['refunded']);
       expect(charge.refunds.toMap(),
-           RefundCollection.fromMap(map['refunds']).toMap());
-      expect(charge.source.toMap(),  Card.fromMap(map['source']).toMap());
+          RefundCollection.fromMap(map['refunds']).toMap());
+      expect(charge.source.toMap(), Card.fromMap(map['source']).toMap());
       expect(charge.status, map['status']);
       expect(charge.amountRefunded, map['amountRefunded']);
       expect(charge.balanceTransactionExpand.toMap(),
-           BalanceTransaction.fromMap(map['balance_transaction']).toMap());
+          BalanceTransaction.fromMap(map['balance_transaction']).toMap());
       expect(charge.customerExpand.toMap(),
-           Customer.fromMap(map['customer']).toMap());
+          Customer.fromMap(map['customer']).toMap());
       expect(charge.description, map['description']);
-      expect(
-          charge.dispute.toMap(),  Dispute.fromMap(map['dispute']).toMap());
+      expect(charge.dispute.toMap(), Dispute.fromMap(map['dispute']).toMap());
       expect(charge.failureCode, map['failureCode']);
       expect(charge.failureMessage, map['failureMessage']);
       expect(charge.invoiceExpand.toMap(),
-           Invoice.fromMap(map['invoice']).toMap());
+          Invoice.fromMap(map['invoice']).toMap());
       expect(charge.metadata, map['metadata']);
       expect(charge.receiptEmail, map['receipt_email']);
       expect(charge.receiptNumber, map['receipt_number']);
       expect(charge.applicationFee, map['application_fee']);
       expect(charge.destination, map['destination']);
       expect(charge.fraudDetails, map['fraud_details']);
-      expect(charge.shipping.toMap(),
-           Shipping.fromMap(map['shipping']).toMap());
+      expect(
+          charge.shipping.toMap(), Shipping.fromMap(map['shipping']).toMap());
       expect(charge.statement_descriptor, map['statement_descriptor']);
     });
   });
@@ -107,14 +106,14 @@ main(List<String> args) {
           chargeAmount = 100,
           chargeCurrency = 'usd';
 
-      var customer = await  CustomerCreation().create();
-      await ( CardCreation()
+      var customer = await CustomerCreation().create();
+      await (CardCreation()
             ..number = cardNumber
             ..expMonth = cardExpMonth
             ..expYear = cardExpYear
             ..cvc = cvc)
           .create(customer.id);
-      var charge = await ( ChargeCreation()
+      var charge = await (ChargeCreation()
             ..amount = chargeAmount
             ..currency = chargeCurrency
             ..customer = customer.id)
@@ -141,14 +140,14 @@ main(List<String> args) {
           chargeStatementDescriptor = 'test descriptor';
       // application_fee can not be tested
 
-      var customer = await  CustomerCreation().create();
-      await ( CardCreation()
+      var customer = await CustomerCreation().create();
+      await (CardCreation()
             ..number = cardNumber
             ..expMonth = cardExpMonth
             ..expYear = cardExpYear
             ..cvc = cvc)
           .create(customer.id);
-      var charge = await ( ChargeCreation()
+      var charge = await (ChargeCreation()
             ..amount = chargeAmount
             ..currency = chargeCurrency
             ..customer = customer.id
@@ -170,7 +169,7 @@ main(List<String> args) {
       expect(charge.customer, charge.customerExpand.id);
 
       // testing the ChargeUpdate
-      charge = await ( ChargeUpdate()
+      charge = await (ChargeUpdate()
             ..description = chargeDescription2
             ..metadata = chargeMetadata2)
           .update(charge.id);
@@ -191,14 +190,14 @@ main(List<String> args) {
           chargeCurrency = 'usd';
       // application_fee can not be tested
 
-      var customer = await  CustomerCreation().create();
-      await ( CardCreation()
+      var customer = await CustomerCreation().create();
+      await (CardCreation()
             ..number = cardNumber
             ..expMonth = cardExpMonth
             ..expYear = cardExpYear
             ..cvc = cvc)
           .create(customer.id);
-      var charge = await ( ChargeCreation()
+      var charge = await (ChargeCreation()
             ..amount = chargeAmount
             ..currency = chargeCurrency
             ..customer = customer.id
@@ -214,8 +213,8 @@ main(List<String> args) {
           cardExpYear = 2020,
           cvc = 123;
 
-      var customer = await  CustomerCreation().create();
-      await ( CardCreation()
+      var customer = await CustomerCreation().create();
+      await (CardCreation()
             ..number = cardNumber
             ..expMonth = cardExpMonth
             ..expYear = cardExpYear
@@ -226,7 +225,7 @@ main(List<String> args) {
         var chargeAmount = 100, chargeCurrency = 'usd';
         // application_fee can not be tested
 
-        await ( ChargeCreation()
+        await (ChargeCreation()
               ..amount = chargeAmount
               ..currency = chargeCurrency
               ..customer = customer.id

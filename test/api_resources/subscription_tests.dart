@@ -58,14 +58,12 @@ main(List<String> args) {
   group('Subscription offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var subscription =  Subscription.fromMap(map);
+      var subscription = Subscription.fromMap(map);
       expect(subscription.id, map['id']);
       expect(subscription.plan.interval, map['plan']['interval']);
       expect(subscription.plan.name, map['plan']['name']);
-      expect(
-          subscription.plan.created,
-           DateTime.fromMillisecondsSinceEpoch(
-              map['plan']['created'] * 1000));
+      expect(subscription.plan.created,
+          DateTime.fromMillisecondsSinceEpoch(map['plan']['created'] * 1000));
       expect(subscription.plan.amount, map['plan']['amount']);
       expect(subscription.plan.currency, map['plan']['currency']);
       expect(subscription.plan.id, map['plan']['id']);
@@ -77,17 +75,17 @@ main(List<String> args) {
       expect(subscription.plan.statementDescriptor,
           map['plan']['statement_descriptor']);
       expect(subscription.start,
-           DateTime.fromMillisecondsSinceEpoch(map['start'] * 1000));
+          DateTime.fromMillisecondsSinceEpoch(map['start'] * 1000));
       expect(subscription.status, map['status']);
       expect(subscription.customer, map['customer']);
       expect(subscription.cancelAtPeriodEnd, map['cancel_at_period_end']);
       expect(
           subscription.currentPeriodStart,
-           DateTime.fromMillisecondsSinceEpoch(
+          DateTime.fromMillisecondsSinceEpoch(
               map['current_period_start'] * 1000));
       expect(
           subscription.currentPeriodEnd,
-           DateTime.fromMillisecondsSinceEpoch(
+          DateTime.fromMillisecondsSinceEpoch(
               map['current_period_end'] * 1000));
       expect(subscription.endedAt, map['endet_at']);
       expect(subscription.trialStart, map['trial_start']);
@@ -113,7 +111,7 @@ main(List<String> args) {
           cardExpYear = 2020,
           cvc = 123;
 
-      var cardCreation =  CardCreation()
+      var cardCreation = CardCreation()
         ..number = cardNumber // only the last 4 digits can be tested
         ..expMonth = cardExpMonth
         ..expYear = cardExpYear
@@ -126,17 +124,17 @@ main(List<String> args) {
           planInterval = 'month',
           planName = 'test plan name';
 
-      var plan = await ( PlanCreation()
+      var plan = await (PlanCreation()
             ..id = planId
             ..amount = planAmount
             ..currency = planCurrency
             ..interval = planInterval
             ..name = planName)
           .create();
-      var customer = await  CustomerCreation().create();
+      var customer = await CustomerCreation().create();
       await cardCreation.create(customer.id);
-      var subscription = await ( SubscriptionCreation()..plan = plan.id)
-          .create(customer.id);
+      var subscription =
+          await (SubscriptionCreation()..plan = plan.id).create(customer.id);
       expect(subscription.plan.id, planId);
       expect(subscription.customer, customer.id);
     });
@@ -147,7 +145,7 @@ main(List<String> args) {
           couponDuration1 = 'forever',
           couponPercentOff1 = 15;
 
-      var couponCreation1 =  CouponCreation()
+      var couponCreation1 = CouponCreation()
         ..id = couponId1
         ..duration = couponDuration1
         ..percentOff = couponPercentOff1;
@@ -156,7 +154,7 @@ main(List<String> args) {
           couponDuration2 = 'forever',
           couponPercentOff2 = 10;
 
-      var couponCreation2 =  CouponCreation()
+      var couponCreation2 = CouponCreation()
         ..id = couponId2
         ..duration = couponDuration2
         ..percentOff = couponPercentOff2;
@@ -167,7 +165,7 @@ main(List<String> args) {
           cardExpYear1 = 2020,
           cvc1 = 123;
 
-      var cardCreation1 =  CardCreation()
+      var cardCreation1 = CardCreation()
         ..number = cardNumber1 // only the last 4 digits can be tested
         ..expMonth = cardExpMonth1
         ..expYear = cardExpYear1
@@ -178,7 +176,7 @@ main(List<String> args) {
           cardExpYear2 = 2020,
           cvc2 = 321;
 
-      var cardCreation2 =  CardCreation()
+      var cardCreation2 = CardCreation()
         ..number = cardNumber2 // only the last 4 digits can be tested
         ..expMonth = cardExpMonth2
         ..expYear = cardExpYear2
@@ -191,7 +189,7 @@ main(List<String> args) {
           planInterval1 = 'month',
           planName1 = 'test plan name1';
 
-      var planCreation1 =  PlanCreation()
+      var planCreation1 = PlanCreation()
         ..id = planId1
         ..amount = planAmount1
         ..currency = planCurrency1
@@ -204,7 +202,7 @@ main(List<String> args) {
           planInterval2 = 'month',
           planName2 = 'test plan name2';
 
-      var planCreation2 =  PlanCreation()
+      var planCreation2 = PlanCreation()
         ..id = planId2
         ..amount = planAmount2
         ..currency = planCurrency2
@@ -212,17 +210,15 @@ main(List<String> args) {
         ..name = planName2;
 
       // Subscription fields
-      var subscriptionTrialEnd1 =  DateTime.now()
-                  .add( Duration(days: 30))
-                  .millisecondsSinceEpoch ~/
-              1000,
+      var subscriptionTrialEnd1 =
+              DateTime.now().add(Duration(days: 30)).millisecondsSinceEpoch ~/
+                  1000,
           subscriptionQuantity1 = 3,
           // application_fee_percent can only be tested with OAuth key
           subscriptionMetadata1 = {'foo': 'bar1'},
-          subscriptionTrialEnd2 =  DateTime.now()
-                  .add( Duration(days: 60))
-                  .millisecondsSinceEpoch ~/
-              1000,
+          subscriptionTrialEnd2 =
+              DateTime.now().add(Duration(days: 60)).millisecondsSinceEpoch ~/
+                  1000,
           subscriptionQuantity2 = 1,
           // application_fee_percent can only be tested with OAuth key
           subscriptionMetadata2 = {'foo': 'bar2'};
@@ -231,8 +227,8 @@ main(List<String> args) {
       var plan2 = await planCreation2.create();
       var coupon1 = await couponCreation1.create();
       var coupon2 = await couponCreation2.create();
-      var customer = await  CustomerCreation().create();
-      var subscription = await ( SubscriptionCreation()
+      var customer = await CustomerCreation().create();
+      var subscription = await (SubscriptionCreation()
             ..plan = plan1.id
             ..coupon = coupon1.id
             ..trialEnd = subscriptionTrialEnd1
@@ -242,10 +238,8 @@ main(List<String> args) {
           .create(customer.id);
       expect(subscription.plan.id, planId1);
       expect(subscription.discount.coupon.percentOff, couponPercentOff1);
-      expect(
-          subscription.trialEnd,
-           DateTime.fromMillisecondsSinceEpoch(
-              subscriptionTrialEnd1 * 1000));
+      expect(subscription.trialEnd,
+          DateTime.fromMillisecondsSinceEpoch(subscriptionTrialEnd1 * 1000));
       expect(subscription.customer, customer.id);
       expect(subscription.quantity, subscriptionQuantity1);
       expect(subscription.metadata, subscriptionMetadata1);
@@ -257,7 +251,7 @@ main(List<String> args) {
       expect(subscription.customer, subscription.customerExpand.id);
 
       // testing the CustomerUpdate
-      subscription = await ( SubscriptionUpdate()
+      subscription = await (SubscriptionUpdate()
             ..plan = plan2.id
             ..coupon = coupon2.id
             ..trialEnd = subscriptionTrialEnd2
@@ -267,10 +261,8 @@ main(List<String> args) {
           .update(customer.id, subscription.id);
       expect(subscription.plan.id, planId2);
       expect(subscription.discount.coupon.percentOff, couponPercentOff2);
-      expect(
-          subscription.trialEnd,
-           DateTime.fromMillisecondsSinceEpoch(
-              subscriptionTrialEnd2 * 1000));
+      expect(subscription.trialEnd,
+          DateTime.fromMillisecondsSinceEpoch(subscriptionTrialEnd2 * 1000));
       expect(subscription.customer, customer.id);
       expect(subscription.quantity, subscriptionQuantity2);
       expect(subscription.metadata, subscriptionMetadata2);
@@ -287,7 +279,7 @@ main(List<String> args) {
           cardExpYear = 2020,
           cvc = 123;
 
-      var cardCreation =  CardCreation()
+      var cardCreation = CardCreation()
         ..number = cardNumber // only the last 4 digits can be tested
         ..expMonth = cardExpMonth
         ..expYear = cardExpYear
@@ -300,18 +292,17 @@ main(List<String> args) {
           planInterval = 'month',
           planName = 'test plan name';
 
-      var planCreation =  PlanCreation()
+      var planCreation = PlanCreation()
         ..id = planId
         ..amount = planAmount
         ..currency = planCurrency
         ..interval = planInterval
         ..name = planName;
 
-      var customer =
-          await ( CustomerCreation()..source = cardCreation).create();
+      var customer = await (CustomerCreation()..source = cardCreation).create();
       var plan = await planCreation.create();
       for (var i = 0; i < 20; i++) {
-        await ( SubscriptionCreation()..plan = plan.id).create(customer.id);
+        await (SubscriptionCreation()..plan = plan.id).create(customer.id);
       }
       var subscriptions = await Subscription.list(customer.id, limit: 10);
       expect(subscriptions.data.length, 10);

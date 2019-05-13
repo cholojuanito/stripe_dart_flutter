@@ -44,34 +44,34 @@ main(List<String> args) {
   group('Transfer offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var transfer =  Transfer.fromMap(map);
+      var transfer = Transfer.fromMap(map);
       expect(transfer.id, map['id']);
       expect(transfer.livemode, map['livemode']);
       expect(transfer.amount, map['amount']);
       expect(transfer.created,
-           DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+          DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(transfer.currency, map['currency']);
       expect(transfer.date,
-           DateTime.fromMillisecondsSinceEpoch(map['date'] * 1000));
+          DateTime.fromMillisecondsSinceEpoch(map['date'] * 1000));
       expect(transfer.reversals.toMap(),
-           TransferReversalCollection.fromMap(map['reversals']).toMap());
+          TransferReversalCollection.fromMap(map['reversals']).toMap());
       expect(transfer.reversed, map['reversed']);
       expect(transfer.status, map['status']);
       expect(transfer.type, map['type']);
       expect(transfer.amountReversed, map['amount_reversed']);
       expect(transfer.balanceTransactionExpand.toMap(),
-           Balance.fromMap(map['balance_transaction']).toMap());
+          Balance.fromMap(map['balance_transaction']).toMap());
       expect(transfer.description, map['description']);
       expect(transfer.failureCode, map['failure_code']);
       expect(transfer.failureMessage, map['failure_message']);
       expect(transfer.metadata, map['metadata']);
       expect(transfer.applicationFee, map['application_fee']);
       expect(transfer.destinationExpand.toMap(),
-           Card.fromMap(map['destination']).toMap());
+          Card.fromMap(map['destination']).toMap());
       expect(transfer.destinationPaymentExpand.toMap(),
-           Charge.fromMap(map['destination_payment']).toMap());
+          Charge.fromMap(map['destination_payment']).toMap());
       expect(transfer.sourceTransactionExpand.toMap(),
-           Charge.fromMap(map['source_transaction']).toMap());
+          Charge.fromMap(map['source_transaction']).toMap());
       expect(transfer.statementDescriptor, map['statement_descriptor']);
     });
   });

@@ -30,9 +30,9 @@ main(List<String> args) {
   group('Plan offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var plan =  Plan.fromMap(map);
+      var plan = Plan.fromMap(map);
       expect(plan.created,
-           DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+          DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(plan.id, map['id']);
       expect(plan.livemode, map['livemode']);
       expect(plan.interval, map['interval']);
@@ -59,7 +59,7 @@ main(List<String> args) {
           planInterval = 'month',
           planName = 'test name';
 
-      var plan = await ( PlanCreation()
+      var plan = await (PlanCreation()
             ..id = planId
             ..amount = planAmount
             ..currency = planCurrency
@@ -88,7 +88,7 @@ main(List<String> args) {
           planMetadata2 = {'foo': 'bar2'},
           planStatementDescriptor2 = 'descriptor2';
 
-      var plan = await ( PlanCreation()
+      var plan = await (PlanCreation()
             ..id = planId
             ..amount = planAmount
             ..currency = planCurrency
@@ -118,7 +118,7 @@ main(List<String> args) {
       expect(plan.trialPeriodDays, planTrialPeriodDays);
       expect(plan.metadata, planMetadata1);
       expect(plan.statementDescriptor, planStatementDescriptor1);
-      plan = await ( PlanUpdate()
+      plan = await (PlanUpdate()
             ..name = planName2
             ..metadata = planMetadata2
             ..statementDescriptor = planStatementDescriptor2)
@@ -138,7 +138,7 @@ main(List<String> args) {
           planInterval = 'month',
           planName = 'test name';
 
-      var plan = await ( PlanCreation()
+      var plan = await (PlanCreation()
             ..id = planId
             ..amount = planAmount
             ..currency = planCurrency
@@ -164,7 +164,7 @@ main(List<String> args) {
           planName = 'test name';
 
       for (var i = 0; i < 20; i++) {
-        await ( PlanCreation()
+        await (PlanCreation()
               ..id = planId + i.toString()
               ..amount = planAmount
               ..currency = planCurrency

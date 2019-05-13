@@ -17,13 +17,13 @@ class Balance extends Resource {
   List<Fund> get available {
     List funds = resourceMap['available'];
     assert(funds != null);
-    return funds.map((fund) =>  Fund.fromMap(fund)).toList(growable: false);
+    return funds.map((fund) => Fund.fromMap(fund)).toList(growable: false);
   }
 
   List<Fund> get pending {
     List funds = resourceMap['pending'];
     assert(funds != null);
-    return funds.map((fund) =>  Fund.fromMap(fund)).toList(growable: false);
+    return funds.map((fund) => Fund.fromMap(fund)).toList(growable: false);
   }
 
   Balance.fromMap(Map dataMap) : super.fromMap(dataMap);
@@ -31,7 +31,7 @@ class Balance extends Resource {
   /// [Retrieve a balance](https://stripe.com/docs/api/curl#retrieve_balance)
   static Future<Balance> retrieve() async {
     var dataMap = await StripeService.get([Balance.path]);
-    return  Balance.fromMap(dataMap);
+    return Balance.fromMap(dataMap);
   }
 }
 
@@ -56,7 +56,7 @@ class BalanceTransaction extends ApiResource {
     List feeDetails = resourceMap['fee_details'];
     assert(feeDetails != null);
     return feeDetails
-        .map((feeDetails) =>  FeeDetails.fromMap(feeDetails))
+        .map((feeDetails) => FeeDetails.fromMap(feeDetails))
         .toList(growable: false);
   }
 
@@ -77,7 +77,7 @@ class BalanceTransaction extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Charge.fromMap(value);
+      return Charge.fromMap(value);
   }
 
   BalanceTransaction.fromMap(Map dataMap) : super.fromMap(dataMap);
@@ -86,7 +86,7 @@ class BalanceTransaction extends ApiResource {
   static Future<BalanceTransaction> retrieve(String transactionId) async {
     var dataMap = await StripeService.get(
         [Balance.path, BalanceTransaction.path, transactionId]);
-    return  BalanceTransaction.fromMap(dataMap);
+    return BalanceTransaction.fromMap(dataMap);
   }
 
   /// [Listing balance history](https://stripe.com/docs/api/curl#balance_history)
@@ -101,12 +101,12 @@ class BalanceTransaction extends ApiResource {
     var dataMap = await StripeService.list(
         [Balance.path, BalanceTransaction.path],
         data: data);
-    return  BalanceTransactionCollection.fromMap(dataMap);
+    return BalanceTransactionCollection.fromMap(dataMap);
   }
 }
 
 class BalanceTransactionCollection extends ResourceCollection {
-  Card getInstanceFromMap(map) =>  Card.fromMap(map);
+  Card getInstanceFromMap(map) => Card.fromMap(map);
 
   BalanceTransactionCollection.fromMap(Map map) : super.fromMap(map);
 }

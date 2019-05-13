@@ -37,7 +37,7 @@ class Charge extends ApiResource {
   RefundCollection get refunds {
     Map value = resourceMap['refunds'];
     assert(value != null);
-    return  RefundCollection.fromMap(value);
+    return RefundCollection.fromMap(value);
   }
 
   Card get source {
@@ -45,7 +45,7 @@ class Charge extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Card.fromMap(value);
+      return Card.fromMap(value);
   }
 
   String get status => resourceMap['status'];
@@ -61,7 +61,7 @@ class Charge extends ApiResource {
     if (value == null)
       return null;
     else
-      return  BalanceTransaction.fromMap(value);
+      return BalanceTransaction.fromMap(value);
   }
 
   String get customer {
@@ -73,7 +73,7 @@ class Charge extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Customer.fromMap(value);
+      return Customer.fromMap(value);
   }
 
   String get description => resourceMap['description'];
@@ -83,7 +83,7 @@ class Charge extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Dispute.fromMap(value);
+      return Dispute.fromMap(value);
   }
 
   String get failureCode => resourceMap['failureCode'];
@@ -99,7 +99,7 @@ class Charge extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Invoice.fromMap(value);
+      return Invoice.fromMap(value);
   }
 
   Map<String, String> get metadata => resourceMap['metadata'];
@@ -119,7 +119,7 @@ class Charge extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Shipping.fromMap(value);
+      return Shipping.fromMap(value);
   }
 
   String get statement_descriptor => resourceMap['statement_descriptor'];
@@ -130,7 +130,7 @@ class Charge extends ApiResource {
   static Future<Charge> retrieve(String chargeId, {final Map data}) async {
     var dataMap =
         await StripeService.retrieve([Charge.path, chargeId], data: data);
-    return  Charge.fromMap(dataMap);
+    return Charge.fromMap(dataMap);
   }
 
   /// [Capture a charge](https://stripe.com/docs/api#capture_charge)
@@ -147,7 +147,7 @@ class Charge extends ApiResource {
       data['statement_descriptor'] = statementDescriptor;
     var dataMap = await StripeService.post([Charge.path, chargeId, 'capture'],
         data: data);
-    return  Charge.fromMap(dataMap);
+    return Charge.fromMap(dataMap);
   }
 
   /// [List all Charges](https://stripe.com/docs/api#list_charges)
@@ -164,12 +164,12 @@ class Charge extends ApiResource {
     if (limit != null) data['limit'] = limit;
     if (startingAfter != null) data['starting_after'] = startingAfter;
     var dataMap = await StripeService.list([Charge.path], data: data);
-    return  ChargeCollection.fromMap(dataMap);
+    return ChargeCollection.fromMap(dataMap);
   }
 }
 
 class ChargeCollection extends ResourceCollection {
-  Charge getInstanceFromMap(map) =>  Charge.fromMap(map);
+  Charge getInstanceFromMap(map) => Charge.fromMap(map);
 
   ChargeCollection.fromMap(Map map) : super.fromMap(map);
 }
@@ -210,7 +210,7 @@ class ChargeCreation extends ResourceRequest {
   Future<Charge> create({String idempotencyKey}) async {
     var dataMap = await StripeService.create([Charge.path], getMap(),
         idempotencyKey: idempotencyKey);
-    return  Charge.fromMap(dataMap);
+    return Charge.fromMap(dataMap);
   }
 }
 
@@ -226,6 +226,6 @@ class ChargeUpdate extends ResourceRequest {
 
   Future<Charge> update(String chargeId) async {
     var dataMap = await StripeService.update([Charge.path, chargeId], getMap());
-    return  Charge.fromMap(dataMap);
+    return Charge.fromMap(dataMap);
   }
 }

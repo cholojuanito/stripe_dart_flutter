@@ -38,16 +38,16 @@ main(List<String> args) {
   group('BalanceTransaction offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var balanceTransaction =  BalanceTransaction.fromMap(map);
+      var balanceTransaction = BalanceTransaction.fromMap(map);
       expect(balanceTransaction.id, map['id']);
       expect(balanceTransaction.amount, map['amount']);
       expect(balanceTransaction.currency, map['currency']);
       expect(balanceTransaction.net, map['net']);
       expect(balanceTransaction.type, map['type']);
       expect(balanceTransaction.created,
-           DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+          DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(balanceTransaction.availableOn,
-           DateTime.fromMillisecondsSinceEpoch(map['available_on'] * 1000));
+          DateTime.fromMillisecondsSinceEpoch(map['available_on'] * 1000));
       expect(balanceTransaction.status, map['status']);
       expect(balanceTransaction.fee, map['fee']);
       expect(balanceTransaction.feeDetails.first.amount,

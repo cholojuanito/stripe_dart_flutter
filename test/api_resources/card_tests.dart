@@ -45,7 +45,7 @@ main(List<String> args) {
   group('Card offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var card =  Card.fromMap(map);
+      var card = Card.fromMap(map);
       expect(card.id, map['id']);
       expect(card.last4, map['last4']);
       expect(card.brand, map['brand']);
@@ -73,9 +73,9 @@ main(List<String> args) {
     test('Create minimal', () async {
       var number = '4242424242424242', expMonth = 12, expYear = 2020, cvc = 123;
 
-      var customer = await  CustomerCreation().create();
+      var customer = await CustomerCreation().create();
       expect(customer.id, const TypeMatcher<String>());
-      var card = await ( CardCreation()
+      var card = await (CardCreation()
             ..number = number
             ..expMonth = expMonth
             ..expYear = expYear
@@ -111,9 +111,9 @@ main(List<String> args) {
           cardExpYear2 = 2020,
           cardName2 = 'Agatha Bath';
 
-      var customer = await  CustomerCreation().create();
+      var customer = await CustomerCreation().create();
       expect(customer.id, const TypeMatcher<String>());
-      var card = await ( CardCreation()
+      var card = await (CardCreation()
             ..number = cardNumber
             ..expMonth = cardExpMonth1
             ..expYear = cardExpYear1
@@ -147,7 +147,7 @@ main(List<String> args) {
       expect(card.customer, customer.id);
       expect(card.customerExpand.id, customer.id);
       // testing the CardUpdate
-      card = await ( CardUpdate()
+      card = await (CardUpdate()
             ..addressCity = cardAddressCity2
             ..addressCountry = cardAddressCountry2
             ..addressLine1 = cardAddressLine1B
@@ -174,9 +174,9 @@ main(List<String> args) {
     test('Delete', () async {
       var number = '4242424242424242', expMonth = 12, expYear = 2020, cvc = 123;
 
-      var customer = await  CustomerCreation().create();
+      var customer = await CustomerCreation().create();
       expect(customer.id, const TypeMatcher<String>());
-      var card = await ( CardCreation()
+      var card = await (CardCreation()
             ..number = number
             ..expMonth = expMonth
             ..expYear = expYear
@@ -189,9 +189,9 @@ main(List<String> args) {
 
     test('List parameters', () async {
       var number = '4242424242424242', expMonth = 12, expYear = 2020, cvc = 123;
-      Customer customer = await  CustomerCreation().create();
+      Customer customer = await CustomerCreation().create();
       for (var i = 0; i < 20; i++) {
-        await ( CardCreation()
+        await (CardCreation()
               ..number = number
               ..expMonth = expMonth
               ..expYear = expYear

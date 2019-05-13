@@ -28,7 +28,7 @@ class BankAccount extends Resource {
 }
 
 class BankAccountCollection extends ResourceCollection {
-  BankAccount getInstanceFromMap(map) =>  BankAccount.fromMap(map);
+  BankAccount getInstanceFromMap(map) => BankAccount.fromMap(map);
 
   BankAccountCollection.fromMap(Map map) : super.fromMap(map);
 }

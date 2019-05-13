@@ -32,11 +32,11 @@ main(List<String> args) {
   group('Refund offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var refund =  Refund.fromMap(map);
+      var refund = Refund.fromMap(map);
       expect(refund.id, map['id']);
       expect(refund.amount, map['amount']);
       expect(refund.created,
-           DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+          DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(refund.currency, map['currency']);
       expect(refund.balanceTransaction, map['balance_transaction']);
     });
@@ -58,19 +58,19 @@ main(List<String> args) {
           chargeAmount = 100,
           chargeCurrency = 'usd';
 
-      var customer = await  CustomerCreation().create();
-      await ( CardCreation()
+      var customer = await CustomerCreation().create();
+      await (CardCreation()
             ..number = cardNumber
             ..expMonth = cardExpMonth
             ..expYear = cardExpYear
             ..cvc = cvc)
           .create(customer.id);
-      var charge = await ( ChargeCreation()
+      var charge = await (ChargeCreation()
             ..amount = chargeAmount
             ..currency = chargeCurrency
             ..customer = customer.id)
           .create();
-      var refund = await  RefundCreation().create(charge.id);
+      var refund = await RefundCreation().create(charge.id);
       expect(refund.amount, chargeAmount);
       expect(refund.currency, chargeCurrency);
       expect(refund.charge, charge.id);
@@ -93,19 +93,19 @@ main(List<String> args) {
           refundMetadata1 = {'foo': 'bar1'},
           refundMetadata2 = {'foo': 'bar2'};
 
-      var customer = await  CustomerCreation().create();
-      await ( CardCreation()
+      var customer = await CustomerCreation().create();
+      await (CardCreation()
             ..number = cardNumber
             ..expMonth = cardExpMonth
             ..expYear = cardExpYear
             ..cvc = cvc)
           .create(customer.id);
-      var charge = await ( ChargeCreation()
+      var charge = await (ChargeCreation()
             ..amount = chargeAmount
             ..currency = chargeCurrency
             ..customer = customer.id)
           .create();
-      var refund = await ( RefundCreation()
+      var refund = await (RefundCreation()
             ..amount = refundAmount
             ..reason = refundReason
             ..metadata = refundMetadata1)
@@ -123,7 +123,7 @@ main(List<String> args) {
       expect(refund.balanceTransactionExpand.type, 'refund');
       expect(refund.balanceTransactionExpand.source, refund.id);
       // testing the ChargeUpdate
-      refund = await ( RefundUpdate()..metadata = refundMetadata2)
+      refund = await (RefundUpdate()..metadata = refundMetadata2)
           .update(charge.id, refund.id);
       expect(refund.metadata, refundMetadata2);
     });
@@ -138,21 +138,21 @@ main(List<String> args) {
           chargeAmount = 100,
           chargeCurrency = 'usd';
 
-      var customer = await  CustomerCreation().create();
-      await ( CardCreation()
+      var customer = await CustomerCreation().create();
+      await (CardCreation()
             ..number = cardNumber
             ..expMonth = cardExpMonth
             ..expYear = cardExpYear
             ..cvc = cvc)
           .create(customer.id);
-      var charge = await ( ChargeCreation()
+      var charge = await (ChargeCreation()
             ..amount = chargeAmount
             ..currency = chargeCurrency
             ..customer = customer.id)
           .create();
 
       for (var i = 0; i < 20; i++) {
-        await ( RefundCreation()..amount = 5).create(charge.id);
+        await (RefundCreation()..amount = 5).create(charge.id);
       }
       var charges = await Refund.list(charge.id, limit: 10);
       expect(charges.data.length, 10);

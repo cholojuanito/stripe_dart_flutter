@@ -82,14 +82,14 @@ main(List<String> args) {
   group('Invoice offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var invoice =  Invoice.fromMap(map);
+      var invoice = Invoice.fromMap(map);
       expect(invoice.date,
-           DateTime.fromMillisecondsSinceEpoch(map['date'] * 1000));
+          DateTime.fromMillisecondsSinceEpoch(map['date'] * 1000));
       expect(invoice.id, map['id']);
       expect(invoice.periodStart,
-           DateTime.fromMillisecondsSinceEpoch(map['period_start'] * 1000));
+          DateTime.fromMillisecondsSinceEpoch(map['period_start'] * 1000));
       expect(invoice.periodEnd,
-           DateTime.fromMillisecondsSinceEpoch(map['period_end'] * 1000));
+          DateTime.fromMillisecondsSinceEpoch(map['period_end'] * 1000));
       expect(invoice.lines.data.first.id, map['lines']['data'][0]['id']);
       expect(invoice.lines.data.first.type, map['lines']['data'][0]['type']);
       expect(invoice.lines.data.first.livemode,
@@ -112,7 +112,7 @@ main(List<String> args) {
           map['lines']['data'][0]['plan']['name']);
       expect(
           invoice.lines.data.first.plan.created,
-           DateTime.fromMillisecondsSinceEpoch(
+          DateTime.fromMillisecondsSinceEpoch(
               map['lines']['data'][0]['plan']['created'] * 1000));
       expect(invoice.lines.data.first.plan.amount,
           map['lines']['data'][0]['plan']['amount']);
@@ -149,7 +149,7 @@ main(List<String> args) {
       expect(invoice.nextPaymentAttempt, map['next_payment_attempt']);
       expect(
           invoice.webhooksDeliveredAt,
-           DateTime.fromMillisecondsSinceEpoch(
+          DateTime.fromMillisecondsSinceEpoch(
               map['webhooks_delivered_at'] * 1000));
       expect(invoice.charge, map['charge']);
       expect(invoice.discount, map['discount']);
@@ -166,9 +166,9 @@ main(List<String> args) {
     });
 
     test('Create minimal', () async {
-      var customer = await  CustomerCreation().create();
+      var customer = await CustomerCreation().create();
       try {
-        await ( InvoiceCreation()..customer = customer.id).create();
+        await (InvoiceCreation()..customer = customer.id).create();
       } catch (e) {
         // nothing to invoice for a  customer
         expect(e, const TypeMatcher<InvalidRequestErrorException>());
@@ -183,7 +183,7 @@ main(List<String> args) {
           cardExpYear = 2020,
           cvc = 123;
 
-      var cardCreation =  CardCreation()
+      var cardCreation = CardCreation()
         ..number = cardNumber // only the last 4 digits can be tested
         ..expMonth = cardExpMonth
         ..expYear = cardExpYear
@@ -204,24 +204,24 @@ main(List<String> args) {
           invoiceDescription = 'test description',
           invoiceMetadata = {'foo': 'bar'};
 
-      var plan = await ( PlanCreation()
+      var plan = await (PlanCreation()
             ..id = planId
             ..amount = planAmount
             ..currency = planCurrency
             ..interval = planInterval
             ..name = planName)
           .create();
-      var customer = await  CustomerCreation().create();
+      var customer = await CustomerCreation().create();
       await cardCreation.create(customer.id);
-      await ( ChargeCreation()
+      await (ChargeCreation()
             ..amount = cardAmount
             ..currency = cardCurrency
             ..customer = customer.id)
           .create();
-      var subscription = await ( SubscriptionCreation()..plan = plan.id)
-          .create(customer.id);
+      var subscription =
+          await (SubscriptionCreation()..plan = plan.id).create(customer.id);
       try {
-        await ( InvoiceCreation()
+        await (InvoiceCreation()
               ..customer = customer.id
               ..description = invoiceDescription
               ..metadata = invoiceMetadata

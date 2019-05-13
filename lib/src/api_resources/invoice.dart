@@ -37,7 +37,7 @@ class Invoice extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Customer.fromMap(value);
+      return Customer.fromMap(value);
   }
 
   DateTime get date => getDateTimeFromMap('date');
@@ -47,7 +47,7 @@ class Invoice extends ApiResource {
     if (value == null)
       return null;
     else
-      return  InvoiceLineItemCollection.fromMap(value);
+      return InvoiceLineItemCollection.fromMap(value);
   }
 
   bool get paid => resourceMap['paid'];
@@ -73,7 +73,7 @@ class Invoice extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Charge.fromMap(value);
+      return Charge.fromMap(value);
   }
 
   String get description => resourceMap['description'];
@@ -83,7 +83,7 @@ class Invoice extends ApiResource {
     if (value == null)
       return null;
     else
-      return  Discount.fromMap(value);
+      return Discount.fromMap(value);
   }
 
   int get endingBalance => resourceMap['ending_balance'];
@@ -102,13 +102,13 @@ class Invoice extends ApiResource {
   /// [Retrieving an Invoice](https://stripe.com/docs/api/curl#retrieve_invoice)
   static Future<Invoice> retrieve(String invoiceId) async {
     var dataMap = await StripeService.retrieve([Invoice.path, invoiceId]);
-    return  Invoice.fromMap(dataMap);
+    return Invoice.fromMap(dataMap);
   }
 
   /// [Paying an invoice](https://stripe.com/docs/api/curl#pay_invoice)
   static Future<Invoice> pay(String invoiceId) async {
     var dataMap = await StripeService.post([Invoice.path, invoiceId, 'pay']);
-    return  Invoice.fromMap(dataMap);
+    return Invoice.fromMap(dataMap);
   }
 
   /// [Retrieving a List of Invoices](https://stripe.com/docs/api/curl#list_customer_invoices)
@@ -125,7 +125,7 @@ class Invoice extends ApiResource {
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
     var dataMap = await StripeService.list([Invoice.path], data: data);
-    return  InvoiceCollection.fromMap(dataMap);
+    return InvoiceCollection.fromMap(dataMap);
   }
 
   /// [Retrieving a Customer's Upcoming Invoice](https://stripe.com/docs/api/curl#retrieve_customer_invoice)
@@ -136,7 +136,7 @@ class Invoice extends ApiResource {
     if (subscriptionId != null) data['subscription'] = subscriptionId;
     var dataMap =
         await StripeService.get([Invoice.path, 'upcoming'], data: data);
-    return  Invoice.fromMap(dataMap);
+    return Invoice.fromMap(dataMap);
   }
 
   /// [Retrieve an invoice's line items](https://stripe.com/docs/api/curl#invoice_lines)
@@ -155,12 +155,12 @@ class Invoice extends ApiResource {
     if (data == {}) data = null;
     var dataMap = await StripeService.retrieve(
         [Invoice.path, invoiceId, InvoiceLineItem.path]);
-    return  InvoiceLineItemCollection.fromMap(dataMap);
+    return InvoiceLineItemCollection.fromMap(dataMap);
   }
 }
 
 class InvoiceCollection extends ResourceCollection {
-  Invoice getInstanceFromMap(map) =>  Invoice.fromMap(map);
+  Invoice getInstanceFromMap(map) => Invoice.fromMap(map);
 
   InvoiceCollection.fromMap(Map map) : super.fromMap(map);
 }
@@ -181,7 +181,7 @@ class InvoiceCreation extends ResourceRequest {
 
   Future<Invoice> create() async {
     var dataMap = await StripeService.create([Invoice.path], getMap());
-    return  Invoice.fromMap(dataMap);
+    return Invoice.fromMap(dataMap);
   }
 }
 
@@ -199,7 +199,7 @@ class InvoiceUpdate extends ResourceRequest {
   Future<Invoice> update(String invoiceId) async {
     var dataMap =
         await StripeService.update([Invoice.path, invoiceId], getMap());
-    return  Invoice.fromMap(dataMap);
+    return Invoice.fromMap(dataMap);
   }
 }
 
@@ -222,7 +222,7 @@ class InvoiceLineItem extends Resource {
     if (value == null)
       return null;
     else
-      return  Period.fromMap(value);
+      return Period.fromMap(value);
   }
 
   bool get proration => resourceMap['proration'];
@@ -238,7 +238,7 @@ class InvoiceLineItem extends Resource {
     if (value == null)
       return null;
     else
-      return  Plan.fromMap(value);
+      return Plan.fromMap(value);
   }
 
   int get quantity => resourceMap['quantity'];
@@ -247,7 +247,7 @@ class InvoiceLineItem extends Resource {
 }
 
 class InvoiceLineItemCollection extends ResourceCollection {
-  InvoiceLineItem getInstanceFromMap(map) =>  InvoiceLineItem.fromMap(map);
+  InvoiceLineItem getInstanceFromMap(map) => InvoiceLineItem.fromMap(map);
 
   InvoiceLineItemCollection.fromMap(Map map) : super.fromMap(map);
 }
