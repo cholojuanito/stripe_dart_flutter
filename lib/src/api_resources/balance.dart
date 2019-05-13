@@ -1,21 +1,27 @@
-part of stripe;
+import '../api_resource.dart';
+import '../resource.dart';
+import '../resource_collection.dart';
+import '../service.dart';
+
+import 'card.dart';
+import 'charge.dart';
 
 /// [Balance](https://stripe.com/docs/api/curl#balance)
 class Balance extends Resource {
   final String object = 'balance';
 
-  static var _path = 'balance';
+  static var path = 'balance';
 
-  bool get livemode => _dataMap['livemode'];
+  bool get livemode => resourceMap['livemode'];
 
   List<Fund> get available {
-    List funds = _dataMap['available'];
+    List funds = resourceMap['available'];
     assert(funds != null);
     return funds.map((fund) => new Fund.fromMap(fund)).toList(growable: false);
   }
 
   List<Fund> get pending {
-    List funds = _dataMap['pending'];
+    List funds = resourceMap['pending'];
     assert(funds != null);
     return funds.map((fund) => new Fund.fromMap(fund)).toList(growable: false);
   }
@@ -24,50 +30,50 @@ class Balance extends Resource {
 
   /// [Retrieve a balance](https://stripe.com/docs/api/curl#retrieve_balance)
   static Future<Balance> retrieve() async {
-    var dataMap = await StripeService.get([Balance._path]);
+    var dataMap = await StripeService.get([Balance.path]);
     return new Balance.fromMap(dataMap);
   }
 }
 
 class BalanceTransaction extends ApiResource {
-  String get id => _dataMap['id'];
+  String get id => resourceMap['id'];
 
   final String object = 'balance_transaction';
 
-  static var _path = 'history';
+  static var path = 'history';
 
-  int get amount => _dataMap['amount'];
+  int get amount => resourceMap['amount'];
 
-  DateTime get availableOn => _getDateTimeFromMap('available_on');
+  DateTime get availableOn => getDateTimeFromMap('available_on');
 
-  DateTime get created => _getDateTimeFromMap('created');
+  DateTime get created => getDateTimeFromMap('created');
 
-  String get currency => _dataMap['currency'];
+  String get currency => resourceMap['currency'];
 
-  int get fee => _dataMap['fee'];
+  int get fee => resourceMap['fee'];
 
   List<FeeDetails> get feeDetails {
-    List feeDetails = _dataMap['fee_details'];
+    List feeDetails = resourceMap['fee_details'];
     assert(feeDetails != null);
     return feeDetails
         .map((feeDetails) => new FeeDetails.fromMap(feeDetails))
         .toList(growable: false);
   }
 
-  int get net => _dataMap['net'];
+  int get net => resourceMap['net'];
 
-  String get status => _dataMap['status'];
+  String get status => resourceMap['status'];
 
-  String get type => _dataMap['type'];
+  String get type => resourceMap['type'];
 
-  String get description => _dataMap['description'];
+  String get description => resourceMap['description'];
 
   String get source {
-    return this._getIdForExpandable('source');
+    return this.getIdForExpandable('source');
   }
 
   Charge get sourceExpand {
-    var value = _dataMap['source'];
+    var value = resourceMap['source'];
     if (value == null)
       return null;
     else
@@ -79,7 +85,7 @@ class BalanceTransaction extends ApiResource {
   /// [Retrieving a Balance Transaction](https://stripe.com/docs/api/curl#retrieve_balance_transaction)
   static Future<BalanceTransaction> retrieve(String transactionId) async {
     var dataMap = await StripeService.get(
-        [Balance._path, BalanceTransaction._path, transactionId]);
+        [Balance.path, BalanceTransaction.path, transactionId]);
     return new BalanceTransaction.fromMap(dataMap);
   }
 
@@ -93,40 +99,40 @@ class BalanceTransaction extends ApiResource {
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
     var dataMap = await StripeService.list(
-        [Balance._path, BalanceTransaction._path],
+        [Balance.path, BalanceTransaction.path],
         data: data);
     return new BalanceTransactionCollection.fromMap(dataMap);
   }
 }
 
 class BalanceTransactionCollection extends ResourceCollection {
-  Card _getInstanceFromMap(map) => new Card.fromMap(map);
+  Card getInstanceFromMap(map) => new Card.fromMap(map);
 
   BalanceTransactionCollection.fromMap(Map map) : super.fromMap(map);
 }
 
 class Fund {
-  Map _dataMap;
+  Map resourceMap;
 
-  int get amount => _dataMap['amount'];
+  int get amount => resourceMap['amount'];
 
-  String get currency => _dataMap['currency'];
+  String get currency => resourceMap['currency'];
 
-  Fund.fromMap(this._dataMap);
+  Fund.fromMap(this.resourceMap);
 }
 
 class FeeDetails {
-  Map _dataMap;
+  Map resourceMap;
 
-  int get amount => _dataMap['amount'];
+  int get amount => resourceMap['amount'];
 
-  String get currency => _dataMap['currency'];
+  String get currency => resourceMap['currency'];
 
-  String get type => _dataMap['type'];
+  String get type => resourceMap['type'];
 
-  String get application => _dataMap['application'];
+  String get application => resourceMap['application'];
 
-  String get description => _dataMap['description'];
+  String get description => resourceMap['description'];
 
-  FeeDetails.fromMap(this._dataMap);
+  FeeDetails.fromMap(this.resourceMap);
 }

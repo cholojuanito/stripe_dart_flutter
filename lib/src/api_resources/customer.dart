@@ -1,51 +1,58 @@
-part of stripe;
+import '../api_resource.dart';
+import '../resource.dart';
+import '../resource_collection.dart';
+import '../service.dart';
+
+import 'card.dart';
+import 'discount.dart';
+import 'subscription.dart';
 
 /// [Customers](https://stripe.com/docs/api#customers)
 class Customer extends ApiResource {
-  String get id => _dataMap['id'];
+  String get id => resourceMap['id'];
 
   final String object = 'customer';
 
-  static var _path = 'customers';
+  static var path = 'customers';
 
-  bool get livemode => _dataMap['livemode'];
+  bool get livemode => resourceMap['livemode'];
 
-  DateTime get created => _getDateTimeFromMap('created');
+  DateTime get created => getDateTimeFromMap('created');
 
-  int get accountBalance => _dataMap['account_balance'];
+  int get accountBalance => resourceMap['account_balance'];
 
-  String get currency => _dataMap['currency'];
+  String get currency => resourceMap['currency'];
 
   String get defaultSource {
-    return this._getIdForExpandable('default_source');
+    return this.getIdForExpandable('default_source');
   }
 
   Card get defaultSourceExpand {
-    var value = _dataMap['default_source'];
+    var value = resourceMap['default_source'];
     if (value == null)
       return null;
     else
       return new Card.fromMap(value);
   }
 
-  bool get delinquent => _dataMap['delinquent'];
+  bool get delinquent => resourceMap['delinquent'];
 
-  String get description => _dataMap['description'];
+  String get description => resourceMap['description'];
 
   Discount get discount {
-    var value = _dataMap['discount'];
+    var value = resourceMap['discount'];
     if (value == null)
       return null;
     else
       return new Discount.fromMap(value);
   }
 
-  String get email => _dataMap['email'];
+  String get email => resourceMap['email'];
 
-  Map<String, String> get metadata => _dataMap['metadata'];
+  Map<String, String> get metadata => resourceMap['metadata'];
 
   CardCollection get sources {
-    var value = _dataMap['sources'];
+    var value = resourceMap['sources'];
     if (value == null)
       return null;
     else
@@ -53,7 +60,7 @@ class Customer extends ApiResource {
   }
 
   SubscriptionCollection get subscriptions {
-    var value = _dataMap['subscriptions'];
+    var value = resourceMap['subscriptions'];
     if (value == null)
       return null;
     else
@@ -65,7 +72,7 @@ class Customer extends ApiResource {
   /// [Retrieve a customer](https://stripe.com/docs/api#retrieve_customer)
   static Future<Customer> retrieve(String customerId, {final Map data}) async {
     var dataMap =
-        await StripeService.retrieve([Customer._path, customerId], data: data);
+        await StripeService.retrieve([Customer.path, customerId], data: data);
     return new Customer.fromMap(dataMap);
   }
 
@@ -81,17 +88,17 @@ class Customer extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([Customer._path], data: data);
+    var dataMap = await StripeService.list([Customer.path], data: data);
     return new CustomerCollection.fromMap(dataMap);
   }
 
   /// [Delete a customer](https://stripe.com/docs/api#delete_customer)
   static Future<Map> delete(String customerId) =>
-      StripeService.delete([Customer._path, customerId]);
+      StripeService.delete([Customer.path, customerId]);
 }
 
 class CustomerCollection extends ResourceCollection {
-  Customer _getInstanceFromMap(map) => new Customer.fromMap(map);
+  Customer getInstanceFromMap(map) => new Customer.fromMap(map);
 
   CustomerCollection.fromMap(Map map) : super.fromMap(map);
 }
@@ -99,26 +106,26 @@ class CustomerCollection extends ResourceCollection {
 /// [Create a customer](https://stripe.com/docs/api#create_customer)
 class CustomerCreation extends ResourceRequest {
   set accountBalance(int accountBalance) =>
-      _setMap('account_balance', accountBalance);
+      setMap('account_balance', accountBalance);
 
-  set coupon(String coupon) => _setMap('coupon', coupon);
+  set coupon(String coupon) => setMap('coupon', coupon);
 
-  set description(String description) => _setMap('description', description);
+  set description(String description) => setMap('description', description);
 
-  set email(String email) => _setMap('email', email);
+  set email(String email) => setMap('email', email);
 
-  set metadata(Map metadata) => _setMap('metadata', metadata);
+  set metadata(Map metadata) => setMap('metadata', metadata);
 
-  set plan(String plan) => _setMap('plan', plan);
+  set plan(String plan) => setMap('plan', plan);
 
-  set quantity(int quantity) => _setMap('quantity', quantity);
+  set quantity(int quantity) => setMap('quantity', quantity);
 
-  set source(SourceCreation source) => _setMap('source', source);
+  set source(SourceCreation source) => setMap('source', source);
 
-  set trialEnd(int trialEnd) => _setMap('trial_end', trialEnd);
+  set trialEnd(int trialEnd) => setMap('trial_end', trialEnd);
 
   Future<Customer> create({String idempotencyKey}) async {
-    var dataMap = await StripeService.create([Customer._path], _getMap(),
+    var dataMap = await StripeService.create([Customer.path], getMap(),
         idempotencyKey: idempotencyKey);
     return new Customer.fromMap(dataMap);
   }
@@ -127,25 +134,25 @@ class CustomerCreation extends ResourceRequest {
 /// [Update a customer](https://stripe.com/docs/api#update_customer)
 class CustomerUpdate extends ResourceRequest {
   set accountBalance(int accountBalance) =>
-      _setMap('account_balance', accountBalance);
+      setMap('account_balance', accountBalance);
 
-  set coupon(String coupon) => _setMap('coupon', coupon);
+  set coupon(String coupon) => setMap('coupon', coupon);
 
-  set description(String description) => _setMap('description', description);
+  set description(String description) => setMap('description', description);
 
-  set email(String email) => _setMap('email', email);
+  set email(String email) => setMap('email', email);
 
-  set metadata(Map metadata) => _setMap('metadata', metadata);
+  set metadata(Map metadata) => setMap('metadata', metadata);
 
-  set sourceToken(String sourceToken) => _setMap('source', sourceToken);
+  set sourceToken(String sourceToken) => setMap('source', sourceToken);
 
-  set source(SourceCreation source) => _setMap('source', source);
+  set source(SourceCreation source) => setMap('source', source);
 
-  set defaultSource(String sourceId) => _setMap('default_source', sourceId);
+  set defaultSource(String sourceId) => setMap('default_source', sourceId);
 
   Future<Customer> update(String customerId) async {
     var dataMap =
-        await StripeService.update([Customer._path, customerId], _getMap());
+        await StripeService.update([Customer.path, customerId], getMap());
     return new Customer.fromMap(dataMap);
   }
 }

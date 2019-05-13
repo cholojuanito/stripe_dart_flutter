@@ -1,40 +1,46 @@
-part of stripe;
+import '../api_resource.dart';
+import '../resource.dart';
+import '../resource_collection.dart';
+import '../service.dart';
+
+import 'balance.dart';
+import 'charge.dart';
 
 /// [Refunds](https://stripe.com/docs/api#refunds)
 class Refund extends ApiResource {
-  String get id => _dataMap['id'];
+  String get id => resourceMap['id'];
 
   final String object = 'refund';
 
-  static var _path = 'refunds';
+  static var path = 'refunds';
 
-  int get amount => _dataMap['amount'];
+  int get amount => resourceMap['amount'];
 
-  DateTime get created => _getDateTimeFromMap('created');
+  DateTime get created => getDateTimeFromMap('created');
 
-  String get currency => _dataMap['currency'];
+  String get currency => resourceMap['currency'];
 
   String get balanceTransaction {
-    return this._getIdForExpandable('balance_transaction');
+    return this.getIdForExpandable('balance_transaction');
   }
 
   BalanceTransaction get balanceTransactionExpand {
-    var value = _dataMap['balance_transaction'];
+    var value = resourceMap['balance_transaction'];
     if (value == null)
       return null;
     else
       return new BalanceTransaction.fromMap(value);
   }
 
-  String get charge => _dataMap['charge'];
+  String get charge => resourceMap['charge'];
 
-  Map<String, String> get metadata => _dataMap['metadata'];
+  Map<String, String> get metadata => resourceMap['metadata'];
 
-  String get reason => _dataMap['reason'];
+  String get reason => resourceMap['reason'];
 
-  String get receiptNumber => _dataMap['receipt_number'];
+  String get receiptNumber => resourceMap['receipt_number'];
 
-  String get description => _dataMap['description'];
+  String get description => resourceMap['description'];
 
   Refund.fromMap(Map dataMap) : super.fromMap(dataMap);
 
@@ -42,7 +48,7 @@ class Refund extends ApiResource {
   static Future<Refund> retrieve(String chargeId, String refundId,
       {final Map data}) async {
     var dataMap = await StripeService.retrieve(
-        [Charge._path, chargeId, Refund._path, refundId],
+        [Charge.path, chargeId, Refund.path, refundId],
         data: data);
     return new Refund.fromMap(dataMap);
   }
@@ -55,8 +61,7 @@ class Refund extends ApiResource {
     if (limit != null) data['limit'] = limit;
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list(
-        [Charge._path, chargeId, Refund._path],
+    var dataMap = await StripeService.list([Charge.path, chargeId, Refund.path],
         data: data);
     return new RefundCollection.fromMap(dataMap);
   }
@@ -64,35 +69,35 @@ class Refund extends ApiResource {
 
 /// [Create a refund](https://stripe.com/docs/api#create_refund)
 class RefundCreation extends ResourceRequest {
-  set amount(int amount) => _setMap('amount', amount);
+  set amount(int amount) => setMap('amount', amount);
 
   set refundApplicationFee(bool refundApplicationFee) =>
-      _setMap('refund_application_fee', refundApplicationFee.toString());
+      setMap('refund_application_fee', refundApplicationFee.toString());
 
-  set reason(String reason) => _setMap('reason', reason);
+  set reason(String reason) => setMap('reason', reason);
 
-  set metadata(Map metadata) => _setMap('metadata', metadata);
+  set metadata(Map metadata) => setMap('metadata', metadata);
 
   Future<Refund> create(String chargeId) async {
     var dataMap = await StripeService.create(
-        [Charge._path, chargeId, Refund._path], _getMap());
+        [Charge.path, chargeId, Refund.path], getMap());
     return new Refund.fromMap(dataMap);
   }
 }
 
 /// [Update a refund](https://stripe.com/docs/api#update_refund)
 class RefundUpdate extends ResourceRequest {
-  set metadata(Map metadata) => _setMap('metadata', metadata);
+  set metadata(Map metadata) => setMap('metadata', metadata);
 
   Future<Refund> update(String chargeId, String refundId) async {
     var dataMap = await StripeService.update(
-        [Charge._path, chargeId, Refund._path, refundId], _getMap());
+        [Charge.path, chargeId, Refund.path, refundId], getMap());
     return new Refund.fromMap(dataMap);
   }
 }
 
 class RefundCollection extends ResourceCollection {
-  Refund _getInstanceFromMap(map) => new Refund.fromMap(map);
+  Refund getInstanceFromMap(map) => new Refund.fromMap(map);
 
   RefundCollection.fromMap(Map map) : super.fromMap(map);
 }

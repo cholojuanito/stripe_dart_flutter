@@ -1,106 +1,113 @@
-part of stripe;
+import '../api_resource.dart';
+import '../resource.dart';
+import '../resource_collection.dart';
+import '../service.dart';
+
+import 'charge.dart';
+import 'customer.dart';
+import 'discount.dart';
+import 'plan.dart';
 
 /// [Invoices](https://stripe.com/docs/api/curl#invoices)
 class Invoice extends ApiResource {
-  String get id => _dataMap['id'];
+  String get id => resourceMap['id'];
 
   final String object = 'invoice';
 
-  static var _path = 'invoices';
+  static var path = 'invoices';
 
-  bool get livemode => _dataMap['livemode'];
+  bool get livemode => resourceMap['livemode'];
 
-  int get amountDue => _dataMap['amount_due'];
+  int get amountDue => resourceMap['amount_due'];
 
-  int get attemptCount => _dataMap['attempt_count'];
+  int get attemptCount => resourceMap['attempt_count'];
 
-  bool get attempted => _dataMap['attempted'];
+  bool get attempted => resourceMap['attempted'];
 
-  bool get closed => _dataMap['closed'];
+  bool get closed => resourceMap['closed'];
 
-  String get currency => _dataMap['currency'];
+  String get currency => resourceMap['currency'];
 
   String get customer {
-    return this._getIdForExpandable('customer');
+    return this.getIdForExpandable('customer');
   }
 
   Customer get customerExpand {
-    var value = _dataMap['customer'];
+    var value = resourceMap['customer'];
     if (value == null)
       return null;
     else
       return new Customer.fromMap(value);
   }
 
-  DateTime get date => _getDateTimeFromMap('date');
+  DateTime get date => getDateTimeFromMap('date');
 
   InvoiceLineItemCollection get lines {
-    var value = _dataMap['lines'];
+    var value = resourceMap['lines'];
     if (value == null)
       return null;
     else
       return new InvoiceLineItemCollection.fromMap(value);
   }
 
-  bool get paid => _dataMap['paid'];
+  bool get paid => resourceMap['paid'];
 
-  DateTime get periodEnd => _getDateTimeFromMap('period_end');
+  DateTime get periodEnd => getDateTimeFromMap('period_end');
 
-  DateTime get periodStart => _getDateTimeFromMap('period_start');
+  DateTime get periodStart => getDateTimeFromMap('period_start');
 
-  int get startingBalance => _dataMap['starting_balance'];
+  int get startingBalance => resourceMap['starting_balance'];
 
-  int get subtotal => _dataMap['subtotal'];
+  int get subtotal => resourceMap['subtotal'];
 
-  int get total => _dataMap['total'];
+  int get total => resourceMap['total'];
 
-  int get applicationFee => _dataMap['application_fee'];
+  int get applicationFee => resourceMap['application_fee'];
 
   String get charge {
-    return this._getIdForExpandable('charge');
+    return this.getIdForExpandable('charge');
   }
 
   Charge get chargeExpand {
-    var value = _dataMap['charge'];
+    var value = resourceMap['charge'];
     if (value == null)
       return null;
     else
       return new Charge.fromMap(value);
   }
 
-  String get description => _dataMap['description'];
+  String get description => resourceMap['description'];
 
   Discount get discount {
-    var value = _dataMap['discount'];
+    var value = resourceMap['discount'];
     if (value == null)
       return null;
     else
       return new Discount.fromMap(value);
   }
 
-  int get endingBalance => _dataMap['ending_balance'];
+  int get endingBalance => resourceMap['ending_balance'];
 
-  DateTime get nextPaymentAttempt =>
-      _getDateTimeFromMap('next_payment_attempt');
+  DateTime get nextPaymentAttempt => getDateTimeFromMap('next_payment_attempt');
 
-  String get subscription => _dataMap['subscription'];
+  String get subscription => resourceMap['subscription'];
 
   DateTime get webhooksDeliveredAt =>
-      _getDateTimeFromMap('webhooks_delivered_at');
+      getDateTimeFromMap('webhooks_delivered_at');
 
-  Map<String, String> get metadata => _dataMap['metadata'];
+  Map<String, String> get metadata => resourceMap['metadata'];
 
   Invoice.fromMap(Map dataMap) : super.fromMap(dataMap);
 
   /// [Retrieving an Invoice](https://stripe.com/docs/api/curl#retrieve_invoice)
   static Future<Invoice> retrieve(String invoiceId) async {
-    var dataMap = await StripeService.retrieve([Invoice._path, invoiceId]);
+    var dataMap = await StripeService.retrieve([Invoice.path, invoiceId]);
     return new Invoice.fromMap(dataMap);
   }
 
   /// [Paying an invoice](https://stripe.com/docs/api/curl#pay_invoice)
   static Future<Invoice> pay(String invoiceId) async {
-    var dataMap = await StripeService.post([Invoice._path, invoiceId, 'pay']);
+    var dataMap = await StripeService.post([Invoice.path, invoiceId, 'pay']);
     return new Invoice.fromMap(dataMap);
   }
 
@@ -117,7 +124,7 @@ class Invoice extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([Invoice._path], data: data);
+    var dataMap = await StripeService.list([Invoice.path], data: data);
     return new InvoiceCollection.fromMap(dataMap);
   }
 
@@ -128,7 +135,7 @@ class Invoice extends ApiResource {
     data['customer'] = customerId;
     if (subscriptionId != null) data['subscription'] = subscriptionId;
     var dataMap =
-        await StripeService.get([Invoice._path, 'upcoming'], data: data);
+        await StripeService.get([Invoice.path, 'upcoming'], data: data);
     return new Invoice.fromMap(dataMap);
   }
 
@@ -147,34 +154,33 @@ class Invoice extends ApiResource {
     if (subscriptionId != null) data['s'] = subscriptionId;
     if (data == {}) data = null;
     var dataMap = await StripeService.retrieve(
-        [Invoice._path, invoiceId, InvoiceLineItem._path]);
+        [Invoice.path, invoiceId, InvoiceLineItem.path]);
     return new InvoiceLineItemCollection.fromMap(dataMap);
   }
 }
 
 class InvoiceCollection extends ResourceCollection {
-  Invoice _getInstanceFromMap(map) => new Invoice.fromMap(map);
+  Invoice getInstanceFromMap(map) => new Invoice.fromMap(map);
 
   InvoiceCollection.fromMap(Map map) : super.fromMap(map);
 }
 
 /// [Creating an invoice](https://stripe.com/docs/api/curl#create_invoice)
 class InvoiceCreation extends ResourceRequest {
-  @required
-  set customer(String customer) => _setMap('customer', customer);
+  // //@required
+  set customer(String customer) => setMap('customer', customer);
 
   set applicationFee(int applicationFee) =>
-      _setMap('application_fee', applicationFee);
+      setMap('application_fee', applicationFee);
 
-  set description(String description) => _setMap('description', description);
+  set description(String description) => setMap('description', description);
 
-  set metadata(Map metadata) => _setMap('metadata', metadata);
+  set metadata(Map metadata) => setMap('metadata', metadata);
 
-  set subscription(String subscription) =>
-      _setMap('subscription', subscription);
+  set subscription(String subscription) => setMap('subscription', subscription);
 
   Future<Invoice> create() async {
-    var dataMap = await StripeService.create([Invoice._path], _getMap());
+    var dataMap = await StripeService.create([Invoice.path], getMap());
     return new Invoice.fromMap(dataMap);
   }
 }
@@ -182,76 +188,76 @@ class InvoiceCreation extends ResourceRequest {
 /// [Updating an invoice](https://stripe.com/docs/api/curl#update_invoice)
 class InvoiceUpdate extends ResourceRequest {
   set applicationFee(int applicationFee) =>
-      _setMap('application_fee', applicationFee);
+      setMap('application_fee', applicationFee);
 
-  set closed(bool closed) => _setMap('closed', closed);
+  set closed(bool closed) => setMap('closed', closed);
 
-  set description(String description) => _setMap('description', description);
+  set description(String description) => setMap('description', description);
 
-  set metadata(Map metadata) => _setMap('metadata', metadata);
+  set metadata(Map metadata) => setMap('metadata', metadata);
 
   Future<Invoice> update(String invoiceId) async {
     var dataMap =
-        await StripeService.update([Invoice._path, invoiceId], _getMap());
+        await StripeService.update([Invoice.path, invoiceId], getMap());
     return new Invoice.fromMap(dataMap);
   }
 }
 
 /// [The invoice_line_item object](https://stripe.com/docs/api/curl#invoice_line_item_object)
 class InvoiceLineItem extends Resource {
-  String get id => _dataMap['id'];
+  String get id => resourceMap['id'];
 
   final String object = 'line_item';
 
-  static var _path = 'lines';
+  static var path = 'lines';
 
-  bool get livemode => _dataMap['livemode'];
+  bool get livemode => resourceMap['livemode'];
 
-  int get amount => _dataMap['amount'];
+  int get amount => resourceMap['amount'];
 
-  String get currency => _dataMap['currency'];
+  String get currency => resourceMap['currency'];
 
   Period get period {
-    var value = _dataMap['period'];
+    var value = resourceMap['period'];
     if (value == null)
       return null;
     else
       return new Period.fromMap(value);
   }
 
-  bool get proration => _dataMap['proration'];
+  bool get proration => resourceMap['proration'];
 
-  String get type => _dataMap['type'];
+  String get type => resourceMap['type'];
 
-  String get description => _dataMap['description'];
+  String get description => resourceMap['description'];
 
-  Map<String, String> get metadata => _dataMap['metadata'];
+  Map<String, String> get metadata => resourceMap['metadata'];
 
   Plan get plan {
-    var value = _dataMap['plan'];
+    var value = resourceMap['plan'];
     if (value == null)
       return null;
     else
       return new Plan.fromMap(value);
   }
 
-  int get quantity => _dataMap['quantity'];
+  int get quantity => resourceMap['quantity'];
 
   InvoiceLineItem.fromMap(Map dataMap) : super.fromMap(dataMap);
 }
 
 class InvoiceLineItemCollection extends ResourceCollection {
-  InvoiceLineItem _getInstanceFromMap(map) => new InvoiceLineItem.fromMap(map);
+  InvoiceLineItem getInstanceFromMap(map) => new InvoiceLineItem.fromMap(map);
 
   InvoiceLineItemCollection.fromMap(Map map) : super.fromMap(map);
 }
 
 class Period {
-  Map _dataMap;
+  Map resourceMap;
 
-  int get start => _dataMap['start'];
+  int get start => resourceMap['start'];
 
-  int get end => _dataMap['end'];
+  int get end => resourceMap['end'];
 
-  Period.fromMap(this._dataMap);
+  Period.fromMap(this.resourceMap);
 }

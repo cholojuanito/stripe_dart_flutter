@@ -1,29 +1,31 @@
-part of stripe;
+import '../api_resource.dart';
+import '../resource.dart';
+import '../resource_collection.dart';
+import '../service.dart';
 
 /// [File uploads](https://stripe.com/docs/api/curl#file_uploads)
 class FileUpload extends ApiResource {
-  String get id => _dataMap['id'];
+  String get id => resourceMap['id'];
 
   final String object = 'file_upload';
 
-  static var _path = 'files';
+  static var path = 'files';
 
-  DateTime get created => _getDateTimeFromMap('created');
+  DateTime get created => getDateTimeFromMap('created');
 
-  String get purpose => _dataMap['purpose'];
+  String get purpose => resourceMap['purpose'];
 
-  int get size => _dataMap['size'];
+  int get size => resourceMap['size'];
 
-  String get type => _dataMap['type'];
+  String get type => resourceMap['type'];
 
-  String get url => _dataMap['url'];
+  String get url => resourceMap['url'];
 
   FileUpload.fromMap(Map dataMap) : super.fromMap(dataMap);
 
   /// [Retrieve a file upload](https://stripe.com/docs/api/curl#retrieve_file_upload)
   static Future<FileUpload> retrieve(String fileUploadId) async {
-    var dataMap =
-        await StripeService.retrieve([FileUpload._path, fileUploadId]);
+    var dataMap = await StripeService.retrieve([FileUpload.path, fileUploadId]);
     return new FileUpload.fromMap(dataMap);
   }
 
@@ -41,7 +43,7 @@ class FileUpload extends ApiResource {
     if (purpose != null) data['purpose'] = purpose;
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([FileUpload._path], data: data);
+    var dataMap = await StripeService.list([FileUpload.path], data: data);
     return new FileUploadCollection.fromMap(dataMap);
   }
 }
@@ -52,7 +54,7 @@ class UploadFileCreation extends ResourceRequest {
 }
 
 class FileUploadCollection extends ResourceCollection {
-  FileUpload _getInstanceFromMap(map) => new FileUpload.fromMap(map);
+  FileUpload getInstanceFromMap(map) => new FileUpload.fromMap(map);
 
   FileUploadCollection.fromMap(Map map) : super.fromMap(map);
 }

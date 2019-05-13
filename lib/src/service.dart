@@ -1,4 +1,10 @@
-part of stripe;
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:logging/logging.dart';
+
+import 'exceptions.dart';
 
 /// The service to communicate with the REST stripe API.
 abstract class StripeService {

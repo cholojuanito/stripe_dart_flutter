@@ -1,17 +1,17 @@
-part of stripe;
+import '../resource.dart';
 
 class Address extends Resource {
-  String get line1 => _dataMap['line1'];
+  String get line1 => resourceMap['line1'];
 
-  String get line2 => _dataMap['line2'];
+  String get line2 => resourceMap['line2'];
 
-  String get city => _dataMap['city'];
+  String get city => resourceMap['city'];
 
-  String get state => _dataMap['state'];
+  String get state => resourceMap['state'];
 
-  String get postalCode => _dataMap['postal_code'];
+  String get postalCode => resourceMap['postal_code'];
 
-  String get country => _dataMap['country'];
+  String get country => resourceMap['country'];
 
   Address.fromMap(Map dataMap) : super.fromMap(dataMap);
 }

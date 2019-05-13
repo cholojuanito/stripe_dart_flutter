@@ -1,23 +1,30 @@
-part of stripe;
+import '../api_resource.dart';
+import '../resource.dart';
+import '../service.dart';
+
+import '../resources/bank_account.dart';
+
+import 'card.dart';
+import 'customer.dart';
 
 /// [Tokens](https://stripe.com/docs/api/curl#tokens)
 class Token extends ApiResource {
-  String get id => _dataMap['id'];
+  String get id => resourceMap['id'];
 
   final String object = 'token';
 
-  static var _path = 'tokens';
+  static var path = 'tokens';
 
-  bool get livemode => _dataMap['livemode'];
+  bool get livemode => resourceMap['livemode'];
 
-  DateTime get created => _getDateTimeFromMap('created');
+  DateTime get created => getDateTimeFromMap('created');
 
-  String get type => _dataMap['type'];
+  String get type => resourceMap['type'];
 
-  bool get used => _dataMap['used'];
+  bool get used => resourceMap['used'];
 
   BankAccount get bankAccount {
-    var value = _dataMap['bank_account'];
+    var value = resourceMap['bank_account'];
     if (value == null)
       return null;
     else
@@ -25,7 +32,7 @@ class Token extends ApiResource {
   }
 
   Card get card {
-    var value = _dataMap['card'];
+    var value = resourceMap['card'];
     if (value == null)
       return null;
     else
@@ -36,19 +43,19 @@ class Token extends ApiResource {
 
   /// [Retrieving a Token](https://stripe.com/docs/api/curl#retrieve_token)
   static Future<Token> retrieve(String tokenId) async {
-    var dataMap = await StripeService.retrieve([Token._path, tokenId]);
+    var dataMap = await StripeService.retrieve([Token.path, tokenId]);
     return new Token.fromMap(dataMap);
   }
 }
 
 /// [Creating a Card Token](https://stripe.com/docs/api/curl#create_card_token)
 class CardTokenCreation extends ResourceRequest {
-  set card(CardCreation card) => _setMap('card', card);
+  set card(CardCreation card) => setMap('card', card);
 
-  set customer(CustomerCreation customer) => _setMap('customer', customer);
+  set customer(CustomerCreation customer) => setMap('customer', customer);
 
   Future<Token> create() async {
-    var dataMap = await StripeService.create([Token._path], _getMap());
+    var dataMap = await StripeService.create([Token.path], getMap());
     return new Token.fromMap(dataMap);
   }
 }
@@ -56,10 +63,10 @@ class CardTokenCreation extends ResourceRequest {
 /// [Creating a Bank Account Token](https://stripe.com/docs/api/curl#create_bank_account_token)
 class BankAccountTokenCreation extends ResourceRequest {
   set bankAccount(BankAccount bankAccount) =>
-      _setMap('bank_account', bankAccount.toMap());
+      setMap('bank_account', bankAccount.toMap());
 
   Future<Token> create() async {
-    var dataMap = await StripeService.create([Token._path], _getMap());
+    var dataMap = await StripeService.create([Token.path], getMap());
     return new Token.fromMap(dataMap);
   }
 }

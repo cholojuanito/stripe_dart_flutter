@@ -1,5 +1,3 @@
-part of stripe;
-
 class InvalidDataReceivedException implements Exception {
   final String errorMessage;
 

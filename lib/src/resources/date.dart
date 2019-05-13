@@ -1,11 +1,11 @@
-part of stripe;
+import '../resource.dart';
 
 class Date extends Resource {
-  int get day => _dataMap['day'];
+  int get day => resourceMap['day'];
 
-  int get month => _dataMap['month'];
+  int get month => resourceMap['month'];
 
-  int get year => _dataMap['year'];
+  int get year => resourceMap['year'];
 
   Date.fromMap(Map dataMap) : super.fromMap(dataMap);
 }
