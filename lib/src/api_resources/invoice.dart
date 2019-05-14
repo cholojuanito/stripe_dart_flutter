@@ -169,7 +169,7 @@ class InvoiceCollection extends ResourceCollection {
 class InvoiceCreation extends ResourceRequest {
   InvoiceCollection() {
     setMap('object', 'Invoice');
-    setRequiredSet('customer');
+    setRequiredFields('customer');
   }
 
   // //@required

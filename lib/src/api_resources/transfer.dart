@@ -166,9 +166,9 @@ class TransferCollection extends ResourceCollection {
 class TransferCreation extends ResourceRequest {
   TransferCreation() {
     setMap('object', 'Transfer');
-    setRequiredSet('amount');
-    setRequiredSet('currency');
-    setRequiredSet('destination');
+    setRequiredFields('amount');
+    setRequiredFields('currency');
+    setRequiredFields('destination');
   }
 
   // //@required

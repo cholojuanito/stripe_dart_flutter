@@ -70,7 +70,7 @@ class CouponCollection extends ResourceCollection {
 class CouponCreation extends ResourceRequest {
   CouponCreation() {
     setMap('object', 'card');
-    setRequiredSet('duration');
+    setRequiredFields('duration');
   }
 
   set id(String id) => setMap('id', id);

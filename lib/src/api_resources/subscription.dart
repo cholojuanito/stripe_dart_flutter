@@ -116,7 +116,7 @@ class SubscriptionCollection extends ResourceCollection {
 class SubscriptionCreation extends ResourceRequest {
   SubscriptionCreation() {
     setMap('object', 'Subscription');
-    setRequiredSet('plan');
+    setRequiredFields('plan');
   }
 
   // //@required

@@ -65,11 +65,11 @@ class PlanCollection extends ResourceCollection {
 class PlanCreation extends ResourceRequest {
   PlanCreation() {
     setMap('object', 'Plan');
-    setRequiredSet('id');
-    setRequiredSet('amount');
-    setRequiredSet('currency');
-    setRequiredSet('interval');
-    setRequiredSet('name');
+    setRequiredFields('id');
+    setRequiredFields('amount');
+    setRequiredFields('currency');
+    setRequiredFields('interval');
+    setRequiredFields('name');
   }
 
   // //@required

@@ -48,10 +48,10 @@ abstract class ResourceRequest {
   /// Holds all values that have been set/changed.
   /// You should not access this map directly, but use [setMap] and [getMap].
   Map<String, dynamic> _map = {};
-  Set<String> _requiredMap = {};
+  Set<String> _requiredFields = {};
 
-  setRequiredSet(String value) {
-    _requiredMap.add(value);
+  setRequiredFields(String value) {
+    _requiredFields.add(value);
   }
 
   setMap(String key, dynamic value) {
@@ -61,11 +61,15 @@ abstract class ResourceRequest {
 
   /// Returns the [_map] and checks that all [required] fields are set.
   getMap() {
-    _requiredMap.forEach((k) {
+    // Make sure required fields are set
+    _requiredFields.forEach((k) {
       if (_map[k] == null) {
-        error(k);
+        _error(k);
       }
-      var v = _map[k];
+    });
+
+    // Expand all of the fields that are ResourceRequests
+    _map.forEach((k, v) {
       if (v is ResourceRequest) {
         _map[k] = v.getMap();
       }
@@ -73,10 +77,10 @@ abstract class ResourceRequest {
     return _map;
   }
 
-  error(String setter) {
+  _error(String setter) {
     String className = _map['object'] != null ? _map['object'] : 'undefind';
 
-    throw new MissingArgumentException(
+    throw MissingArgumentException(
         'You have to set ${setter} for a proper ${className} request');
   }
 

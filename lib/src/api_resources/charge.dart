@@ -178,8 +178,8 @@ class ChargeCollection extends ResourceCollection {
 class ChargeCreation extends ResourceRequest {
   ChargeCreation() {
     setMap('object', 'charge');
-    setRequiredSet('amount');
-    setRequiredSet('currency');
+    setRequiredFields('amount');
+    setRequiredFields('currency');
   }
 
   // //@required

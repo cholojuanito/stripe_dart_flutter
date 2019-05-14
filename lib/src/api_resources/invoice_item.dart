@@ -97,9 +97,9 @@ class InvoiceItemCollection extends ResourceCollection {
 class InvoiceItemCreation extends ResourceRequest {
   InvoiceItemCreation() {
     setMap('object', 'InvoiceItem');
-    setRequiredSet('customer');
-    setRequiredSet('amount');
-    setRequiredSet('currency');
+    setRequiredFields('customer');
+    setRequiredFields('amount');
+    setRequiredFields('currency');
   }
 
   // //@required

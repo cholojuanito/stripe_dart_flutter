@@ -102,10 +102,10 @@ class CardCollection extends ResourceCollection {
 class CardCreation extends ResourceRequest implements SourceCreation {
   CardCreation() {
     setMap('object', 'card');
-    setRequiredSet('number');
-    setRequiredSet('exp_month');
-    setRequiredSet('exp_year');
-    setRequiredSet('cvc');
+    setRequiredFields('number');
+    setRequiredFields('exp_month');
+    setRequiredFields('exp_year');
+    setRequiredFields('cvc');
   }
 
   //@required
