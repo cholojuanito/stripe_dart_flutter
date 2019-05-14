@@ -59,9 +59,8 @@ class InvoiceItem extends ApiResource {
   /// [Retrieving an Invoice Item](https://stripe.com/docs/api/curl#retrieve_invoiceitem)
   static Future<InvoiceItem> retrieve(String invoiceItemId,
       {final Map data}) async {
-    var dataMap = await StripeService.retrieve(
-        [InvoiceItem.path, invoiceItemId],
-        data: data);
+    var dataMap =
+        await retrieveResource([InvoiceItem.path, invoiceItemId], data: data);
     return InvoiceItem.fromMap(dataMap);
   }
 
@@ -78,13 +77,13 @@ class InvoiceItem extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([InvoiceItem.path], data: data);
+    var dataMap = await listResource([InvoiceItem.path], data: data);
     return InvoiceItemCollection.fromMap(dataMap);
   }
 
   /// [Deleting an Invoice Item](https://stripe.com/docs/api/curl#delete_invoiceitem)
   static Future<Map> delete(String invoiceItemId) =>
-      StripeService.delete([InvoiceItem.path, invoiceItemId]);
+      deleteResource([InvoiceItem.path, invoiceItemId]);
 }
 
 class InvoiceItemCollection extends ResourceCollection {
@@ -120,7 +119,7 @@ class InvoiceItemCreation extends ResourceRequest {
   set metadata(Map metadata) => setMap('metadata', metadata);
 
   Future<InvoiceItem> create() async {
-    var dataMap = await StripeService.create([InvoiceItem.path], getMap());
+    var dataMap = await createResource([InvoiceItem.path], getMap());
     return InvoiceItem.fromMap(dataMap);
   }
 }
@@ -135,7 +134,7 @@ class InvoiceItemUpdate extends ResourceRequest {
 
   Future<InvoiceItem> update(String invoiceItemId) async {
     var dataMap =
-        await StripeService.update([InvoiceItem.path, invoiceItemId], getMap());
+        await updateResource([InvoiceItem.path, invoiceItemId], getMap());
     return InvoiceItem.fromMap(dataMap);
   }
 }

@@ -30,7 +30,7 @@ class Balance extends Resource {
 
   /// [Retrieve a balance](https://stripe.com/docs/api/curl#retrieve_balance)
   static Future<Balance> retrieve() async {
-    var dataMap = await StripeService.get([Balance.path]);
+    var dataMap = await getResource([Balance.path]);
     return Balance.fromMap(dataMap);
   }
 }
@@ -84,7 +84,7 @@ class BalanceTransaction extends ApiResource {
 
   /// [Retrieving a Balance Transaction](https://stripe.com/docs/api/curl#retrieve_balance_transaction)
   static Future<BalanceTransaction> retrieve(String transactionId) async {
-    var dataMap = await StripeService.get(
+    var dataMap = await getResource(
         [Balance.path, BalanceTransaction.path, transactionId]);
     return BalanceTransaction.fromMap(dataMap);
   }
@@ -98,9 +98,8 @@ class BalanceTransaction extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list(
-        [Balance.path, BalanceTransaction.path],
-        data: data);
+    var dataMap =
+        await listResource([Balance.path, BalanceTransaction.path], data: data);
     return BalanceTransactionCollection.fromMap(dataMap);
   }
 }

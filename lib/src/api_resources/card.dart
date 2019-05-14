@@ -67,7 +67,7 @@ class Card extends ApiResource {
   /// [Retrieving a customer's card](https://stripe.com/docs/api/curl#retrieve_card)
   static Future<Card> retrieve(String customerId, String cardId,
       {final Map data}) async {
-    var dataMap = await StripeService.retrieve(
+    var dataMap = await retrieveResource(
         [Customer.path, customerId, Card.path, cardId],
         data: data);
     return Card.fromMap(dataMap);
@@ -81,15 +81,14 @@ class Card extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list(
-        [Customer.path, customerId, Card.path],
-        data: data);
+    var dataMap =
+        await listResource([Customer.path, customerId, Card.path], data: data);
     return CardCollection.fromMap(dataMap);
   }
 
   /// [Deleting cards](https://stripe.com/docs/api/curl#delete_card)
   static Future<Map> delete(String customerId, String cardId) =>
-      StripeService.delete([Customer.path, customerId, Card.path, cardId]);
+      deleteResource([Customer.path, customerId, Card.path, cardId]);
 }
 
 class CardCollection extends ResourceCollection {
@@ -139,7 +138,7 @@ class CardCreation extends ResourceRequest implements SourceCreation {
       setMap('address_country', addressCountry);
 
   Future<Card> create(String customerId) async {
-    var dataMap = await StripeService.create(
+    var dataMap = await createResource(
         [Customer.path, customerId, Card.path], {'card': getMap()});
     return Card.fromMap(dataMap);
   }
@@ -168,7 +167,7 @@ class CardCreationWithToken extends ResourceRequest implements SourceCreation {
   }
 
   Future<Card> create(String customerId) async {
-    var dataMap = await StripeService.create(
+    var dataMap = await createResource(
         [Customer.path, customerId, Card.path], {'source': getMap()});
     return Card.fromMap(dataMap);
   }
@@ -199,7 +198,7 @@ class CardUpdate extends ResourceRequest {
   set name(String name) => setMap('name', name);
 
   Future<Card> update(String customerId, String cardId) async {
-    var dataMap = await StripeService.update(
+    var dataMap = await updateResource(
         [Customer.path, customerId, Card.path, cardId], getMap());
     return Card.fromMap(dataMap);
   }

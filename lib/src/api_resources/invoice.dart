@@ -101,13 +101,13 @@ class Invoice extends ApiResource {
 
   /// [Retrieving an Invoice](https://stripe.com/docs/api/curl#retrieve_invoice)
   static Future<Invoice> retrieve(String invoiceId) async {
-    var dataMap = await StripeService.retrieve([Invoice.path, invoiceId]);
+    var dataMap = await retrieveResource([Invoice.path, invoiceId]);
     return Invoice.fromMap(dataMap);
   }
 
   /// [Paying an invoice](https://stripe.com/docs/api/curl#pay_invoice)
   static Future<Invoice> pay(String invoiceId) async {
-    var dataMap = await StripeService.post([Invoice.path, invoiceId, 'pay']);
+    var dataMap = await postResource([Invoice.path, invoiceId, 'pay']);
     return Invoice.fromMap(dataMap);
   }
 
@@ -124,7 +124,7 @@ class Invoice extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([Invoice.path], data: data);
+    var dataMap = await listResource([Invoice.path], data: data);
     return InvoiceCollection.fromMap(dataMap);
   }
 
@@ -134,8 +134,7 @@ class Invoice extends ApiResource {
     var data = {};
     data['customer'] = customerId;
     if (subscriptionId != null) data['subscription'] = subscriptionId;
-    var dataMap =
-        await StripeService.get([Invoice.path, 'upcoming'], data: data);
+    var dataMap = await getResource([Invoice.path, 'upcoming'], data: data);
     return Invoice.fromMap(dataMap);
   }
 
@@ -153,8 +152,8 @@ class Invoice extends ApiResource {
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (subscriptionId != null) data['s'] = subscriptionId;
     if (data == {}) data = null;
-    var dataMap = await StripeService.retrieve(
-        [Invoice.path, invoiceId, InvoiceLineItem.path]);
+    var dataMap =
+        await retrieveResource([Invoice.path, invoiceId, InvoiceLineItem.path]);
     return InvoiceLineItemCollection.fromMap(dataMap);
   }
 }
@@ -185,7 +184,7 @@ class InvoiceCreation extends ResourceRequest {
   set subscription(String subscription) => setMap('subscription', subscription);
 
   Future<Invoice> create() async {
-    var dataMap = await StripeService.create([Invoice.path], getMap());
+    var dataMap = await createResource([Invoice.path], getMap());
     return Invoice.fromMap(dataMap);
   }
 }
@@ -202,8 +201,7 @@ class InvoiceUpdate extends ResourceRequest {
   set metadata(Map metadata) => setMap('metadata', metadata);
 
   Future<Invoice> update(String invoiceId) async {
-    var dataMap =
-        await StripeService.update([Invoice.path, invoiceId], getMap());
+    var dataMap = await updateResource([Invoice.path, invoiceId], getMap());
     return Invoice.fromMap(dataMap);
   }
 }

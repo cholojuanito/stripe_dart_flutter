@@ -73,7 +73,7 @@ class Subscription extends ApiResource {
   /// [Retrieving a customer's subscription](https://stripe.com/docs/api/curl#retrieve_subscription)
   static Future<Subscription> retrieve(String customerId, String subscriptionId,
       {final Map data}) async {
-    var dataMap = await StripeService.retrieve(
+    var dataMap = await retrieveResource(
         [Customer.path, customerId, Subscription.path, subscriptionId],
         data: data);
     return Subscription.fromMap(dataMap);
@@ -85,7 +85,7 @@ class Subscription extends ApiResource {
     var data = {};
     if (atPeriodEnd != null) data['at_period_end'] = atPeriodEnd;
     if (data == {}) data = null;
-    var dataMap = await StripeService.delete(
+    var dataMap = await deleteResource(
         [Customer.path, customerId, Subscription.path, subscriptionId],
         data: data);
     return Subscription.fromMap(dataMap);
@@ -99,7 +99,7 @@ class Subscription extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list(
+    var dataMap = await listResource(
         [Customer.path, customerId, Subscription.path],
         data: data);
     return SubscriptionCollection.fromMap(dataMap);
@@ -136,7 +136,7 @@ class SubscriptionCreation extends ResourceRequest {
   set metadata(Map metadata) => setMap('metadata', metadata);
 
   Future<Subscription> create(String customerId) async {
-    var dataMap = await StripeService.create(
+    var dataMap = await createResource(
         [Customer.path, customerId, Subscription.path], getMap());
     return Subscription.fromMap(dataMap);
   }
@@ -162,7 +162,7 @@ class SubscriptionUpdate extends ResourceRequest {
   set metadata(Map metadata) => setMap('metadata', metadata);
 
   Future<Subscription> update(String customerId, String subscriptionId) async {
-    var dataMap = await StripeService.create(
+    var dataMap = await createResource(
         [Customer.path, customerId, Subscription.path, subscriptionId],
         getMap());
     return Subscription.fromMap(dataMap);

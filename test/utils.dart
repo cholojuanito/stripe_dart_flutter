@@ -24,7 +24,7 @@ setApiKeyFromArgs(List<String> args) {
         'Provide your stripe API key as the first command line argument!');
     exit(1);
   }
-  StripeService.apiKey = args.first;
+  .apiKey = args.first;
 }
 
 Future tearDown() async {

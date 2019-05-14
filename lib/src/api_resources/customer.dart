@@ -72,7 +72,7 @@ class Customer extends ApiResource {
   /// [Retrieve a customer](https://stripe.com/docs/api#retrieve_customer)
   static Future<Customer> retrieve(String customerId, {final Map data}) async {
     var dataMap =
-        await StripeService.retrieve([Customer.path, customerId], data: data);
+        await retrieveResource([Customer.path, customerId], data: data);
     return Customer.fromMap(dataMap);
   }
 
@@ -88,13 +88,13 @@ class Customer extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([Customer.path], data: data);
+    var dataMap = await listResource([Customer.path], data: data);
     return CustomerCollection.fromMap(dataMap);
   }
 
   /// [Delete a customer](https://stripe.com/docs/api#delete_customer)
   static Future<Map> delete(String customerId) =>
-      StripeService.delete([Customer.path, customerId]);
+      deleteResource([Customer.path, customerId]);
 }
 
 class CustomerCollection extends ResourceCollection {
@@ -125,7 +125,7 @@ class CustomerCreation extends ResourceRequest {
   set trialEnd(int trialEnd) => setMap('trial_end', trialEnd);
 
   Future<Customer> create({String idempotencyKey}) async {
-    var dataMap = await StripeService.create([Customer.path], getMap(),
+    var dataMap = await createResource([Customer.path], getMap(),
         idempotencyKey: idempotencyKey);
     return Customer.fromMap(dataMap);
   }
@@ -151,8 +151,7 @@ class CustomerUpdate extends ResourceRequest {
   set defaultSource(String sourceId) => setMap('default_source', sourceId);
 
   Future<Customer> update(String customerId) async {
-    var dataMap =
-        await StripeService.update([Customer.path, customerId], getMap());
+    var dataMap = await updateResource([Customer.path, customerId], getMap());
     return Customer.fromMap(dataMap);
   }
 }

@@ -32,7 +32,7 @@ class Event extends ApiResource {
 
   /// [Retrieve an event](https://stripe.com/docs/api/curl#retrieve_event)
   static Future<Event> retrieve(String eventId) async {
-    var dataMap = await StripeService.retrieve([Event.path, eventId]);
+    var dataMap = await retrieveResource([Event.path, eventId]);
     return Event.fromMap(dataMap);
   }
 
@@ -49,7 +49,7 @@ class Event extends ApiResource {
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (type != null) data['type'] = type;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([Event.path], data: data);
+    var dataMap = await listResource([Event.path], data: data);
     return EventCollection.fromMap(dataMap);
   }
 }

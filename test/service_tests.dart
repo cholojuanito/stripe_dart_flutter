@@ -5,11 +5,11 @@ import 'package:test/test.dart';
 import '../lib/stripe.dart';
 
 main() {
-  group('StripeService', () {
+  group('', () {
     group('helper functions', () {
       test('encodeMap()', () {
         var encoded =
-            StripeService.encodeMap({'test': 'val&ue', 'test 2': '/'});
+            .encodeMap({'test': 'val&ue', 'test 2': '/'});
         expect(encoded, 'test=val%26ue&test%202=%2F');
       });
     });

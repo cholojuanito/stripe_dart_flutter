@@ -99,7 +99,7 @@ class Account extends ApiResource {
   static Future<Account> retrieve({String accountId}) async {
     var parameters = [Account.pathSingle];
     if (accountId != null) parameters.add(accountId);
-    var dataMap = await StripeService.retrieve(parameters);
+    var dataMap = await retrieveResource(parameters);
     return Account.fromMap(dataMap);
   }
 
@@ -111,7 +111,7 @@ class Account extends ApiResource {
     if (limit != null) data['limit'] = limit;
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([Account.pathMultiple], data: data);
+    var dataMap = await listResource([Account.pathMultiple], data: data);
     return AccountCollection.fromMap(dataMap);
   }
 }
@@ -159,7 +159,7 @@ class AccountCreation extends ResourceRequest {
   set metadata(Map metadata) => setMap('metadata', metadata);
 
   Future<Account> create() async {
-    var dataMap = await StripeService.create([Account.pathMultiple], getMap());
+    var dataMap = await createResource([Account.pathMultiple], getMap());
     return Account.fromMap(dataMap);
   }
 }
@@ -204,7 +204,7 @@ class AccountUpdate extends ResourceRequest {
 
   Future<Account> update(String accountId) async {
     var dataMap =
-        await StripeService.update([Account.pathMultiple, accountId], getMap());
+        await updateResource([Account.pathMultiple, accountId], getMap());
     return Account.fromMap(dataMap);
   }
 }

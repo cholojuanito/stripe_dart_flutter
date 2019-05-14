@@ -33,12 +33,12 @@ class Discount extends Resource {
 
   /// [Deleting a Customer-wide Discount](https://stripe.com/docs/api/curl#delete_discount)
   static Future<Map> deleteForCustomer(String customerId) =>
-      StripeService.delete([Customer.path, customerId, Discount.path]);
+      deleteResource([Customer.path, customerId, Discount.path]);
 
   /// [Deleting a Subscription Discount](https://stripe.com/docs/api/curl#delete_subscription_discount)
   static Future<Map> deleteForSubscription(
       String customerId, String subscriptionId) {
-    return StripeService.delete([
+    return deleteResource([
       Customer.path,
       customerId,
       Subscription.path,

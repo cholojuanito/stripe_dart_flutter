@@ -58,7 +58,7 @@ class Dispute extends ApiResource {
 
   /// [Closing a dispute](https://stripe.com/docs/api/curl#close_dispute)
   static Future close(String chargeId) =>
-      StripeService.post([Charge.path, chargeId, Dispute.path, 'close']);
+      postResource([Charge.path, chargeId, Dispute.path, 'close']);
 }
 
 /// [Updating a dispute](https://stripe.com/docs/api/curl#update_dispute)
@@ -66,8 +66,8 @@ class DisputeUpdate extends ResourceRequest {
   set evidence(String evidence) => setMap('evidence', evidence);
 
   Future<Customer> update(String chargeId) async {
-    var dataMap = await StripeService.update(
-        [Charge.path, chargeId, Dispute.path], getMap());
+    var dataMap =
+        await updateResource([Charge.path, chargeId, Dispute.path], getMap());
     return Customer.fromMap(dataMap);
   }
 }

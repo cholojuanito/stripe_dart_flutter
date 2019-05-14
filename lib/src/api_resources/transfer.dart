@@ -122,14 +122,13 @@ class Transfer extends ApiResource {
   /// [Retrieve a transfer](https://stripe.com/docs/api#retrieve_transfer)
   static Future<Transfer> retrieve(String transferId, {final Map data}) async {
     var dataMap =
-        await StripeService.retrieve([Transfer.path, transferId], data: data);
+        await retrieveResource([Transfer.path, transferId], data: data);
     return Transfer.fromMap(dataMap);
   }
 
   /// [Canceling a Transfer](https://stripe.com/docs/api/curl#cancel_transfer)
   static Future<Transfer> cancel(String transferId) async {
-    var dataMap =
-        await StripeService.post([Transfer.path, transferId, 'cancel']);
+    var dataMap = await postResource([Transfer.path, transferId, 'cancel']);
     return Transfer.fromMap(dataMap);
   }
 
@@ -151,7 +150,7 @@ class Transfer extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (status != null) data['status'] = status;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([Transfer.path], data: data);
+    var dataMap = await listResource([Transfer.path], data: data);
     return TransferCollection.fromMap(dataMap);
   }
 }
@@ -191,7 +190,7 @@ class TransferCreation extends ResourceRequest {
   set metadata(Map metadata) => setMap('metadata', metadata);
 
   Future<Transfer> create() async {
-    var dataMap = await StripeService.create([Transfer.path], getMap());
+    var dataMap = await createResource([Transfer.path], getMap());
     return Transfer.fromMap(dataMap);
   }
 }
@@ -203,8 +202,7 @@ class TransferUpdate extends ResourceRequest {
   set metadata(Map metadata) => setMap('metadata', metadata);
 
   Future<Transfer> update(String transferId) async {
-    var dataMap =
-        await StripeService.create([Transfer.path, transferId], getMap());
+    var dataMap = await createResource([Transfer.path, transferId], getMap());
     return Transfer.fromMap(dataMap);
   }
 }

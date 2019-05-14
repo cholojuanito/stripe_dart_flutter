@@ -128,8 +128,7 @@ class Charge extends ApiResource {
 
   /// [Retrieve a charge](https://stripe.com/docs/api#retrieve_charge)
   static Future<Charge> retrieve(String chargeId, {final Map data}) async {
-    var dataMap =
-        await StripeService.retrieve([Charge.path, chargeId], data: data);
+    var dataMap = await retrieveResource([Charge.path, chargeId], data: data);
     return Charge.fromMap(dataMap);
   }
 
@@ -145,8 +144,8 @@ class Charge extends ApiResource {
     if (receiptEmail != null) data['receipt_email'] = receiptEmail;
     if (statementDescriptor != null)
       data['statement_descriptor'] = statementDescriptor;
-    var dataMap = await StripeService.post([Charge.path, chargeId, 'capture'],
-        data: data);
+    var dataMap =
+        await postResource([Charge.path, chargeId, 'capture'], data: data);
     return Charge.fromMap(dataMap);
   }
 
@@ -163,7 +162,7 @@ class Charge extends ApiResource {
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (limit != null) data['limit'] = limit;
     if (startingAfter != null) data['starting_after'] = startingAfter;
-    var dataMap = await StripeService.list([Charge.path], data: data);
+    var dataMap = await listResource([Charge.path], data: data);
     return ChargeCollection.fromMap(dataMap);
   }
 }
@@ -218,7 +217,7 @@ class ChargeCreation extends ResourceRequest {
   set shipping(int shipping) => setMap('shipping', shipping);
 
   Future<Charge> create({String idempotencyKey}) async {
-    var dataMap = await StripeService.create([Charge.path], getMap(),
+    var dataMap = await createResource([Charge.path], getMap(),
         idempotencyKey: idempotencyKey);
     return Charge.fromMap(dataMap);
   }
@@ -235,7 +234,7 @@ class ChargeUpdate extends ResourceRequest {
   set fraudDetails(Map fraudDetails) => setMap('fraud_details', fraudDetails);
 
   Future<Charge> update(String chargeId) async {
-    var dataMap = await StripeService.update([Charge.path, chargeId], getMap());
+    var dataMap = await updateResource([Charge.path, chargeId], getMap());
     return Charge.fromMap(dataMap);
   }
 }

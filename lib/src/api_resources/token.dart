@@ -43,7 +43,7 @@ class Token extends ApiResource {
 
   /// [Retrieving a Token](https://stripe.com/docs/api/curl#retrieve_token)
   static Future<Token> retrieve(String tokenId) async {
-    var dataMap = await StripeService.retrieve([Token.path, tokenId]);
+    var dataMap = await retrieveResource([Token.path, tokenId]);
     return Token.fromMap(dataMap);
   }
 }
@@ -55,7 +55,7 @@ class CardTokenCreation extends ResourceRequest {
   set customer(CustomerCreation customer) => setMap('customer', customer);
 
   Future<Token> create() async {
-    var dataMap = await StripeService.create([Token.path], getMap());
+    var dataMap = await createResource([Token.path], getMap());
     return Token.fromMap(dataMap);
   }
 }
@@ -66,7 +66,7 @@ class BankAccountTokenCreation extends ResourceRequest {
       setMap('bank_account', bankAccount.toMap());
 
   Future<Token> create() async {
-    var dataMap = await StripeService.create([Token.path], getMap());
+    var dataMap = await createResource([Token.path], getMap());
     return Token.fromMap(dataMap);
   }
 }
