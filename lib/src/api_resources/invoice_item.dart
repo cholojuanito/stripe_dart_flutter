@@ -96,13 +96,22 @@ class InvoiceItemCollection extends ResourceCollection {
 /// [Creating an Invoice Item](https://stripe.com/docs/api/curl#create_invoiceitem)
 class InvoiceItemCreation extends ResourceRequest {
   // //@required
-  set customer(String customer) => setMap('customer', customer);
+  set customer(String customer) {
+    setMap('customer', customer);
+    setRequiredMap('customer', customer);
+  }
 
   // //@required
-  set amount(int amount) => setMap('amount', amount);
+  set amount(int amount) {
+    setMap('amount', amount);
+    setRequiredMap('amount', amount);
+  }
 
   // //@required
-  set currency(String currency) => setMap('currency', currency);
+  set currency(String currency) {
+    setMap('currency', currency);
+    setRequiredMap('currency', currency);
+  }
 
   set invoice(String invoice) => setMap('invoice', invoice);
 

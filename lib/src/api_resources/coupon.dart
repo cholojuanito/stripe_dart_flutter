@@ -71,7 +71,10 @@ class CouponCreation extends ResourceRequest {
   set id(String id) => setMap('id', id);
 
   // //@required
-  set duration(String duration) => setMap('duration', duration);
+  set duration(String duration) {
+    setMap('duration', duration);
+    setRequiredMap('duration', duration);
+  }
 
   set amountOff(int amountOff) => setMap('amount_off', amountOff);
 

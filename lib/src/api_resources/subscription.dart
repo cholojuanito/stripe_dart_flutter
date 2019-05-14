@@ -115,7 +115,10 @@ class SubscriptionCollection extends ResourceCollection {
 /// [Creating a  subscription](https://stripe.com/docs/api/curl#create_subscription)
 class SubscriptionCreation extends ResourceRequest {
   // //@required
-  set plan(String plan) => setMap('plan', plan);
+  set plan(String plan) {
+    setMap('plan', plan);
+    setRequiredMap('plan', plan);
+  }
 
   set coupon(String coupon) => setMap('coupon', coupon);
 

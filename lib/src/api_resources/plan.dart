@@ -64,22 +64,37 @@ class PlanCollection extends ResourceCollection {
 /// [Creating plans](https://stripe.com/docs/api/curl#create_plan)
 class PlanCreation extends ResourceRequest {
   // //@required
-  set id(String id) => setMap('id', id);
+  set id(String id) {
+    setMap('id', id);
+    setRequiredMap('id', id);
+  }
 
   // //@required
-  set amount(int amount) => setMap('amount', amount);
+  set amount(int amount) {
+    setMap('amount', amount);
+    setRequiredMap('amount', amount);
+  }
 
   // //@required
-  set currency(String currency) => setMap('currency', currency);
+  set currency(String currency) {
+    setMap('currency', currency);
+    setRequiredMap('currency', currency);
+  }
 
   // //@required
-  set interval(String interval) => setMap('interval', interval);
+  set interval(String interval) {
+    setMap('interval', interval);
+    setRequiredMap('interval', interval);
+  }
 
   set intervalCount(int intervalCount) =>
       setMap('interval_count', intervalCount);
 
   // //@required
-  set name(String name) => setMap('name', name);
+  set name(String name) {
+    setMap('name', name);
+    setRequiredMap('name', name);
+  }
 
   set trialPeriodDays(int trialPeriodDays) =>
       setMap('trial_period_days', trialPeriodDays);

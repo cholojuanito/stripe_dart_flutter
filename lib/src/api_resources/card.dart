@@ -1,3 +1,5 @@
+import 'package:stripe/src/exceptions.dart';
+
 import '../api_resource.dart';
 import '../resource.dart';
 import '../resource_collection.dart';
@@ -103,16 +105,28 @@ class CardCreation extends ResourceRequest implements SourceCreation {
   }
 
   //@required
-  set number(String number) => setMap('number', number);
+  set number(String number) {
+    setMap('number', number);
+    setRequiredMap('number', number);
+  }
 
   //@required
-  set expMonth(int expMonth) => setMap('exp_month', expMonth);
+  set expMonth(int expMonth) {
+    setMap('exp_month', expMonth);
+    setRequiredMap('exp_month', expMonth);
+  }
 
   //@required
-  set expYear(int expYear) => setMap('exp_year', expYear);
+  set expYear(int expYear) {
+    setMap('exp_year', expYear);
+    setRequiredMap('exp_year', expYear);
+  }
 
   //@required
-  set cvc(int cvc) => setMap('cvc', cvc);
+  set cvc(int cvc) {
+    setMap('cvc', cvc);
+    setRequiredMap('cvc', cvc);
+  }
 
   set name(String name) => setMap('name', name);
 
@@ -137,6 +151,17 @@ class CardCreation extends ResourceRequest implements SourceCreation {
         [Customer.path, customerId, Card.path], {'card': getMap()});
     return Card.fromMap(dataMap);
   }
+
+  // @override
+  // getMap() {
+  //   // TODO: implement getMap
+  //   if (map[setter] == null) {
+  //     error(setter, "CardCreation");
+  //   }
+
+  //   return super.getMap();
+  // }
+
 }
 
 /// [Creating a  card](https://stripe.com/docs/api/curl#create_card)
