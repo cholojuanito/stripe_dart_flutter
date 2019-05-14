@@ -176,16 +176,20 @@ class ChargeCollection extends ResourceCollection {
 
 /// [Create a charge](https://stripe.com/docs/api#create_charge)
 class ChargeCreation extends ResourceRequest {
+  ChargeCreation() {
+    setMap('object', 'charge');
+    setRequiredSet('amount');
+    setRequiredSet('currency');
+  }
+
   // //@required
   set amount(int amount) {
     setMap('amount', amount);
-    setRequiredMap('amount', amount);
   }
 
   // //@required
   set currency(String currency) {
     setMap('currency', currency);
-    setRequiredMap('currency', currency);
   }
 
   set customer(String customer) => setMap('customer', customer);

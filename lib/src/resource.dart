@@ -48,11 +48,10 @@ abstract class ResourceRequest {
   /// Holds all values that have been set/changed.
   /// You should not access this map directly, but use [setMap] and [getMap].
   Map<String, dynamic> _map = {};
-  Map<String, dynamic> _requiredMap = {};
+  Set<String> _requiredMap = {};
 
-  setRequiredMap(String key, dynamic value) {
-    if (_requiredMap.containsKey(key)) throw KeyAlreadyExistsException(key);
-    _requiredMap[key] = value;
+  setRequiredSet(String value) {
+    _requiredMap.add(value);
   }
 
   setMap(String key, dynamic value) {
@@ -62,10 +61,11 @@ abstract class ResourceRequest {
 
   /// Returns the [_map] and checks that all [required] fields are set.
   getMap() {
-    _requiredMap.forEach((k, v) {
+    _requiredMap.forEach((k) {
       if (_map[k] == null) {
         error(k);
       }
+      var v = _map[k];
       if (v is ResourceRequest) {
         _map[k] = v.getMap();
       }

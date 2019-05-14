@@ -102,31 +102,23 @@ class CardCollection extends ResourceCollection {
 class CardCreation extends ResourceRequest implements SourceCreation {
   CardCreation() {
     setMap('object', 'card');
+    setRequiredSet('number');
+    setRequiredSet('exp_month');
+    setRequiredSet('exp_year');
+    setRequiredSet('cvc');
   }
 
   //@required
-  set number(String number) {
-    setMap('number', number);
-    setRequiredMap('number', number);
-  }
+  set number(String number) => setMap('number', number);
 
   //@required
-  set expMonth(int expMonth) {
-    setMap('exp_month', expMonth);
-    setRequiredMap('exp_month', expMonth);
-  }
+  set expMonth(int expMonth) => setMap('exp_month', expMonth);
 
   //@required
-  set expYear(int expYear) {
-    setMap('exp_year', expYear);
-    setRequiredMap('exp_year', expYear);
-  }
+  set expYear(int expYear) => setMap('exp_year', expYear);
 
   //@required
-  set cvc(int cvc) {
-    setMap('cvc', cvc);
-    setRequiredMap('cvc', cvc);
-  }
+  set cvc(int cvc) => setMap('cvc', cvc);
 
   set name(String name) => setMap('name', name);
 
