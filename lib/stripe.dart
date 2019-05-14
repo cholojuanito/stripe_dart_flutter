@@ -1,6 +1,5 @@
 // core service
 export 'src/service.dart';
-//export 'src/annotations.dart';
 
 // generic abstract classes
 export 'src/api_resource.dart';
