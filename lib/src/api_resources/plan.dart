@@ -63,6 +63,15 @@ class PlanCollection extends ResourceCollection {
 
 /// [Creating plans](https://stripe.com/docs/api/curl#create_plan)
 class PlanCreation extends ResourceRequest {
+  PlanCreation() {
+    setMap('object', 'Plan');
+    setRequiredFields('id');
+    setRequiredFields('amount');
+    setRequiredFields('currency');
+    setRequiredFields('interval');
+    setRequiredFields('name');
+  }
+
   // //@required
   set id(String id) => setMap('id', id);
 

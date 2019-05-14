@@ -68,6 +68,11 @@ class CouponCollection extends ResourceCollection {
 
 /// [Creating coupons](https://stripe.com/docs/api/curl#create_coupon)
 class CouponCreation extends ResourceRequest {
+  CouponCreation() {
+    setMap('object', 'card');
+    setRequiredFields('duration');
+  }
+
   set id(String id) => setMap('id', id);
 
   // //@required

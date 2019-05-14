@@ -164,6 +164,13 @@ class TransferCollection extends ResourceCollection {
 
 /// [Create a transfer](https://stripe.com/docs/api#create_transfer)
 class TransferCreation extends ResourceRequest {
+  TransferCreation() {
+    setMap('object', 'Transfer');
+    setRequiredFields('amount');
+    setRequiredFields('currency');
+    setRequiredFields('destination');
+  }
+
   // //@required
   set amount(int amount) => setMap('amount', amount);
 

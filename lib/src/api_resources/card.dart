@@ -1,3 +1,5 @@
+import 'package:stripe/src/exceptions.dart';
+
 import '../api_resource.dart';
 import '../resource.dart';
 import '../resource_collection.dart';
@@ -100,6 +102,10 @@ class CardCollection extends ResourceCollection {
 class CardCreation extends ResourceRequest implements SourceCreation {
   CardCreation() {
     setMap('object', 'card');
+    setRequiredFields('number');
+    setRequiredFields('exp_month');
+    setRequiredFields('exp_year');
+    setRequiredFields('cvc');
   }
 
   //@required
@@ -137,6 +143,17 @@ class CardCreation extends ResourceRequest implements SourceCreation {
         [Customer.path, customerId, Card.path], {'card': getMap()});
     return Card.fromMap(dataMap);
   }
+
+  // @override
+  // getMap() {
+  //   // TODO: implement getMap
+  //   if (map[setter] == null) {
+  //     error(setter, "CardCreation");
+  //   }
+
+  //   return super.getMap();
+  // }
+
 }
 
 /// [Creating a  card](https://stripe.com/docs/api/curl#create_card)

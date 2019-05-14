@@ -167,6 +167,11 @@ class InvoiceCollection extends ResourceCollection {
 
 /// [Creating an invoice](https://stripe.com/docs/api/curl#create_invoice)
 class InvoiceCreation extends ResourceRequest {
+  InvoiceCollection() {
+    setMap('object', 'Invoice');
+    setRequiredFields('customer');
+  }
+
   // //@required
   set customer(String customer) => setMap('customer', customer);
 
