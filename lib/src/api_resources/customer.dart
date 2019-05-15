@@ -49,7 +49,7 @@ class Customer extends ApiResource {
 
   String get email => resourceMap['email'];
 
-  Map<String, String> get metadata => resourceMap['metadata'];
+  Map<String, dynamic> get metadata => resourceMap['metadata'];
 
   CardCollection get sources {
     var value = resourceMap['sources'];
