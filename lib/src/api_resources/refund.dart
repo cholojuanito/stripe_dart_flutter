@@ -16,10 +16,6 @@ class Refund extends ApiResource {
 
   int get amount => resourceMap['amount'];
 
-  DateTime get created => getDateTimeFromMap('created');
-
-  String get currency => resourceMap['currency'];
-
   String get balanceTransaction {
     return this.getIdForExpandable('balance_transaction');
   }
@@ -34,13 +30,22 @@ class Refund extends ApiResource {
 
   String get charge => resourceMap['charge'];
 
+  DateTime get created => getDateTimeFromMap('created');
+
+  String get currency => resourceMap['currency'];
+
   Map<String, String> get metadata => resourceMap['metadata'];
 
   String get reason => resourceMap['reason'];
 
+  String get description => resourceMap['description'];
+
   String get receiptNumber => resourceMap['receipt_number'];
 
-  String get description => resourceMap['description'];
+  String get failureBalanceTransaction =>
+      resourceMap['failure_balance_transaction'];
+
+  String get failureReason => resourceMap['failure_reason'];
 
   Refund.fromMap(Map dataMap) : super.fromMap(dataMap);
 
@@ -71,12 +76,17 @@ class Refund extends ApiResource {
 class RefundCreation extends ResourceRequest {
   set amount(int amount) => setMap('amount', amount);
 
+  //CONNECT ONLY
   set refundApplicationFee(bool refundApplicationFee) =>
       setMap('refund_application_fee', refundApplicationFee.toString());
 
   set reason(String reason) => setMap('reason', reason);
 
   set metadata(Map metadata) => setMap('metadata', metadata);
+
+  //CONNECT ONLY
+  set reverseTransfer(bool reverseTransfer) =>
+      setMap('reverse_transfer', reverseTransfer.toString());
 
   Future<Refund> create(String chargeId) async {
     var dataMap =
