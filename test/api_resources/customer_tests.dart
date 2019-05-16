@@ -67,156 +67,156 @@ main(List<String> args) {
       expect(customer.id, const TypeMatcher<String>());
     });
 
-    // test('Create full', () async {
-    //   // Card fields
-    //   var cardNumber1 = '4242424242424242',
-    //       cardExpMonth1 = 12,
-    //       cardExpYear1 = 2020,
-    //       cvc1 = 123;
+    test('Create full', () async {
+      // Card fields
+      var cardNumber1 = '4242424242424242',
+          cardExpMonth1 = 12,
+          cardExpYear1 = 2020,
+          cvc1 = 123;
 
-    //   var cardCreation1 = CardCreation()
-    //     ..number = cardNumber1 // only the last 4 digits can be tested
-    //     ..expMonth = cardExpMonth1
-    //     ..expYear = cardExpYear1
-    //     ..cvc = cvc1;
+      var cardCreation1 = CardCreation()
+        ..number = cardNumber1 // only the last 4 digits can be tested
+        ..expMonth = cardExpMonth1
+        ..expYear = cardExpYear1
+        ..cvc = cvc1;
 
-    //   var cardNumber2 = '5555555555554444',
-    //       cardExpMonth2 = 3,
-    //       cardExpYear2 = 2020,
-    //       cvc2 = 321;
+      var cardNumber2 = '5555555555554444',
+          cardExpMonth2 = 3,
+          cardExpYear2 = 2020,
+          cvc2 = 321;
 
-    //   var cardCreation2 = CardCreation()
-    //     ..number = cardNumber2 // only the last 4 digits can be tested
-    //     ..expMonth = cardExpMonth2
-    //     ..expYear = cardExpYear2
-    //     ..cvc = cvc2;
+      var cardCreation2 = CardCreation()
+        ..number = cardNumber2 // only the last 4 digits can be tested
+        ..expMonth = cardExpMonth2
+        ..expYear = cardExpYear2
+        ..cvc = cvc2;
 
-    //   // Coupon fields
-    //   var couponId1 = 'test coupon id1',
-    //       couponDuration1 = 'forever',
-    //       couponPercentOff1 = 15;
+      // Coupon fields
+      var couponId1 = 'test coupon id1',
+          couponDuration1 = 'forever',
+          couponPercentOff1 = 15;
 
-    //   var couponCreation1 = CouponCreation()
-    //     ..id = couponId1
-    //     ..duration = couponDuration1
-    //     ..percentOff = couponPercentOff1;
+      var couponCreation1 = CouponCreation()
+        ..id = couponId1
+        ..duration = couponDuration1
+        ..percentOff = couponPercentOff1;
 
-    //   var couponId2 = 'test coupon id2',
-    //       couponDuration2 = 'forever',
-    //       couponPercentOff2 = 20;
+      var couponId2 = 'test coupon id2',
+          couponDuration2 = 'forever',
+          couponPercentOff2 = 20;
 
-    //   var couponCreation2 = CouponCreation()
-    //     ..id = couponId2
-    //     ..duration = couponDuration2
-    //     ..percentOff = couponPercentOff2;
+      var couponCreation2 = CouponCreation()
+        ..id = couponId2
+        ..duration = couponDuration2
+        ..percentOff = couponPercentOff2;
 
-    //   // Plan fields
-    //   var planId = 'test plan id',
-    //       planAmount = 200,
-    //       planCurrency = 'usd',
-    //       planInterval = 'month',
-    //       planName = 'test plan name';
+      // Plan fields
+      var planId = 'test plan id',
+          planAmount = 200,
+          planCurrency = 'usd',
+          planInterval = 'month',
+          planName = 'test plan name';
 
-    //   var planCreation = PlanCreation()
-    //     ..id = planId
-    //     ..amount = planAmount
-    //     ..currency = planCurrency
-    //     ..interval = planInterval
-    //     ..name = planName;
+      var planCreation = PlanCreation()
+        ..id = planId
+        ..amount = planAmount
+        ..currency = planCurrency
+        ..interval = planInterval
+        ..name = planName;
 
-    //   // Customer fields
-    //   var customerAccountBalance1 = 100001,
-    //       customerDescription1 = 'test description1',
-    //       customerEmail1 = 'test1@test.com',
-    //       customerMetadata1 = {'foo': 'bar1'},
-    //       customerQuantity = 5,
-    //       customerTrialEnd =
-    //           DateTime.now().add(Duration(days: 60)).millisecondsSinceEpoch ~/
-    //               1000,
-    //       // for update tests
-    //       customerAccountBalance2 = 200002,
-    //       customerDescription2 = 'test description2',
-    //       customerEmail2 = 'test2@test.com',
-    //       customerMetadata2 = {'foo': 'bar2'};
+      // Customer fields
+      var customerAccountBalance1 = 100001,
+          customerDescription1 = 'test description1',
+          customerEmail1 = 'test1@test.com',
+          customerMetadata1 = {'foo': 'bar1'},
+          customerQuantity = 5,
+          customerTrialEnd =
+              DateTime.now().add(Duration(days: 60)).millisecondsSinceEpoch ~/
+                  1000,
+          // for update tests
+          customerAccountBalance2 = 200002,
+          customerDescription2 = 'test description2',
+          customerEmail2 = 'test2@test.com',
+          customerMetadata2 = {'foo': 'bar2'};
 
-    //   var customerCreation = CustomerCreation()
-    //     ..accountBalance = customerAccountBalance1
-    //     ..source = cardCreation1
-    //     ..coupon = couponId1
-    //     ..description = customerDescription1
-    //     ..email = customerEmail1
-    //     ..metadata = customerMetadata1
-    //     ..plan = planId
-    //     ..quantity = customerQuantity
-    //     ..trialEnd = customerTrialEnd;
+      var customerCreation = CustomerCreation()
+        ..accountBalance = customerAccountBalance1
+        ..source = cardCreation1
+        ..coupon = couponId1
+        ..description = customerDescription1
+        ..email = customerEmail1
+        ..metadata = customerMetadata1
+        ..plan = planId
+        ..quantity = customerQuantity
+        ..trialEnd = customerTrialEnd;
 
-    //   await couponCreation1.create();
-    //   await couponCreation2.create();
-    //   await planCreation.create();
-    //   var customer = await customerCreation.create();
-    //   expect(customer.id, const TypeMatcher<String>());
+      await couponCreation1.create();
+      await couponCreation2.create();
+      await planCreation.create();
+      var customer = await customerCreation.create();
+      expect(customer.id, const TypeMatcher<String>());
 
-    //   // card tests
-    //   expect(customer.sources.data.first.last4,
-    //       cardNumber1.substring(cardNumber1.length - 4));
-    //   expect(customer.sources.data.first.expMonth, cardExpMonth1);
-    //   expect(customer.sources.data.first.expYear, cardExpYear1);
+      // card tests
+      expect(customer.sources.data.first.last4,
+          cardNumber1.substring(cardNumber1.length - 4));
+      expect(customer.sources.data.first.expMonth, cardExpMonth1);
+      expect(customer.sources.data.first.expYear, cardExpYear1);
 
-    //   // coupon tests
-    //   expect(customer.discount.coupon.id, couponId1);
-    //   expect(customer.discount.coupon.duration, couponDuration1);
-    //   expect(customer.discount.coupon.percentOff, couponPercentOff1);
-    //   expect(customer.discount.start.runtimeType, DateTime);
-    //   expect(customer.discount.subscription, isNull);
-    //   expect(customer.discount.customer, customer.id);
+      // coupon tests
+      expect(customer.discount.coupon.id, couponId1);
+      expect(customer.discount.coupon.duration, couponDuration1);
+      expect(customer.discount.coupon.percentOff, couponPercentOff1);
+      expect(customer.discount.start.runtimeType, DateTime);
+      expect(customer.discount.subscription, isNull);
+      expect(customer.discount.customer, customer.id);
 
-    //   expect(customer.description, customerDescription1);
-    //   expect(customer.email, customerEmail1);
+      expect(customer.description, customerDescription1);
+      expect(customer.email, customerEmail1);
 
-    //   // plan / subscription tests
-    //   var subscription = customer.subscriptions.data.first;
-    //   expect(subscription.customer, customer.id);
-    //   expect(subscription.applicationFeePercent, isNull);
-    //   expect(subscription.cancelAtPeriodEnd, isFalse);
-    //   expect(subscription.canceledAt, isNull);
-    //   expect(subscription.discount, isNull);
-    //   expect(subscription.endedAt, isNull);
-    //   expect(subscription.quantity, customerQuantity);
-    //   expect(subscription.status, 'trialing');
-    //   expect(subscription.trialEnd,
-    //       DateTime.fromMillisecondsSinceEpoch(customerTrialEnd * 1000));
-    //   expect(subscription.plan, const TypeMatcher<Plan>());
-    //   expect(subscription.plan.amount, planAmount);
-    //   expect(subscription.plan.currency, planCurrency);
-    //   expect(subscription.plan.id, planId);
-    //   expect(subscription.plan.interval, planInterval);
-    //   expect(subscription.plan.name, planName);
-    //   var invoices = await Invoice.list(customer: customer.id);
-    //   expect(invoices.data.first.startingBalance, customerAccountBalance1);
-    //   customer = await Customer.retrieve(customer.id, data: {
-    //     'expand': ['default_source']
-    //   });
-    //   // testing the expand functionality of retrieve
-    //   expect(customer.defaultSource, customer.defaultSourceExpand.id);
-    //   expect(customer.defaultSourceExpand.last4,
-    //       cardNumber1.substring(cardNumber1.length - 4));
+      // plan / subscription tests
+      var subscription = customer.subscriptions.data.first;
+      expect(subscription.customer, customer.id);
+      expect(subscription.applicationFeePercent, isNull);
+      expect(subscription.cancelAtPeriodEnd, isFalse);
+      expect(subscription.canceledAt, isNull);
+      expect(subscription.discount, isNull);
+      expect(subscription.endedAt, isNull);
+      expect(subscription.quantity, customerQuantity);
+      expect(subscription.status, 'trialing');
+      expect(subscription.trialEnd,
+          DateTime.fromMillisecondsSinceEpoch(customerTrialEnd * 1000));
+      expect(subscription.plan, const TypeMatcher<Plan>());
+      expect(subscription.plan.amount, planAmount);
+      expect(subscription.plan.currency, planCurrency);
+      expect(subscription.plan.id, planId);
+      expect(subscription.plan.interval, planInterval);
+      expect(subscription.plan.name, planName);
+      var invoices = await Invoice.list(customer: customer.id);
+      expect(invoices.data.first.startingBalance, customerAccountBalance1);
+      customer = await Customer.retrieve(customer.id, data: {
+        'expand': ['default_source']
+      });
+      // testing the expand functionality of retrieve
+      expect(customer.defaultSource, customer.defaultSourceExpand.id);
+      expect(customer.defaultSourceExpand.last4,
+          cardNumber1.substring(cardNumber1.length - 4));
 
-    //   // testing the CustomerUpdate
-    //   var updatedCustomer = await (CustomerUpdate()
-    //         ..accountBalance = customerAccountBalance2
-    //         ..source = cardCreation2
-    //         ..coupon = couponId2
-    //         ..description = customerDescription2
-    //         ..email = customerEmail2
-    //         ..metadata = customerMetadata2)
-    //       .update(customer.id);
-    //   expect(updatedCustomer.accountBalance, customerAccountBalance2);
-    //   expect(updatedCustomer.defaultSource, isNot(customer.defaultSource));
-    //   expect(updatedCustomer.discount.coupon.percentOff, couponPercentOff2);
-    //   expect(updatedCustomer.description, customerDescription2);
-    //   expect(updatedCustomer.email, customerEmail2);
-    //   expect(updatedCustomer.metadata, customerMetadata2);
-    // });
+      // testing the CustomerUpdate
+      var updatedCustomer = await (CustomerUpdate()
+            ..accountBalance = customerAccountBalance2
+            ..source = cardCreation2
+            ..coupon = couponId2
+            ..description = customerDescription2
+            ..email = customerEmail2
+            ..metadata = customerMetadata2)
+          .update(customer.id);
+      expect(updatedCustomer.accountBalance, customerAccountBalance2);
+      expect(updatedCustomer.defaultSource, isNot(customer.defaultSource));
+      expect(updatedCustomer.discount.coupon.percentOff, couponPercentOff2);
+      expect(updatedCustomer.description, customerDescription2);
+      expect(updatedCustomer.email, customerEmail2);
+      expect(updatedCustomer.metadata, customerMetadata2);
+    });
 
     test('Delete', () async {
       var customer = await CustomerCreation().create();
