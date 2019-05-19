@@ -9,13 +9,19 @@ class FileUpload extends ApiResource {
 
   final String object = 'file_upload';
 
-  static var path = 'files';
+  static var path = 'file';
 
   DateTime get created => getDateTimeFromMap('created');
+
+  String get filename => resourceMap['filename'];
+
+  /// TODO: Add links list
 
   String get purpose => resourceMap['purpose'];
 
   int get size => resourceMap['size'];
+
+  String get title => resourceMap['title'];
 
   String get type => resourceMap['type'];
 
@@ -50,7 +56,15 @@ class FileUpload extends ApiResource {
 
 /// [Create a file upload](https://stripe.com/docs/api/curl#create_file_upload)
 class UploadFileCreation extends ResourceRequest {
-  // TODO: implement
+  /// TODO: implement
+
+  /// See the docs for different types of purpose codes
+  set purpose(String purpose) => setMap('purpose', purpose);
+
+  Future<FileUpload> create() async {
+    var dataMap = await createResource([FileUpload.path], getMap());
+    return FileUpload.fromMap(dataMap);
+  }
 }
 
 class FileUploadCollection extends ResourceCollection {

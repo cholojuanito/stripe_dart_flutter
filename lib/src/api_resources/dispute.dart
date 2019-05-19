@@ -8,33 +8,13 @@ import 'customer.dart';
 
 /// [Disputes](https://stripe.com/docs/api/curl#disputes)
 class Dispute extends ApiResource {
-  final String object = 'dispute';
+  String get id => resourceMap['id'];
 
   static var path = 'dispute';
 
-  bool get livemode => resourceMap['livemode'];
+  final String object = 'dispute';
 
   int get amount => resourceMap['amount'];
-
-  String get charge {
-    return this.getIdForExpandable('charge');
-  }
-
-  Charge get ChargeExpand {
-    var value = resourceMap['charge'];
-    if (value == null)
-      return null;
-    else
-      return Charge.fromMap(value);
-  }
-
-  DateTime get created => getDateTimeFromMap('created');
-
-  String get currency => resourceMap['currency'];
-
-  String get reason => resourceMap['reason'];
-
-  String get status => resourceMap['status'];
 
   String get balanceTransaction {
     return this.getIdForExpandable('balance_transaction');
@@ -48,9 +28,35 @@ class Dispute extends ApiResource {
       return BalanceTransaction.fromMap(value);
   }
 
+  String get charge {
+    return this.getIdForExpandable('charge');
+  }
+
+  DateTime get created => getDateTimeFromMap('created');
+
+  String get currency => resourceMap['currency'];
+
+  Charge get ChargeExpand {
+    var value = resourceMap['charge'];
+    if (value == null)
+      return null;
+    else
+      return Charge.fromMap(value);
+  }
+
   String get evidence => resourceMap['evidence'];
 
   DateTime get evidenceDueBy => getDateTimeFromMap('evidence_due_by');
+
+  bool get isChargeRefundable => resourceMap['is_charge_refundable'];
+
+  bool get livemode => resourceMap['livemode'];
+
+  Map<String, String> get metadata => resourceMap['metadata'];
+
+  String get reason => resourceMap['reason'];
+
+  String get status => resourceMap['status'];
 
   bool get isProtected => resourceMap['is_protected'];
 
@@ -59,15 +65,41 @@ class Dispute extends ApiResource {
   /// [Closing a dispute](https://stripe.com/docs/api/curl#close_dispute)
   static Future close(String chargeId) =>
       postResource([Charge.path, chargeId, Dispute.path, 'close']);
+
+  /// [Retrieving a Dispute]
+  /// https://stripe.com/docs/api/disputes/retrieve
+  static Future<BalanceTransaction> retrieve(String transactionId) async {
+    var dataMap = await getResource(
+        [Balance.path, BalanceTransaction.path, transactionId]);
+    return BalanceTransaction.fromMap(dataMap);
+  }
+
+  /// [List All Balance History]
+  /// https://stripe.com/docs/api/disputes/list
+  /// TODO: Implement Created
+  static Future<BalanceTransactionCollection> list({
+    int limit,
+    String startingAfter,
+    String endingBefore,
+  }) async {
+    var data = {};
+    if (limit != null) data['limit'] = limit;
+    if (startingAfter != null) data['starting_after'] = startingAfter;
+    if (endingBefore != null) data['ending_before'] = endingBefore;
+    if (data == {}) data = null;
+    var dataMap =
+        await listResource([Balance.path, BalanceTransaction.path], data: data);
+    return BalanceTransactionCollection.fromMap(dataMap);
+  }
 }
 
 /// [Updating a dispute](https://stripe.com/docs/api/curl#update_dispute)
 class DisputeUpdate extends ResourceRequest {
   set evidence(String evidence) => setMap('evidence', evidence);
 
-  Future<Customer> update(String chargeId) async {
+  Future<Dispute> update(String disputeID) async {
     var dataMap =
-        await updateResource([Charge.path, chargeId, Dispute.path], getMap());
-    return Customer.fromMap(dataMap);
+        await updateResource([Dispute.path, disputeID, Dispute.path], getMap());
+    return Dispute.fromMap(dataMap);
   }
 }
