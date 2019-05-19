@@ -6,6 +6,16 @@ class InvalidDataReceivedException implements Exception {
   String toString() => 'Invalid data received: ${errorMessage}.';
 }
 
+class MissingRequiredAttributeException implements Exception {
+  final String missingAttribute;
+
+  final String missingFrom;
+
+  MissingRequiredAttributeException(this.missingAttribute, this.missingFrom);
+
+  String toString() => 'Missing \'$missingAttribute\' from \'$missingFrom\'';
+}
+
 /// Missing argument errors indicate that not all required arguments were set for
 /// the request.
 class MissingArgumentException implements Exception {
