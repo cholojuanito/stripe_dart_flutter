@@ -2,6 +2,7 @@ library account_tests;
 
 import 'dart:convert';
 
+import 'package:stripe/stripe.dart' as prefix0;
 import 'package:test/test.dart';
 
 import '../../lib/stripe.dart';
@@ -15,77 +16,99 @@ import '../resources/verification_tests.dart' as verification;
 
 var example = '''
     {
-      "id": "acct_102yoB41dfVNZFcq",
+      "id": "acct_102yoB41dfVNZF549",
       "object": "account",
+      "business_profile": {
+        "mcc": "5734",
+        "name": null,
+        "product_description": "A test account for our software. We are making a marketplace for property owners and service providers",
+        "support_address": null,
+        "support_email": null,
+        "support_phone": "+18018745732",
+        "support_url": null,
+        "url": "https://www.linkedin.com/company/propowner"
+      },
+      "business_type": "individual",
+      "capabilities": {
+        "card_payments": "active",
+        "platform_payments": "pending"
+      },
       "charges_enabled": true,
       "country": "US",
-      "currencies_supported": [
-        "usd",
-        "cad"
-      ],
       "default_currency": "usd",
       "details_submitted": true,
-      "transfers_enabled": true,
-      "display_name": "display_name",
       "email": "test@test.com",
-      "statement_descriptor": "statement_descriptor",
-      "timezone": "Etc/UTC",
-      "business_name": "business_name",
-      "business_url": "business_url",
       "metadata": ${utils.metadataExample},
-      "support_phone": "support_phone",
-      "managed": true,
-      "bank_accounts": ${bank_account.collectionExample},
-      "debit_negative_balances": true,
-      "legal_entity": ${legal_entity.example},
-      "product_description": "product_description",
+      "requested_capabilities": ["platform_payments", "card_payments"],
+      "settings": {},
       "tos_acceptance": ${tos_acceptance.example},
-      "transfer_schedule": ${transfer_schedule.example},
-      "verification": ${verification.example}
+      "type": "custom"
     }''';
 
 main(List<String> args) {
   utils.setApiKeyFromArgs(args);
 
-  group('Account offline', () {
-    test('fromMap() properly popullates all values', () {
-      var map = jsonDecode(example);
-      var account = Account.fromMap(map);
-      expect(account.id, map['id']);
-      expect(account.country, map['country']);
-      expect(account.currenciesSupported, map['currencies_supported']);
-      expect(account.defaultCurrency, map['default_currency']);
-      expect(account.detailsSubmitted, map['details_submitted']);
-      expect(account.transfersEnabled, map['transfers_enabled']);
-      expect(account.displayName, map['display_name']);
-      expect(account.email, map['email']);
-      expect(account.statementDescriptor, map['statement_descriptor']);
-      expect(account.timezone, map['timezone']);
-      expect(account.businessName, map['business_name']);
-      expect(account.businessUrl, map['business_url']);
-      expect(account.metadata, map['metadata']);
-      expect(account.supportPhone, map['support_phone']);
-      expect(account.managed, map['managed']);
-      expect(account.bankAccounts.toMap(),
-          BankAccount.fromMap(map['bank_accounts']).toMap());
-      expect(account.debitNegativeBalances, map['debit_negative_balances']);
-      expect(account.legalEntity.toMap(),
-          LegalEntity.fromMap(map['legal_entity']).toMap());
-      expect(account.productDescription, map['product_description']);
-      expect(account.tosAcceptance.toMap(),
-          TosAcceptance.fromMap(map['tos_acceptance']).toMap());
-      expect(account.transferSchedule.toMap(),
-          TransferSchedule.fromMap(map['transfer_schedule']).toMap());
-      expect(account.verification.toMap(),
-          Verification.fromMap(map['verification']).toMap());
+  try {
+    group('Account offline', () {
+      test('fromMap() properly populates all values', () {
+        var map = jsonDecode(example);
+        var account = Account.fromMap(map);
+        expect(account.id, map['id']);
+        expect(account.type, map['type']);
+        expect(account.businessProfile.toMap(), map['business_profile']);
+        expect(account.capabilities.toMap(), map['capabilities']);
+        expect(account.country, map['country']);
+        expect(account.defaultCurrency, map['default_currency']);
+        expect(account.email, map['email']);
+        // TODO add missing tests
+        expect(account.metadata, map['metadata']);
+        expect(account.tosAcceptance.toMap(),
+            TosAcceptance.fromMap(map['tos_acceptance']).toMap());
+      });
     });
-  });
 
-  group('Account online', () {
-    test('Retrieve Account', () async {
-      var account = await Account.retrieve();
-      expect(account.id.substring(0, 3), 'acc');
-      // other tests will depend on your stripe account
+    group('Account online', () {
+      test('Create minimal', () async {
+        var accountCreate = AccountCreation();
+        accountCreate.type = 'custom';
+        accountCreate.requestedCapabilities = [
+          'platform_payments',
+          'card_payments'
+        ];
+        var account = await accountCreate.create();
+        expect(account.id, const TypeMatcher<String>());
+
+        print(account);
+      });
+
+      String createdAccountId;
+      test('Create full', () async {
+        var map = jsonDecode(example);
+        var accountMap = Account.fromMap(map);
+        var accountCreate = AccountCreation()
+          ..type = accountMap.type
+          ..businessProfile = accountMap.businessProfile
+          ..businessType = accountMap.businessType
+          ..country = accountMap.country
+          ..defaultCurrency = accountMap.defaultCurrency
+          ..email = accountMap.email
+          ..metadata = accountMap.metadata
+          ..requestedCapabilities = map['requested_capabilities']
+          ..tosAcceptance = accountMap.tosAcceptance;
+
+        var createdAccount = await accountCreate.create();
+        expect(createdAccount.id.substring(0, 3), 'acc');
+        createdAccountId = createdAccount.id;
+      });
+
+      test('Retrieve Account', () async {
+        var account = await Account.retrieve(accountId: createdAccountId);
+        expect(account.id.substring(0, 3), 'acc');
+        expect(account.id, createdAccountId);
+        // other tests will depend on your stripe account
+      });
     });
-  });
+  } catch (e) {
+    print(e);
+  }
 }

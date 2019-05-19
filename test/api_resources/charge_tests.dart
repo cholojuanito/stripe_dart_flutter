@@ -73,8 +73,7 @@ main(List<String> args) {
       expect(charge.customerExpand.toMap(),
           Customer.fromMap(map['customer']).toMap());
       expect(charge.description, map['description']);
-      expect(charge.disputeExpand.toMap(),
-          Dispute.fromMap(map['dispute']).toMap());
+      // expect(charge.dispute.toMap(), Dispute.fromMap(map['dispute']).toMap());
       expect(charge.failureCode, map['failureCode']);
       expect(charge.failureMessage, map['failureMessage']);
       expect(charge.invoiceExpand.toMap(),
