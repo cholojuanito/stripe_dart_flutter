@@ -51,7 +51,7 @@ class TransferReversal extends ApiResource {
   /// [Retrieve a reversal](https://stripe.com/docs/api#retrieve_transfer_reversal)
   static Future<Transfer> retrieve(String transferId, String reversalId,
       {final Map data}) async {
-    var dataMap = await StripeService.retrieve(
+    var dataMap = await retrieveResource(
         [Transfer.path, transferId, TransferReversal.path, reversalId],
         data: data);
     return Transfer.fromMap(dataMap);
@@ -65,7 +65,7 @@ class TransferReversal extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list(
+    var dataMap = await listResource(
         [Transfer.path, transferId, TransferReversal.path],
         data: data);
     return TransferReversalCollection.fromMap(dataMap);
@@ -90,7 +90,7 @@ class TransferReversalCreation extends ResourceRequest {
   set description(String description) => setMap('description', description);
 
   Future<TransferReversal> create(String transferId) async {
-    var dataMap = await StripeService.create(
+    var dataMap = await createResource(
         [Transfer.path, transferId, TransferReversal.path], getMap());
     return TransferReversal.fromMap(dataMap);
   }
@@ -103,7 +103,7 @@ class TransferReversalUpdate extends ResourceRequest {
   set description(String description) => setMap('description', description);
 
   Future<TransferReversal> update(String transferId, String reversalId) async {
-    var dataMap = await StripeService.create(
+    var dataMap = await createResource(
         [Transfer.path, transferId, TransferReversal.path, reversalId],
         getMap());
     return TransferReversal.fromMap(dataMap);

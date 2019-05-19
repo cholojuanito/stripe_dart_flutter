@@ -77,8 +77,7 @@ class ApplicationFee extends ApiResource {
 
   /// [Retrieving an Application Fee](https://stripe.com/docs/api/curl#retrieve_application_fee)
   static Future<ApplicationFee> retrieve(String applicationFeeId) async {
-    var dataMap =
-        await StripeService.get([ApplicationFee.path, applicationFeeId]);
+    var dataMap = await getResource([ApplicationFee.path, applicationFeeId]);
     return ApplicationFee.fromMap(dataMap);
   }
 
@@ -88,7 +87,7 @@ class ApplicationFee extends ApiResource {
     var data = {};
     if (amount != null) data['amount'] = amount;
     if (data == {}) data = null;
-    var dataMap = await StripeService.post(
+    var dataMap = await postResource(
         [ApplicationFee.path, applicationFeeId, 'refund'],
         data: data);
     return ApplicationFee.fromMap(dataMap);
@@ -107,7 +106,7 @@ class ApplicationFee extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([ApplicationFee.path], data: data);
+    var dataMap = await listResource([ApplicationFee.path], data: data);
     return ApplicationFeeCollection.fromMap(dataMap);
   }
 }

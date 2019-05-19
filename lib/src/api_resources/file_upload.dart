@@ -9,13 +9,19 @@ class FileUpload extends ApiResource {
 
   final String object = 'file_upload';
 
-  static var path = 'files';
+  static var path = 'file';
 
   DateTime get created => getDateTimeFromMap('created');
+
+  String get filename => resourceMap['filename'];
+
+  /// TODO: Add links list
 
   String get purpose => resourceMap['purpose'];
 
   int get size => resourceMap['size'];
+
+  String get title => resourceMap['title'];
 
   String get type => resourceMap['type'];
 
@@ -25,7 +31,7 @@ class FileUpload extends ApiResource {
 
   /// [Retrieve a file upload](https://stripe.com/docs/api/curl#retrieve_file_upload)
   static Future<FileUpload> retrieve(String fileUploadId) async {
-    var dataMap = await StripeService.retrieve([FileUpload.path, fileUploadId]);
+    var dataMap = await retrieveResource([FileUpload.path, fileUploadId]);
     return FileUpload.fromMap(dataMap);
   }
 
@@ -43,14 +49,22 @@ class FileUpload extends ApiResource {
     if (purpose != null) data['purpose'] = purpose;
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([FileUpload.path], data: data);
+    var dataMap = await listResource([FileUpload.path], data: data);
     return FileUploadCollection.fromMap(dataMap);
   }
 }
 
 /// [Create a file upload](https://stripe.com/docs/api/curl#create_file_upload)
 class UploadFileCreation extends ResourceRequest {
-  // TODO: implement
+  /// TODO: implement
+
+  /// See the docs for different types of purpose codes
+  set purpose(String purpose) => setMap('purpose', purpose);
+
+  Future<FileUpload> create() async {
+    var dataMap = await createResource([FileUpload.path], getMap());
+    return FileUpload.fromMap(dataMap);
+  }
 }
 
 class FileUploadCollection extends ResourceCollection {

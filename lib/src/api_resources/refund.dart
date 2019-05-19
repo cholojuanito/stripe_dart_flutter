@@ -16,10 +16,6 @@ class Refund extends ApiResource {
 
   int get amount => resourceMap['amount'];
 
-  DateTime get created => getDateTimeFromMap('created');
-
-  String get currency => resourceMap['currency'];
-
   String get balanceTransaction {
     return this.getIdForExpandable('balance_transaction');
   }
@@ -34,20 +30,29 @@ class Refund extends ApiResource {
 
   String get charge => resourceMap['charge'];
 
+  DateTime get created => getDateTimeFromMap('created');
+
+  String get currency => resourceMap['currency'];
+
   Map<String, String> get metadata => resourceMap['metadata'];
 
   String get reason => resourceMap['reason'];
 
+  String get description => resourceMap['description'];
+
   String get receiptNumber => resourceMap['receipt_number'];
 
-  String get description => resourceMap['description'];
+  String get failureBalanceTransaction =>
+      resourceMap['failure_balance_transaction'];
+
+  String get failureReason => resourceMap['failure_reason'];
 
   Refund.fromMap(Map dataMap) : super.fromMap(dataMap);
 
   /// [Retrieve a refund](https://stripe.com/docs/api#retrieve_refund)
   static Future<Refund> retrieve(String chargeId, String refundId,
       {final Map data}) async {
-    var dataMap = await StripeService.retrieve(
+    var dataMap = await retrieveResource(
         [Charge.path, chargeId, Refund.path, refundId],
         data: data);
     return Refund.fromMap(dataMap);
@@ -61,8 +66,8 @@ class Refund extends ApiResource {
     if (limit != null) data['limit'] = limit;
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([Charge.path, chargeId, Refund.path],
-        data: data);
+    var dataMap =
+        await listResource([Charge.path, chargeId, Refund.path], data: data);
     return RefundCollection.fromMap(dataMap);
   }
 }
@@ -71,6 +76,7 @@ class Refund extends ApiResource {
 class RefundCreation extends ResourceRequest {
   set amount(int amount) => setMap('amount', amount);
 
+  //CONNECT ONLY
   set refundApplicationFee(bool refundApplicationFee) =>
       setMap('refund_application_fee', refundApplicationFee.toString());
 
@@ -78,9 +84,13 @@ class RefundCreation extends ResourceRequest {
 
   set metadata(Map metadata) => setMap('metadata', metadata);
 
+  //CONNECT ONLY
+  set reverseTransfer(bool reverseTransfer) =>
+      setMap('reverse_transfer', reverseTransfer.toString());
+
   Future<Refund> create(String chargeId) async {
-    var dataMap = await StripeService.create(
-        [Charge.path, chargeId, Refund.path], getMap());
+    var dataMap =
+        await createResource([Charge.path, chargeId, Refund.path], getMap());
     return Refund.fromMap(dataMap);
   }
 }
@@ -90,7 +100,7 @@ class RefundUpdate extends ResourceRequest {
   set metadata(Map metadata) => setMap('metadata', metadata);
 
   Future<Refund> update(String chargeId, String refundId) async {
-    var dataMap = await StripeService.update(
+    var dataMap = await updateResource(
         [Charge.path, chargeId, Refund.path, refundId], getMap());
     return Refund.fromMap(dataMap);
   }

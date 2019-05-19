@@ -39,7 +39,7 @@ class Coupon extends ApiResource {
 
   /// [Retrieving a Coupon](https://stripe.com/docs/api/curl#retrieve_coupon)
   static Future<Coupon> retrieve(String id) async {
-    var dataMap = await StripeService.retrieve([Coupon.path, id]);
+    var dataMap = await retrieveResource([Coupon.path, id]);
     return Coupon.fromMap(dataMap);
   }
 
@@ -51,13 +51,12 @@ class Coupon extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([Coupon.path], data: data);
+    var dataMap = await listResource([Coupon.path], data: data);
     return CouponCollection.fromMap(dataMap);
   }
 
   /// [Deleting a coupon](https://stripe.com/docs/api/curl#delete_coupon)
-  static Future<Map> delete(String id) =>
-      StripeService.delete([Coupon.path, id]);
+  static Future<Map> delete(String id) => deleteResource([Coupon.path, id]);
 }
 
 class CouponCollection extends ResourceCollection {
@@ -68,6 +67,11 @@ class CouponCollection extends ResourceCollection {
 
 /// [Creating coupons](https://stripe.com/docs/api/curl#create_coupon)
 class CouponCreation extends ResourceRequest {
+  CouponCreation() {
+    setMap('object', 'card');
+    setRequiredFields('duration');
+  }
+
   set id(String id) => setMap('id', id);
 
   // //@required
@@ -90,7 +94,7 @@ class CouponCreation extends ResourceRequest {
   set redeemBy(int redeemBy) => setMap('redeem_by', redeemBy);
 
   Future<Coupon> create() async {
-    var dataMap = await StripeService.create([Coupon.path], getMap());
+    var dataMap = await createResource([Coupon.path], getMap());
     return Coupon.fromMap(dataMap);
   }
 }
