@@ -16,6 +16,13 @@ const String _DELETE = 'DELETE';
 const String _host = 'api.stripe.com';
 const String _apiVersionPath = 'v1';
 
+// Request Header Constants
+const String _authHeaderKey = 'Authorization';
+const String _idempotencyHeaderKey = 'Idempotency-Key';
+const String _stripeVersionHeaderKey = 'Stripe-Version';
+// This needs to be updated if Stripe changes their API and those changes are reflected in this repo.
+const String _stripeVersion = '2019-03-14';
+
 /// The Api key used to communicate with Stripe
 /// Use your test secret key for running in test mode
 String _apiKey;
@@ -96,9 +103,10 @@ Future<Map> _request(final String method, final List<String> pathParts,
   var request = await _getClient().openUrl(method, uri);
 
   // Set headers
-  request.headers.add('Authorization', 'Bearer $_apiKey');
+  request.headers.add(_authHeaderKey, 'Bearer $_apiKey');
+  request.headers.add(_stripeVersionHeaderKey, _stripeVersion);
   if (idempotencyKey != null) {
-    request.headers.add('Idempotency-Key', idempotencyKey);
+    request.headers.add(_idempotencyHeaderKey, idempotencyKey);
   }
 
   if (method == _POST && data != null) {
@@ -149,21 +157,40 @@ Future<Map> _request(final String method, final List<String> pathParts,
   return responseMap;
 }
 
+void recursiveEncodeMap(final Map data, final String k,
+    final List<String> output, List<String> prevKeys) {
+  var hasProps = false;
+  prevKeys.add(k);
+  for (String kk in data[k].keys) {
+    hasProps = true;
+    if (data[k][kk] is Map) {
+      recursiveEncodeMap(data[k], kk, output, prevKeys);
+    } else {
+      String str = prevKeys[0];
+      for (var i = 1; i < prevKeys.length; i++) {
+        str += '[${prevKeys[i]}]';
+      }
+      str += '[$kk]';
+      output.add(Uri.encodeComponent(str) +
+          '=' +
+          Uri.encodeComponent(data[k][kk].toString()));
+    }
+  }
+  if (!hasProps) {
+    output.add(Uri.encodeComponent(k) + '=');
+  }
+
+  prevKeys.removeLast();
+  return;
+}
+
 /// Takes a map, and returns a properly escaped Uri String.
 String encodeMap(final Map data) {
   List<String> output = [];
+  List<String> prevKeys = [];
   for (String k in data.keys) {
     if (data[k] is Map) {
-      var hasProps = false;
-      for (String kk in data[k].keys) {
-        hasProps = true;
-        output.add(Uri.encodeComponent('${k}[${kk}]') +
-            '=' +
-            Uri.encodeComponent(data[k][kk].toString()));
-      }
-      if (!hasProps) {
-        output.add(Uri.encodeComponent(k) + '=');
-      }
+      recursiveEncodeMap(data, k, output, prevKeys);
     } else if (data[k] is List) {
       for (String v in data[k]) {
         output
