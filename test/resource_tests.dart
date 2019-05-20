@@ -2,7 +2,7 @@ library resource_tests;
 
 import 'package:test/test.dart';
 
-import '../lib/stripe.dart' as stripe;
+import '../lib/stripe_dart_flutter.dart' as stripe;
 
 class TestResource extends stripe.Resource {
   bool test = true;

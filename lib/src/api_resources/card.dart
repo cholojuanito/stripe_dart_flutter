@@ -1,5 +1,3 @@
-import 'package:stripe/src/exceptions.dart';
-
 import '../api_resource.dart';
 import '../resource.dart';
 import '../resource_collection.dart';

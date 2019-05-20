@@ -2,7 +2,7 @@ library service_tests;
 
 import 'package:test/test.dart';
 
-import '../lib/stripe.dart';
+import '../lib/stripe_dart_flutter.dart';
 
 main() {
   group('', () {
