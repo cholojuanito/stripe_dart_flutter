@@ -3,7 +3,7 @@ library test_utils;
 import 'dart:async';
 import 'dart:io';
 
-import '../lib/stripe.dart';
+import '../lib/stripe_dart_flutter.dart';
 import 'package:logging/logging.dart';
 
 var log = Logger('Test Utils');

@@ -2,10 +2,9 @@ library account_tests;
 
 import 'dart:convert';
 
-import 'package:stripe/stripe.dart' as prefix0;
 import 'package:test/test.dart';
 
-import '../../lib/stripe.dart';
+import '../../lib/stripe_dart_flutter.dart';
 import '../utils.dart' as utils;
 
 import '../resources/bank_account_tests.dart' as bank_account;

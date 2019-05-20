@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:test/test.dart';
 
-import '../../lib/stripe.dart';
+import '../../lib/stripe_dart_flutter.dart';
 import '../utils.dart' as utils;
 
 import 'balance_transaction_tests.dart' as balance_transaction;
