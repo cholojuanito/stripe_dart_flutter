@@ -1,29 +1,4 @@
-## 1.3.1 (2019-02-25)
+## 0.1.0 (2019-05-20)
+* **Stripe API Version: 2019-03-14**, unless otherwise stated any versions *greater than* 0.1.0 correspond to the **2019-03-14** Stripe API version.
+* Creating/updating/deleting a Stripe account is supported
 
-- Upgrade dependencies
-
-## 1.3.0 (2018-07-16)
-
-- Make changes to be dart 2.0 compatible
-
-## 1.2.2 (2016-10-20)
-
-Features:
-
-  - upgrade dependencies
-
-Bug fixes:
-
-  - change card type to card brand
-
-
-## 1.2.1 (2016-08-08)
-
-Features:
-
-  - add CHANGELOG.md (closes [#32](https://github.com/exitlive/stripe-dart/issues/32))
-  - add default source to customer ([#33](https://github.com/exitlive/stripe-dart/pull/33), [@rbellens](https://github.com/rbellens))
-
-Bug fixes:
-
-  - fix card creation with token ([#33](https://github.com/exitlive/stripe-dart/pull/33), [@rbellens](https://github.com/rbellens))
