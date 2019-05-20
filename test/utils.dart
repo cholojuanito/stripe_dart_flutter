@@ -6,7 +6,7 @@ import 'dart:io';
 import '../lib/stripe.dart';
 import 'package:logging/logging.dart';
 
-var log = new Logger('Test Utils');
+var log = Logger('Test Utils');
 
 var metadataExample = '''
     {
@@ -24,7 +24,7 @@ setApiKeyFromArgs(List<String> args) {
         'Provide your stripe API key as the first command line argument!');
     exit(1);
   }
-  StripeService.apiKey = args.first;
+  setApiKey(args.first);
 }
 
 Future tearDown() async {

@@ -1,39 +1,42 @@
-part of stripe;
+import '../api_resource.dart';
+import '../resource.dart';
+import '../resource_collection.dart';
+import '../service.dart';
 
 /// [Plans](https://stripe.com/docs/api/curl#plans)
 class Plan extends ApiResource {
-  String get id => _dataMap['id'];
+  String get id => resourceMap['id'];
 
   final String object = 'plan';
 
-  static var _path = 'plans';
+  static var path = 'plans';
 
-  bool get livemode => _dataMap['livemode'];
+  bool get livemode => resourceMap['livemode'];
 
-  int get amount => _dataMap['amount'];
+  int get amount => resourceMap['amount'];
 
-  DateTime get created => _getDateTimeFromMap('created');
+  DateTime get created => getDateTimeFromMap('created');
 
-  String get currency => _dataMap['currency'];
+  String get currency => resourceMap['currency'];
 
-  String get interval => _dataMap['interval'];
+  String get interval => resourceMap['interval'];
 
-  int get intervalCount => _dataMap['interval_count'];
+  int get intervalCount => resourceMap['interval_count'];
 
-  String get name => _dataMap['name'];
+  String get name => resourceMap['name'];
 
-  Map<String, String> get metadata => _dataMap['metadata'];
+  Map<String, String> get metadata => resourceMap['metadata'];
 
-  int get trialPeriodDays => _dataMap['trial_period_days'];
+  int get trialPeriodDays => resourceMap['trial_period_days'];
 
-  String get statementDescriptor => _dataMap['statement_descriptor'];
+  String get statementDescriptor => resourceMap['statement_descriptor'];
 
   Plan.fromMap(Map dataMap) : super.fromMap(dataMap);
 
   /// [Retrieving a Plan](https://stripe.com/docs/api/curl#retrieve_plan)
   static Future<Plan> retrieve(String id) async {
-    var dataMap = await StripeService.retrieve([Plan._path, id]);
-    return new Plan.fromMap(dataMap);
+    var dataMap = await retrieveResource([Plan.path, id]);
+    return Plan.fromMap(dataMap);
   }
 
   /// [List all Plans](https://stripe.com/docs/api/curl#list_plans)
@@ -44,66 +47,74 @@ class Plan extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([Plan._path], data: data);
-    return new PlanCollection.fromMap(dataMap);
+    var dataMap = await listResource([Plan.path], data: data);
+    return PlanCollection.fromMap(dataMap);
   }
 
   /// [Deleting a plan](https://stripe.com/docs/api/curl#delete_plan)
-  static Future<Map> delete(String id) =>
-      StripeService.delete([Plan._path, id]);
+  static Future<Map> delete(String id) => deleteResource([Plan.path, id]);
 }
 
 class PlanCollection extends ResourceCollection {
-  Plan _getInstanceFromMap(map) => new Plan.fromMap(map);
+  Plan getInstanceFromMap(map) => Plan.fromMap(map);
 
   PlanCollection.fromMap(Map map) : super.fromMap(map);
 }
 
 /// [Creating plans](https://stripe.com/docs/api/curl#create_plan)
 class PlanCreation extends ResourceRequest {
-  @required
-  set id(String id) => _setMap('id', id);
+  PlanCreation() {
+    setMap('object', 'Plan');
+    setRequiredFields('id');
+    setRequiredFields('amount');
+    setRequiredFields('currency');
+    setRequiredFields('interval');
+    setRequiredFields('name');
+  }
 
-  @required
-  set amount(int amount) => _setMap('amount', amount);
+  // //@required
+  set id(String id) => setMap('id', id);
 
-  @required
-  set currency(String currency) => _setMap('currency', currency);
+  // //@required
+  set amount(int amount) => setMap('amount', amount);
 
-  @required
-  set interval(String interval) => _setMap('interval', interval);
+  // //@required
+  set currency(String currency) => setMap('currency', currency);
+
+  // //@required
+  set interval(String interval) => setMap('interval', interval);
 
   set intervalCount(int intervalCount) =>
-      _setMap('interval_count', intervalCount);
+      setMap('interval_count', intervalCount);
 
-  @required
-  set name(String name) => _setMap('name', name);
+  // //@required
+  set name(String name) => setMap('name', name);
 
   set trialPeriodDays(int trialPeriodDays) =>
-      _setMap('trial_period_days', trialPeriodDays);
+      setMap('trial_period_days', trialPeriodDays);
 
-  set metadata(Map metadata) => _setMap('metadata', metadata);
+  set metadata(Map metadata) => setMap('metadata', metadata);
 
   set statementDescriptor(String statementDescriptor) =>
-      _setMap('statement_descriptor', statementDescriptor);
+      setMap('statement_descriptor', statementDescriptor);
 
   Future<Plan> create() async {
-    var dataMap = await StripeService.create([Plan._path], _getMap());
-    return new Plan.fromMap(dataMap);
+    var dataMap = await createResource([Plan.path], getMap());
+    return Plan.fromMap(dataMap);
   }
 }
 
 /// [Updating a plan](https://stripe.com/docs/api/curl#update_plan)
 class PlanUpdate extends ResourceRequest {
-  set name(String name) => _setMap('name', name);
+  set name(String name) => setMap('name', name);
 
-  set metadata(Map metadata) => _setMap('metadata', metadata);
+  set metadata(Map metadata) => setMap('metadata', metadata);
 
   set statementDescriptor(String statementDescriptor) =>
-      _setMap('statement_descriptor', statementDescriptor);
+      setMap('statement_descriptor', statementDescriptor);
 
   Future<Plan> update(String planId) async {
-    var dataMap = await StripeService.update([Plan._path, planId], _getMap());
-    return new Plan.fromMap(dataMap);
+    var dataMap = await updateResource([Plan.path, planId], getMap());
+    return Plan.fromMap(dataMap);
   }
 }

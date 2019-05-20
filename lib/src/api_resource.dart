@@ -1,4 +1,5 @@
-part of stripe;
+import 'resource.dart';
+import 'exceptions.dart';
 
 /// ApiResources are the main resources of the Stripe API
 /// Many of them provide functions to e.g. create, retrieve or delete
@@ -9,10 +10,10 @@ abstract class ApiResource extends Resource {
   /// Creates this api resource from a JSON string.
   ApiResource.fromMap(dataMap) : super.fromMap(dataMap) {
     assert(object != null);
-    if (_dataMap == null)
-      throw new InvalidDataReceivedException('The dataMap must not be null');
-    if (_dataMap['object'] != object)
-      throw new InvalidDataReceivedException(
+    if (resourceMap == null)
+      throw InvalidDataReceivedException('The dataMap must not be null');
+    if (resourceMap['object'] != object)
+      throw InvalidDataReceivedException(
           'The data received was not for object ${object}');
   }
 }

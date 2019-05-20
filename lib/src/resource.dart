@@ -1,4 +1,4 @@
-part of stripe;
+import 'exceptions.dart';
 
 /// All objects sent through the Stripe REST API are [Resource]s, but only
 /// [ApiResource]s can be created, deleted, etc...
@@ -6,10 +6,10 @@ part of stripe;
 /// Instances of this Class can only be retrieved through the use of another
 /// [ApiResource].
 abstract class Resource {
-  final Map _dataMap;
+  final Map resourceMap;
 
   /// Creates this resource from a JSON string.
-  Resource.fromMap(this._dataMap);
+  Resource.fromMap(this.resourceMap);
 
   /// Whenever a value has to be transformed when retrieved (like a DateTime),
   /// it is cached in this map to avoid duplicating objects.
@@ -17,22 +17,22 @@ abstract class Resource {
 
   /// Returns a DateTime from given dataMap key, and caches the value for future
   /// use.
-  DateTime _getDateTimeFromMap(String key) {
+  DateTime getDateTimeFromMap(String key) {
     var cachedValue;
     if ((cachedValue = _cachedDataMap[key]) != null) return cachedValue;
-    if (_dataMap[key] == null) return null;
-    int value = _dataMap[key];
-    cachedValue = new DateTime.fromMillisecondsSinceEpoch(value * 1000);
+    if (resourceMap[key] == null) return null;
+    int value = resourceMap[key];
+    cachedValue = DateTime.fromMillisecondsSinceEpoch(value * 1000);
     _cachedDataMap[key] = cachedValue;
     return cachedValue;
   }
 
   Map toMap() {
-    return _dataMap;
+    return resourceMap;
   }
 
-  String _getIdForExpandable(String key) {
-    var value = _dataMap[key];
+  String getIdForExpandable(String key) {
+    var value = resourceMap[key];
     if (value is String)
       return value;
     else if (value is Map && value.containsKey('id'))
@@ -46,44 +46,46 @@ abstract class Resource {
 /// [CustomerUpdate], etc...)
 abstract class ResourceRequest {
   /// Holds all values that have been set/changed.
-  /// You should not access this map directly, but use [_setMap] and [_getMap].
+  /// You should not access this map directly, but use [setMap] and [getMap].
   Map<String, dynamic> _map = {};
+  Set<String> _requiredFields = {};
 
-  _setMap(String key, dynamic value) {
-    // TODO write a better exception
-    if (_map.containsKey(key))
-      throw new BadRequestException('You can not set the same key twice.');
+  setRequiredFields(String value) {
+    _requiredFields.add(value);
+  }
+
+  setMap(String key, dynamic value) {
+    if (_map.containsKey(key)) throw KeyAlreadyExistsException(key);
     _map[key] = value;
   }
 
   /// Returns the [_map] and checks that all [required] fields are set.
-  _getMap() {
-    ClassMirror classMirror = reflect(this).type;
-    Map<Symbol, MethodMirror> methods = classMirror.instanceMembers;
-    methods.forEach((symbol, method) {
-      if (method.isSetter) {
-        method.metadata.forEach((InstanceMirror instanceMirror) {
-          if (instanceMirror.reflectee.runtimeType == Required) {
-            var symbolName = MirrorSystem.getName(method.simpleName);
-            var setterCamelCase =
-                symbolName.substring(0, symbolName.length - 1);
-            var setter = _underscore(setterCamelCase);
-            String className = MirrorSystem.getName(classMirror.simpleName);
-            if (_map[setter] == null)
-              throw new MissingArgumentException(
-                  'You have to set ${setter} for a proper ${className} request');
-          }
-        });
+  getMap() {
+    // Make sure required fields are set
+    _requiredFields.forEach((k) {
+      if (_map[k] == null) {
+        _error(k);
       }
     });
+
+    // Expand all of the fields that are ResourceRequests
     _map.forEach((k, v) {
-      if (v is ResourceRequest) _map[k] = v._getMap();
+      if (v is ResourceRequest) {
+        _map[k] = v.getMap();
+      }
     });
     return _map;
   }
 
+  _error(String setter) {
+    String className = _map['object'] != null ? _map['object'] : 'undefind';
+
+    throw MissingArgumentException(
+        'You have to set ${setter} for a proper ${className} request');
+  }
+
   String _underscore(String camelized) {
-    return camelized.replaceAllMapped(new RegExp(r'([A-Z])'),
+    return camelized.replaceAllMapped(RegExp(r'([A-Z])'),
         (Match match) => '_${match.group(1).toLowerCase()}');
   }
 

@@ -1,62 +1,67 @@
-part of stripe;
+import '../api_resource.dart';
+import '../resource.dart';
+import '../resource_collection.dart';
+import '../service.dart';
+
+import 'customer.dart';
+import 'invoice.dart';
 
 /// [Invoice items](https://stripe.com/docs/api/curl#invoiceitems)
 class InvoiceItem extends ApiResource {
-  String get id => _dataMap['id'];
+  String get id => resourceMap['id'];
 
   final String object = 'invoiceitem';
 
-  static var _path = 'invoiceitems';
+  static var path = 'invoiceitems';
 
-  bool get livemode => _dataMap['livemode'];
+  bool get livemode => resourceMap['livemode'];
 
-  int get amount => _dataMap['amount'];
+  int get amount => resourceMap['amount'];
 
-  String get currency => _dataMap['currency'];
+  String get currency => resourceMap['currency'];
 
   String get customer {
-    return this._getIdForExpandable('customer');
+    return this.getIdForExpandable('customer');
   }
 
   Customer get customerExpand {
-    var value = _dataMap['customer'];
+    var value = resourceMap['customer'];
     if (value == null)
       return null;
     else
-      return new Customer.fromMap(value);
+      return Customer.fromMap(value);
   }
 
-  DateTime get date => _getDateTimeFromMap('date');
+  DateTime get date => getDateTimeFromMap('date');
 
-  bool get proration => _dataMap['proration'];
+  bool get proration => resourceMap['proration'];
 
-  String get description => _dataMap['description'];
+  String get description => resourceMap['description'];
 
   String get invoice {
-    return this._getIdForExpandable('invoice');
+    return this.getIdForExpandable('invoice');
   }
 
   Invoice get invoiceExpand {
-    var value = _dataMap['invoice'];
+    var value = resourceMap['invoice'];
     if (value == null)
       return null;
     else
-      return new Invoice.fromMap(value);
+      return Invoice.fromMap(value);
   }
 
-  Map<String, String> get metadata => _dataMap['metadata'];
+  Map<String, String> get metadata => resourceMap['metadata'];
 
-  String get subscription => _dataMap['subscription'];
+  String get subscription => resourceMap['subscription'];
 
   InvoiceItem.fromMap(Map dataMap) : super.fromMap(dataMap);
 
   /// [Retrieving an Invoice Item](https://stripe.com/docs/api/curl#retrieve_invoiceitem)
   static Future<InvoiceItem> retrieve(String invoiceItemId,
       {final Map data}) async {
-    var dataMap = await StripeService.retrieve(
-        [InvoiceItem._path, invoiceItemId],
-        data: data);
-    return new InvoiceItem.fromMap(dataMap);
+    var dataMap =
+        await retrieveResource([InvoiceItem.path, invoiceItemId], data: data);
+    return InvoiceItem.fromMap(dataMap);
   }
 
   /// [List all Invoice Items](https://stripe.com/docs/api/curl#list_invoiceitems)
@@ -72,58 +77,64 @@ class InvoiceItem extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([InvoiceItem._path], data: data);
-    return new InvoiceItemCollection.fromMap(dataMap);
+    var dataMap = await listResource([InvoiceItem.path], data: data);
+    return InvoiceItemCollection.fromMap(dataMap);
   }
 
   /// [Deleting an Invoice Item](https://stripe.com/docs/api/curl#delete_invoiceitem)
   static Future<Map> delete(String invoiceItemId) =>
-      StripeService.delete([InvoiceItem._path, invoiceItemId]);
+      deleteResource([InvoiceItem.path, invoiceItemId]);
 }
 
 class InvoiceItemCollection extends ResourceCollection {
-  InvoiceItem _getInstanceFromMap(map) => new InvoiceItem.fromMap(map);
+  InvoiceItem getInstanceFromMap(map) => InvoiceItem.fromMap(map);
 
   InvoiceItemCollection.fromMap(Map map) : super.fromMap(map);
 }
 
 /// [Creating an Invoice Item](https://stripe.com/docs/api/curl#create_invoiceitem)
 class InvoiceItemCreation extends ResourceRequest {
-  @required
-  set customer(String customer) => _setMap('customer', customer);
+  InvoiceItemCreation() {
+    setMap('object', 'InvoiceItem');
+    setRequiredFields('customer');
+    setRequiredFields('amount');
+    setRequiredFields('currency');
+  }
 
-  @required
-  set amount(int amount) => _setMap('amount', amount);
+  // //@required
+  set customer(String customer) => setMap('customer', customer);
 
-  @required
-  set currency(String currency) => _setMap('currency', currency);
+  // //@required
+  set amount(int amount) => setMap('amount', amount);
 
-  set invoice(String invoice) => _setMap('invoice', invoice);
+  // //@required
+  set currency(String currency) => setMap('currency', currency);
 
-  set subscription(String subscription) =>
-      _setMap('subscription', subscription);
+  set invoice(String invoice) => setMap('invoice', invoice);
 
-  set description(String description) => _setMap('description', description);
+  set subscription(String subscription) => setMap('subscription', subscription);
 
-  set metadata(Map metadata) => _setMap('metadata', metadata);
+  set description(String description) => setMap('description', description);
+
+  set metadata(Map metadata) => setMap('metadata', metadata);
 
   Future<InvoiceItem> create() async {
-    var dataMap = await StripeService.create([InvoiceItem._path], _getMap());
-    return new InvoiceItem.fromMap(dataMap);
+    var dataMap = await createResource([InvoiceItem.path], getMap());
+    return InvoiceItem.fromMap(dataMap);
   }
 }
 
 /// [Updating an Invoice Item](https://stripe.com/docs/api/curl#update_invoiceitem)
 class InvoiceItemUpdate extends ResourceRequest {
-  set amount(int amount) => _setMap('amount', amount);
+  set amount(int amount) => setMap('amount', amount);
 
-  set description(String description) => _setMap('description', description);
+  set description(String description) => setMap('description', description);
 
-  set metadata(Map metadata) => _setMap('metadata', metadata);
+  set metadata(Map metadata) => setMap('metadata', metadata);
 
   Future<InvoiceItem> update(String invoiceItemId) async {
-    var dataMap = await StripeService.update(
-        [InvoiceItem._path, invoiceItemId], _getMap());
-    return new InvoiceItem.fromMap(dataMap);
+    var dataMap =
+        await updateResource([InvoiceItem.path, invoiceItemId], getMap());
+    return InvoiceItem.fromMap(dataMap);
   }
 }

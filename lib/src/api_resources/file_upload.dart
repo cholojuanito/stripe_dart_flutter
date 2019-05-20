@@ -1,30 +1,38 @@
-part of stripe;
+import '../api_resource.dart';
+import '../resource.dart';
+import '../resource_collection.dart';
+import '../service.dart';
 
 /// [File uploads](https://stripe.com/docs/api/curl#file_uploads)
 class FileUpload extends ApiResource {
-  String get id => _dataMap['id'];
+  String get id => resourceMap['id'];
 
   final String object = 'file_upload';
 
-  static var _path = 'files';
+  static var path = 'file';
 
-  DateTime get created => _getDateTimeFromMap('created');
+  DateTime get created => getDateTimeFromMap('created');
 
-  String get purpose => _dataMap['purpose'];
+  String get filename => resourceMap['filename'];
 
-  int get size => _dataMap['size'];
+  /// TODO: Add links list
 
-  String get type => _dataMap['type'];
+  String get purpose => resourceMap['purpose'];
 
-  String get url => _dataMap['url'];
+  int get size => resourceMap['size'];
+
+  String get title => resourceMap['title'];
+
+  String get type => resourceMap['type'];
+
+  String get url => resourceMap['url'];
 
   FileUpload.fromMap(Map dataMap) : super.fromMap(dataMap);
 
   /// [Retrieve a file upload](https://stripe.com/docs/api/curl#retrieve_file_upload)
   static Future<FileUpload> retrieve(String fileUploadId) async {
-    var dataMap =
-        await StripeService.retrieve([FileUpload._path, fileUploadId]);
-    return new FileUpload.fromMap(dataMap);
+    var dataMap = await retrieveResource([FileUpload.path, fileUploadId]);
+    return FileUpload.fromMap(dataMap);
   }
 
   /// [List all file uploads](https://stripe.com/docs/api/curl#list_file_uploads)
@@ -41,18 +49,26 @@ class FileUpload extends ApiResource {
     if (purpose != null) data['purpose'] = purpose;
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([FileUpload._path], data: data);
-    return new FileUploadCollection.fromMap(dataMap);
+    var dataMap = await listResource([FileUpload.path], data: data);
+    return FileUploadCollection.fromMap(dataMap);
   }
 }
 
 /// [Create a file upload](https://stripe.com/docs/api/curl#create_file_upload)
 class UploadFileCreation extends ResourceRequest {
-  // TODO: implement
+  /// TODO: implement
+
+  /// See the docs for different types of purpose codes
+  set purpose(String purpose) => setMap('purpose', purpose);
+
+  Future<FileUpload> create() async {
+    var dataMap = await createResource([FileUpload.path], getMap());
+    return FileUpload.fromMap(dataMap);
+  }
 }
 
 class FileUploadCollection extends ResourceCollection {
-  FileUpload _getInstanceFromMap(map) => new FileUpload.fromMap(map);
+  FileUpload getInstanceFromMap(map) => FileUpload.fromMap(map);
 
   FileUploadCollection.fromMap(Map map) : super.fromMap(map);
 }

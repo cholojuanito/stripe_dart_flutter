@@ -1,4 +1,4 @@
-part of stripe;
+import 'api_resource.dart';
 
 /// An abstract collection class that helps retrieving multiple elements of the
 /// same resource.
@@ -7,22 +7,22 @@ abstract class ResourceCollection<T> extends ApiResource {
 
   List<T> get data {
     var data;
-    if ((data = _dataMap['data']) == null)
+    if ((data = resourceMap['data']) == null)
       return null;
     else {
-      var list = new List<T>();
+      var list = List<T>();
       for (var map in data) {
-        list.add(_getInstanceFromMap(map));
+        list.add(getInstanceFromMap(map));
       }
       return list;
     }
   }
 
-  T _getInstanceFromMap(map);
+  T getInstanceFromMap(map);
 
-  String get url => _dataMap['url'];
+  String get url => resourceMap['url'];
 
-  bool get hasMore => _dataMap['has_more'];
+  bool get hasMore => resourceMap['has_more'];
 
   ResourceCollection.fromMap(Map dataMap) : super.fromMap(dataMap);
 }

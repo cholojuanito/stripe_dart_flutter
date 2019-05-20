@@ -1,125 +1,135 @@
-part of stripe;
+import '../api_resource.dart';
+import '../resource.dart';
+import '../resource_collection.dart';
+import '../service.dart';
+
+import '../resources/bank_account.dart';
+
+import 'account.dart';
+import 'balance.dart';
+import 'card.dart';
+import 'charge.dart';
+import 'transfer_reversal.dart';
 
 /// [Transfers](https://stripe.com/docs/api#transfers)
 class Transfer extends ApiResource {
-  String get id => _dataMap['id'];
+  String get id => resourceMap['id'];
 
   final String object = 'transfer';
 
-  static var _path = 'transfers';
+  static var path = 'transfers';
 
-  bool get livemode => _dataMap['livemode'];
+  bool get livemode => resourceMap['livemode'];
 
-  int get amount => _dataMap['amount'];
+  int get amount => resourceMap['amount'];
 
-  DateTime get created => _getDateTimeFromMap('created');
+  DateTime get created => getDateTimeFromMap('created');
 
-  String get currency => _dataMap['currency'];
+  String get currency => resourceMap['currency'];
 
-  DateTime get date => _getDateTimeFromMap('date');
+  DateTime get date => getDateTimeFromMap('date');
 
   TransferReversalCollection get reversals {
-    var value = _dataMap['reversals'];
+    var value = resourceMap['reversals'];
     if (value == null)
       return null;
     else
-      return new TransferReversalCollection.fromMap(value);
+      return TransferReversalCollection.fromMap(value);
   }
 
-  bool get reversed => _dataMap['reversed'];
+  bool get reversed => resourceMap['reversed'];
 
-  String get status => _dataMap['status'];
+  String get status => resourceMap['status'];
 
-  String get type => _dataMap['type'];
+  String get type => resourceMap['type'];
 
-  int get amountReversed => _dataMap['amount_reversed'];
+  int get amountReversed => resourceMap['amount_reversed'];
 
   String get balanceTransaction {
-    return this._getIdForExpandable('balance_transaction');
+    return this.getIdForExpandable('balance_transaction');
   }
 
   BalanceTransaction get balanceTransactionExpand {
-    var value = _dataMap['balance_transaction'];
+    var value = resourceMap['balance_transaction'];
     if (value == null)
       return null;
     else
-      return new BalanceTransaction.fromMap(value);
+      return BalanceTransaction.fromMap(value);
   }
 
-  String get description => _dataMap['description'];
+  String get description => resourceMap['description'];
 
-  String get failureCode => _dataMap['failure_code'];
+  String get failureCode => resourceMap['failure_code'];
 
-  String get failureMessage => _dataMap['failure_message'];
+  String get failureMessage => resourceMap['failure_message'];
 
-  Map get metadata => _dataMap['metadata'];
+  Map get metadata => resourceMap['metadata'];
 
-  String get applicationFee => _dataMap['application_fee'];
+  String get applicationFee => resourceMap['application_fee'];
 
   String get destination {
-    return this._getIdForExpandable('destination');
+    return this.getIdForExpandable('destination');
   }
 
   dynamic get destinationExpand {
-    var value = _dataMap['destination'];
+    var value = resourceMap['destination'];
     if (!(value is Map) || !(value.containsKey('object'))) return null;
     String object = value['object'];
     switch (object) {
       case 'card':
-        return new Card.fromMap(value);
+        return Card.fromMap(value);
       case 'account':
-        return new Account.fromMap(value);
+        return Account.fromMap(value);
       case 'bank_account':
-        return new BankAccount.fromMap(value);
+        return BankAccount.fromMap(value);
       default:
         return null;
     }
   }
 
   String get destinationPayment {
-    return this._getIdForExpandable('destination_payment');
+    return this.getIdForExpandable('destination_payment');
   }
 
   Charge get destinationPaymentExpand {
-    var value = _dataMap['destination_payment'];
+    var value = resourceMap['destination_payment'];
     if (value == null)
       return null;
     else
-      return new Charge.fromMap(value);
+      return Charge.fromMap(value);
   }
 
   String get sourceTransaction {
-    return this._getIdForExpandable('source_transaction');
+    return this.getIdForExpandable('source_transaction');
   }
 
   dynamic get sourceTransactionExpand {
-    var value = _dataMap['source_transaction'];
+    var value = resourceMap['source_transaction'];
     if (!(value is Map) || !(value.containsKey('object'))) return null;
     String object = value['object'];
     switch (object) {
       case 'charge':
-        return new Charge.fromMap(value);
+        return Charge.fromMap(value);
       default:
         return null;
     }
   }
 
-  String get statementDescriptor => _dataMap['statement_descriptor'];
+  String get statementDescriptor => resourceMap['statement_descriptor'];
 
   Transfer.fromMap(Map dataMap) : super.fromMap(dataMap);
 
   /// [Retrieve a transfer](https://stripe.com/docs/api#retrieve_transfer)
   static Future<Transfer> retrieve(String transferId, {final Map data}) async {
     var dataMap =
-        await StripeService.retrieve([Transfer._path, transferId], data: data);
-    return new Transfer.fromMap(dataMap);
+        await retrieveResource([Transfer.path, transferId], data: data);
+    return Transfer.fromMap(dataMap);
   }
 
   /// [Canceling a Transfer](https://stripe.com/docs/api/curl#cancel_transfer)
   static Future<Transfer> cancel(String transferId) async {
-    var dataMap =
-        await StripeService.post([Transfer._path, transferId, 'cancel']);
-    return new Transfer.fromMap(dataMap);
+    var dataMap = await postResource([Transfer.path, transferId, 'cancel']);
+    return Transfer.fromMap(dataMap);
   }
 
   /// [List all transfers](https://stripe.com/docs/api#list_transfers)
@@ -140,53 +150,59 @@ class Transfer extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (status != null) data['status'] = status;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([Transfer._path], data: data);
-    return new TransferCollection.fromMap(dataMap);
+    var dataMap = await listResource([Transfer.path], data: data);
+    return TransferCollection.fromMap(dataMap);
   }
 }
 
 class TransferCollection extends ResourceCollection {
-  Transfer _getInstanceFromMap(map) => new Transfer.fromMap(map);
+  Transfer getInstanceFromMap(map) => Transfer.fromMap(map);
 
   TransferCollection.fromMap(Map map) : super.fromMap(map);
 }
 
 /// [Create a transfer](https://stripe.com/docs/api#create_transfer)
 class TransferCreation extends ResourceRequest {
-  @required
-  set amount(int amount) => _setMap('amount', amount);
+  TransferCreation() {
+    setMap('object', 'Transfer');
+    setRequiredFields('amount');
+    setRequiredFields('currency');
+    setRequiredFields('destination');
+  }
 
-  @required
-  set currency(String currency) => _setMap('currency', currency);
+  // //@required
+  set amount(int amount) => setMap('amount', amount);
 
-  @required
-  set destination(String destination) => _setMap('destination', destination);
+  // //@required
+  set currency(String currency) => setMap('currency', currency);
+
+  // //@required
+  set destination(String destination) => setMap('destination', destination);
 
   set sourceTransaction(String sourceTransaction) =>
-      _setMap('source_transaction', sourceTransaction);
+      setMap('source_transaction', sourceTransaction);
 
-  set description(String description) => _setMap('description', description);
+  set description(String description) => setMap('description', description);
 
   set statementDescriptor(String statementDescriptor) =>
-      _setMap('statement_descriptor', statementDescriptor);
+      setMap('statement_descriptor', statementDescriptor);
 
-  set metadata(Map metadata) => _setMap('metadata', metadata);
+  set metadata(Map metadata) => setMap('metadata', metadata);
 
   Future<Transfer> create() async {
-    var dataMap = await StripeService.create([Transfer._path], _getMap());
-    return new Transfer.fromMap(dataMap);
+    var dataMap = await createResource([Transfer.path], getMap());
+    return Transfer.fromMap(dataMap);
   }
 }
 
 /// [Update a transfer](https://stripe.com/docs/api#update_transfer)
 class TransferUpdate extends ResourceRequest {
-  set description(String description) => _setMap('description', description);
+  set description(String description) => setMap('description', description);
 
-  set metadata(Map metadata) => _setMap('metadata', metadata);
+  set metadata(Map metadata) => setMap('metadata', metadata);
 
   Future<Transfer> update(String transferId) async {
-    var dataMap =
-        await StripeService.create([Transfer._path, transferId], _getMap());
-    return new Transfer.fromMap(dataMap);
+    var dataMap = await createResource([Transfer.path, transferId], getMap());
+    return Transfer.fromMap(dataMap);
   }
 }

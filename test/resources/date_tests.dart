@@ -20,7 +20,7 @@ main(List<String> args) {
   group('Date offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var date = new Date.fromMap(map);
+      var date = Date.fromMap(map);
       expect(date.day, map['day']);
       expect(date.month, map['month']);
       expect(date.year, map['year']);

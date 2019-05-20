@@ -24,10 +24,10 @@ main(List<String> args) {
   group('FileUpload offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var fileUpload = new FileUpload.fromMap(map);
+      var fileUpload = FileUpload.fromMap(map);
       expect(fileUpload.id, map['id']);
       expect(fileUpload.created,
-          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+          DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(fileUpload.purpose, map['purpose']);
       expect(fileUpload.size, map['size']);
       expect(fileUpload.type, map['type']);

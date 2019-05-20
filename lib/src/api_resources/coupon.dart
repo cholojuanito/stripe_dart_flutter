@@ -1,43 +1,46 @@
-part of stripe;
+import '../api_resource.dart';
+import '../resource.dart';
+import '../resource_collection.dart';
+import '../service.dart';
 
 /// [Coupons](https://stripe.com/docs/api/curl#coupons)
 class Coupon extends ApiResource {
-  String get id => _dataMap['id'];
+  String get id => resourceMap['id'];
 
   final String object = 'coupon';
 
-  static var _path = 'coupons';
+  static var path = 'coupons';
 
-  bool get livemode => _dataMap['livemode'];
+  bool get livemode => resourceMap['livemode'];
 
-  DateTime get created => _getDateTimeFromMap('created');
+  DateTime get created => getDateTimeFromMap('created');
 
-  String get duration => _dataMap['duration'];
+  String get duration => resourceMap['duration'];
 
-  int get amountOff => _dataMap['amount_off'];
+  int get amountOff => resourceMap['amount_off'];
 
-  String get currency => _dataMap['currency'];
+  String get currency => resourceMap['currency'];
 
-  int get durationInMonths => _dataMap['duration_in_months'];
+  int get durationInMonths => resourceMap['duration_in_months'];
 
-  int get maxRedemptions => _dataMap['max_redemptions'];
+  int get maxRedemptions => resourceMap['max_redemptions'];
 
-  Map<String, String> get metadata => _dataMap['metadata'];
+  Map<String, String> get metadata => resourceMap['metadata'];
 
-  int get percentOff => _dataMap['percent_off'];
+  int get percentOff => resourceMap['percent_off'];
 
-  int get redeemBy => _dataMap['redeem_by'];
+  int get redeemBy => resourceMap['redeem_by'];
 
-  int get timesRedeemed => _dataMap['times_redeemed'];
+  int get timesRedeemed => resourceMap['times_redeemed'];
 
-  bool get valid => _dataMap['valid'];
+  bool get valid => resourceMap['valid'];
 
   Coupon.fromMap(Map dataMap) : super.fromMap(dataMap);
 
   /// [Retrieving a Coupon](https://stripe.com/docs/api/curl#retrieve_coupon)
   static Future<Coupon> retrieve(String id) async {
-    var dataMap = await StripeService.retrieve([Coupon._path, id]);
-    return new Coupon.fromMap(dataMap);
+    var dataMap = await retrieveResource([Coupon.path, id]);
+    return Coupon.fromMap(dataMap);
   }
 
   /// [List all Coupons](https://stripe.com/docs/api/curl#list_coupons)
@@ -48,46 +51,50 @@ class Coupon extends ApiResource {
     if (startingAfter != null) data['starting_after'] = startingAfter;
     if (endingBefore != null) data['ending_before'] = endingBefore;
     if (data == {}) data = null;
-    var dataMap = await StripeService.list([Coupon._path], data: data);
-    return new CouponCollection.fromMap(dataMap);
+    var dataMap = await listResource([Coupon.path], data: data);
+    return CouponCollection.fromMap(dataMap);
   }
 
   /// [Deleting a coupon](https://stripe.com/docs/api/curl#delete_coupon)
-  static Future<Map> delete(String id) =>
-      StripeService.delete([Coupon._path, id]);
+  static Future<Map> delete(String id) => deleteResource([Coupon.path, id]);
 }
 
 class CouponCollection extends ResourceCollection {
-  Coupon _getInstanceFromMap(map) => new Coupon.fromMap(map);
+  Coupon getInstanceFromMap(map) => Coupon.fromMap(map);
 
   CouponCollection.fromMap(Map map) : super.fromMap(map);
 }
 
 /// [Creating coupons](https://stripe.com/docs/api/curl#create_coupon)
 class CouponCreation extends ResourceRequest {
-  set id(String id) => _setMap('id', id);
+  CouponCreation() {
+    setMap('object', 'card');
+    setRequiredFields('duration');
+  }
 
-  @required
-  set duration(String duration) => _setMap('duration', duration);
+  set id(String id) => setMap('id', id);
 
-  set amountOff(int amountOff) => _setMap('amount_off', amountOff);
+  // //@required
+  set duration(String duration) => setMap('duration', duration);
 
-  set currency(String currency) => _setMap('currency', currency);
+  set amountOff(int amountOff) => setMap('amount_off', amountOff);
+
+  set currency(String currency) => setMap('currency', currency);
 
   set durationInMonths(int durationInMonths) =>
-      _setMap('duration_in_months', durationInMonths);
+      setMap('duration_in_months', durationInMonths);
 
   set maxRedemptions(int maxRedemptions) =>
-      _setMap('max_redemptions', maxRedemptions);
+      setMap('max_redemptions', maxRedemptions);
 
-  set metadata(Map metadata) => _setMap('metadata', metadata);
+  set metadata(Map metadata) => setMap('metadata', metadata);
 
-  set percentOff(int percentOff) => _setMap('percent_off', percentOff);
+  set percentOff(int percentOff) => setMap('percent_off', percentOff);
 
-  set redeemBy(int redeemBy) => _setMap('redeem_by', redeemBy);
+  set redeemBy(int redeemBy) => setMap('redeem_by', redeemBy);
 
   Future<Coupon> create() async {
-    var dataMap = await StripeService.create([Coupon._path], _getMap());
-    return new Coupon.fromMap(dataMap);
+    var dataMap = await createResource([Coupon.path], getMap());
+    return Coupon.fromMap(dataMap);
   }
 }

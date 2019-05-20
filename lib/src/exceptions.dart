@@ -1,11 +1,19 @@
-part of stripe;
-
 class InvalidDataReceivedException implements Exception {
   final String errorMessage;
 
   InvalidDataReceivedException(this.errorMessage);
 
   String toString() => 'Invalid data received: ${errorMessage}.';
+}
+
+class MissingRequiredAttributeException implements Exception {
+  final String missingAttribute;
+
+  final String missingFrom;
+
+  MissingRequiredAttributeException(this.missingAttribute, this.missingFrom);
+
+  String toString() => 'Missing \'$missingAttribute\' from \'$missingFrom\'';
 }
 
 /// Missing argument errors indicate that not all required arguments were set for
@@ -62,4 +70,10 @@ class BadRequestException extends StripeApiException {
   BadRequestException(String errorMessage) : super(errorMessage);
 
   String toString() => 'Bad request: ${errorMessage}.';
+}
+
+class KeyAlreadyExistsException extends StripeApiException {
+  KeyAlreadyExistsException(String key) : super(key);
+
+  String toString() => 'The \'${errorMessage}\' key already exists in this map';
 }

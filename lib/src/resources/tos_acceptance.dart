@@ -1,11 +1,11 @@
-part of stripe;
+import '../resource.dart';
 
 class TosAcceptance extends Resource {
-  DateTime get date => _getDateTimeFromMap('date');
+  DateTime get date => getDateTimeFromMap('date');
 
-  String get ip => _dataMap['ip'];
+  String get ip => resourceMap['ip'];
 
-  String get userAgent => _dataMap['user_agent'];
+  String get userAgent => resourceMap['user_agent'];
 
   TosAcceptance.fromMap(Map dataMap) : super.fromMap(dataMap);
 }

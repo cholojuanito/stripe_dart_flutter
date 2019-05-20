@@ -1,13 +1,13 @@
-part of stripe;
+import '../resource.dart';
 
 class TransferSchedule extends Resource {
-  int get delayDays => _dataMap['delay_days'];
+  int get delayDays => resourceMap['delay_days'];
 
-  String get interval => _dataMap['interval'];
+  String get interval => resourceMap['interval'];
 
-  int get monthlyAnchor => _dataMap['monthly_anchor'];
+  int get monthlyAnchor => resourceMap['monthly_anchor'];
 
-  String get weeklyAnchor => _dataMap['weekly_anchor'];
+  String get weeklyAnchor => resourceMap['weekly_anchor'];
 
   TransferSchedule.fromMap(Map dataMap) : super.fromMap(dataMap);
 }

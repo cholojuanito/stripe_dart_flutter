@@ -33,11 +33,11 @@ main(List<String> args) {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
 
-      var coupon = new Coupon.fromMap(map);
+      var coupon = Coupon.fromMap(map);
 
       expect(coupon.id, map['id']);
       expect(coupon.created,
-          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+          DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(coupon.percentOff, map['percent_off']);
       expect(coupon.amountOff, map['amount_off']);
       expect(coupon.currency, map['currency']);
@@ -61,7 +61,7 @@ main(List<String> args) {
       // Coupon fields
       var couponDuration = 'forever', couponPercentOff = 5;
 
-      var coupon = await (new CouponCreation()
+      var coupon = await (CouponCreation()
             ..duration = couponDuration
             ..percentOff = couponPercentOff)
           .create();
@@ -79,12 +79,11 @@ main(List<String> args) {
           couponDurationInMoths = 12,
           couponMaxRedemptions = 3,
           couponMetadata = {'foo': 'bar'},
-          couponRedeemBy = new DateTime.now()
-                  .add(new Duration(days: 1))
-                  .millisecondsSinceEpoch ~/
-              1000;
+          couponRedeemBy =
+              DateTime.now().add(Duration(days: 1)).millisecondsSinceEpoch ~/
+                  1000;
 
-      var coupon = await (new CouponCreation()
+      var coupon = await (CouponCreation()
             ..id = couponId
             ..duration = couponDuration
             ..amountOff = couponAmountOff
@@ -118,7 +117,7 @@ main(List<String> args) {
       // Coupon fields
       var couponDuration = 'forever', couponPercentOff = 5;
 
-      var coupon = await (new CouponCreation()
+      var coupon = await (CouponCreation()
             ..duration = couponDuration
             ..percentOff = couponPercentOff)
           .create();
@@ -134,7 +133,7 @@ main(List<String> args) {
       // Coupon fields
       var couponDuration = 'forever', couponPercentOff = 5;
       for (var i = 0; i < 20; i++) {
-        await (new CouponCreation()
+        await (CouponCreation()
               ..duration = couponDuration
               ..percentOff = couponPercentOff)
             .create();

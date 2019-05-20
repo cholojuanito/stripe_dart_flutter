@@ -21,7 +21,7 @@ main(List<String> args) {
   group('TransferSchedule offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var transferSchedule = new TransferSchedule.fromMap(map);
+      var transferSchedule = TransferSchedule.fromMap(map);
       expect(transferSchedule.delayDays, map['delay_days']);
       expect(transferSchedule.interval, map['interval']);
       expect(transferSchedule.monthlyAnchor, map['monthly_anchor']);

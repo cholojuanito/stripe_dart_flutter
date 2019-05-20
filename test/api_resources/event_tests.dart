@@ -190,10 +190,10 @@ main(List<String> args) {
   group('Event offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var event = new Event.fromMap(map);
+      var event = Event.fromMap(map);
       expect(event.id, map['id']);
       expect(event.created,
-          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+          DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(event.livemode, map['livemode']);
       expect(event.type, map['type']);
       expect(event.data.object, map['data']['object']);
@@ -206,7 +206,7 @@ main(List<String> args) {
     });
 
     test('List and retrieve Events', () async {
-      var customer = await new CustomerCreation().create();
+      var customer = await CustomerCreation().create();
       var events = await Event.list(limit: 1, type: 'customer.created');
       var eventFromList = events.data.first;
       expect(eventFromList.data.object['id'], customer.id);

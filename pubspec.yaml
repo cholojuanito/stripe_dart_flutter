@@ -1,12 +1,15 @@
-name: stripe
-version: 1.3.1
+name: stripe_dart_flutter
+version: 0.1.0
 authors:
-  - Matias Meno <m@tias.me>
-  - Martin Flucka <martin.flucka@gmail.com>
-description: Stripe API wrapper
-homepage: https://github.com/exitlive/stripe-dart
+  - Tanner Davis <tannerdavisr@gmail.com>
+  - Brandon Derbidge <brander81@gmail.com>
+description: Stripe API wrapper written for Flutter/Dart applications. Forked from [this repo](https://gitlab.com/exitlive/stripe-dart) and changed to be compatible with Flutter.
+homepage: https://github.com/cholojuanito/stripe_dart_flutter
+repository: https://github.com/cholojuanito/stripe_dart_flutter
+issue_tracker: https://github.com/cholojuanito/stripe_dart_flutter/issues
+
 environment:
-  sdk: '>=1.9.0 <3.0.0'
+  sdk: '>=2.1.0 <3.0.0'
 dependencies:
   http: ">=0.11.2 <0.13.0"
   logging: ^0.11.0

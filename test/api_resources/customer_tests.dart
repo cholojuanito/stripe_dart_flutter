@@ -35,25 +35,25 @@ main(List<String> args) {
   group('Customer offline', () {
     test('fromMap() properly popullates all values', () {
       var map = jsonDecode(example);
-      var customer = new Customer.fromMap(map);
+      var customer = Customer.fromMap(map);
       expect(customer.id, map['id']);
       expect(customer.livemode, map['livemode']);
       expect(customer.created,
-          new DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
+          DateTime.fromMillisecondsSinceEpoch(map['created'] * 1000));
       expect(customer.accountBalance, map['account_balance']);
       expect(customer.currency, map['currency']);
       expect(customer.defaultSourceExpand.toMap(),
-          new Card.fromMap(map['default_source']).toMap());
+          Card.fromMap(map['default_source']).toMap());
       expect(customer.delinquent, map['delinquent']);
       expect(customer.description, map['description']);
-      expect(customer.discount.toMap(),
-          new Discount.fromMap(map['discount']).toMap());
+      expect(
+          customer.discount.toMap(), Discount.fromMap(map['discount']).toMap());
       expect(customer.email, map['email']);
       expect(customer.metadata, map['metadata']);
       expect(customer.sources.toMap(),
-          new CardCollection.fromMap(map['sources']).toMap());
+          CardCollection.fromMap(map['sources']).toMap());
       expect(customer.subscriptions.toMap(),
-          new SubscriptionCollection.fromMap(map['subscriptions']).toMap());
+          SubscriptionCollection.fromMap(map['subscriptions']).toMap());
     });
   });
 
@@ -63,7 +63,7 @@ main(List<String> args) {
     });
 
     test('Create minimal', () async {
-      var customer = await new CustomerCreation().create();
+      var customer = await CustomerCreation().create();
       expect(customer.id, const TypeMatcher<String>());
     });
 
@@ -74,7 +74,7 @@ main(List<String> args) {
           cardExpYear1 = 2020,
           cvc1 = 123;
 
-      var cardCreation1 = new CardCreation()
+      var cardCreation1 = CardCreation()
         ..number = cardNumber1 // only the last 4 digits can be tested
         ..expMonth = cardExpMonth1
         ..expYear = cardExpYear1
@@ -85,7 +85,7 @@ main(List<String> args) {
           cardExpYear2 = 2020,
           cvc2 = 321;
 
-      var cardCreation2 = new CardCreation()
+      var cardCreation2 = CardCreation()
         ..number = cardNumber2 // only the last 4 digits can be tested
         ..expMonth = cardExpMonth2
         ..expYear = cardExpYear2
@@ -96,7 +96,7 @@ main(List<String> args) {
           couponDuration1 = 'forever',
           couponPercentOff1 = 15;
 
-      var couponCreation1 = new CouponCreation()
+      var couponCreation1 = CouponCreation()
         ..id = couponId1
         ..duration = couponDuration1
         ..percentOff = couponPercentOff1;
@@ -105,7 +105,7 @@ main(List<String> args) {
           couponDuration2 = 'forever',
           couponPercentOff2 = 20;
 
-      var couponCreation2 = new CouponCreation()
+      var couponCreation2 = CouponCreation()
         ..id = couponId2
         ..duration = couponDuration2
         ..percentOff = couponPercentOff2;
@@ -117,7 +117,7 @@ main(List<String> args) {
           planInterval = 'month',
           planName = 'test plan name';
 
-      var planCreation = new PlanCreation()
+      var planCreation = PlanCreation()
         ..id = planId
         ..amount = planAmount
         ..currency = planCurrency
@@ -130,17 +130,16 @@ main(List<String> args) {
           customerEmail1 = 'test1@test.com',
           customerMetadata1 = {'foo': 'bar1'},
           customerQuantity = 5,
-          customerTrialEnd = new DateTime.now()
-                  .add(new Duration(days: 60))
-                  .millisecondsSinceEpoch ~/
-              1000,
+          customerTrialEnd =
+              DateTime.now().add(Duration(days: 60)).millisecondsSinceEpoch ~/
+                  1000,
           // for update tests
           customerAccountBalance2 = 200002,
           customerDescription2 = 'test description2',
           customerEmail2 = 'test2@test.com',
           customerMetadata2 = {'foo': 'bar2'};
 
-      var customerCreation = new CustomerCreation()
+      var customerCreation = CustomerCreation()
         ..accountBalance = customerAccountBalance1
         ..source = cardCreation1
         ..coupon = couponId1
@@ -185,7 +184,7 @@ main(List<String> args) {
       expect(subscription.quantity, customerQuantity);
       expect(subscription.status, 'trialing');
       expect(subscription.trialEnd,
-          new DateTime.fromMillisecondsSinceEpoch(customerTrialEnd * 1000));
+          DateTime.fromMillisecondsSinceEpoch(customerTrialEnd * 1000));
       expect(subscription.plan, const TypeMatcher<Plan>());
       expect(subscription.plan.amount, planAmount);
       expect(subscription.plan.currency, planCurrency);
@@ -203,7 +202,7 @@ main(List<String> args) {
           cardNumber1.substring(cardNumber1.length - 4));
 
       // testing the CustomerUpdate
-      var updatedCustomer = await (new CustomerUpdate()
+      var updatedCustomer = await (CustomerUpdate()
             ..accountBalance = customerAccountBalance2
             ..source = cardCreation2
             ..coupon = couponId2
@@ -220,7 +219,7 @@ main(List<String> args) {
     });
 
     test('Delete', () async {
-      var customer = await new CustomerCreation().create();
+      var customer = await CustomerCreation().create();
       var response = await Customer.delete(customer.id);
       expect(response['deleted'], isTrue);
       expect(response['id'], customer.id);
@@ -228,7 +227,7 @@ main(List<String> args) {
 
     test('List parameters', () async {
       for (var i = 0; i < 20; i++) {
-        await new CustomerCreation().create();
+        await CustomerCreation().create();
       }
 
       var customers = await Customer.list(limit: 10);
@@ -250,16 +249,16 @@ main(List<String> args) {
           cardExpMonth = 12,
           cardExpYear = 2020,
           cvc = 123;
-      await new CustomerCreation().create();
-      var token = await (new CardTokenCreation()
-            ..card = (new CardCreation()
+      await CustomerCreation().create();
+      var token = await (CardTokenCreation()
+            ..card = (CardCreation()
               ..number = cardNumber
               ..expMonth = cardExpMonth
               ..expYear = cardExpYear
               ..cvc = cvc))
           .create();
-      var cardCreation = new CardCreationWithToken()..token = token.id;
-      var customerCreation = new CustomerCreation()
+      var cardCreation = CardCreationWithToken()..token = token.id;
+      var customerCreation = CustomerCreation()
         ..source = cardCreation
         ..email = 'test@test.com';
       Customer customer = await customerCreation.create();

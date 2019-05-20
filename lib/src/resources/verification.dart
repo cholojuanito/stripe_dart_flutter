@@ -1,24 +1,25 @@
-part of stripe;
+import '../resource.dart';
+import '../api_resources/file_upload.dart';
 
 class Verification extends Resource {
-  String get id => _dataMap['id'];
+  String get id => resourceMap['id'];
 
   final String object = 'verification';
 
-  String get status => _dataMap['status'];
+  String get status => resourceMap['status'];
 
-  String get details => _dataMap['details'];
+  String get details => resourceMap['details'];
 
   String get document {
-    return this._getIdForExpandable('document');
+    return this.getIdForExpandable('document');
   }
 
   FileUpload get documentExpand {
-    var value = _dataMap['document'];
+    var value = resourceMap['document'];
     if (value == null)
       return null;
     else
-      return new FileUpload.fromMap(value);
+      return FileUpload.fromMap(value);
   }
 
   Verification.fromMap(Map dataMap) : super.fromMap(dataMap);
